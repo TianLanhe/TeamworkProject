@@ -1,7 +1,6 @@
 package teamwork;
 
 import teamwork.window.MainWindow;
-import teamwork.window.NewsTextWindow;
 
 public class main {
 

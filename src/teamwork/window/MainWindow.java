@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import teamwork.listener.ListDoubleClickListener;
 
@@ -19,6 +21,7 @@ public class MainWindow extends AbstractWindow {
   private JPanel controlPanel;
   private JPanel tagPanel;
 
+  private JButton loadFileButton;
   private JButton updateButton;
   private JButton statisticsButton;
   private JButton deleteButton;
@@ -26,14 +29,12 @@ public class MainWindow extends AbstractWindow {
   private JButton loadButton;
   private JButton recycleButton;
 
-  private JButton centerButton;
-  private JButton provinceButton;
-  private JButton cityButton;
-
   private JList<String> newsList;
 
   private JLabel numLabel;
   private JLabel tagLabel;
+  
+  private JTree parentTree;
 
   @Override
   protected void addListener() {
@@ -52,6 +53,8 @@ public class MainWindow extends AbstractWindow {
 
     Font font = new Font("宋体", 1, 20);
 
+    loadFileButton = new JButton("读取文件");
+    loadFileButton.setFont(font);
     updateButton = new JButton("加载内容");
     updateButton.setFont(font);
     statisticsButton = new JButton("统计结果");
@@ -65,6 +68,7 @@ public class MainWindow extends AbstractWindow {
     recycleButton = new JButton("回收站");
     recycleButton.setFont(font);
 
+    controlPanel.add(loadFileButton);
     controlPanel.add(updateButton);
     controlPanel.add(statisticsButton);
     controlPanel.add(deleteButton);
@@ -72,12 +76,13 @@ public class MainWindow extends AbstractWindow {
     controlPanel.add(loadButton);
     controlPanel.add(recycleButton);
 
-    updateButton.setBounds(10, 30, 120, 40);
-    statisticsButton.setBounds(10, 122, 120, 40);
-    deleteButton.setBounds(10, 214, 120, 40);
-    saveButton.setBounds(10, 306, 120, 40);
-    loadButton.setBounds(10, 398, 120, 40);
-    recycleButton.setBounds(10, 490, 120, 40);
+    loadFileButton.setBounds(10, 30, 120, 40);
+    updateButton.setBounds(10, 108, 120, 40);
+    statisticsButton.setBounds(10, 186, 120, 40);
+    deleteButton.setBounds(10, 264, 120, 40);
+    saveButton.setBounds(10, 342, 120, 40);
+    loadButton.setBounds(10, 420, 120, 40);
+    recycleButton.setBounds(10, 498, 120, 40);
 
     add(controlPanel);
     controlPanel.setBounds(0, 0, 140, 600);
@@ -113,28 +118,80 @@ public class MainWindow extends AbstractWindow {
     newsList.setSize(10, 10);
     scrollPane.setBounds(170, 70, 600, 430);
     numLabel.setBounds(310, 510, 270, 30);
+    
+    DefaultMutableTreeNode newsRank = new DefaultMutableTreeNode("新闻类别");
+    newsRank.add(new DefaultMutableTreeNode("中央党报"));
+    newsRank.add(new DefaultMutableTreeNode("省级党报"));
+    newsRank.add(new DefaultMutableTreeNode("都市党报"));
 
+
+    DefaultMutableTreeNode newsType = new DefaultMutableTreeNode("新闻类型");
+    newsType.add(new DefaultMutableTreeNode("纯净新闻"));
+    newsType.add(new DefaultMutableTreeNode("特稿与特写"));
+    newsType.add(new DefaultMutableTreeNode("评论"));
+    newsType.add(new DefaultMutableTreeNode("其他"));
+
+    DefaultMutableTreeNode helpType = new DefaultMutableTreeNode("社会帮助与关爱");
+    helpType.add(new DefaultMutableTreeNode("单纯一次捐款捐物"));
+    helpType.add(new DefaultMutableTreeNode("旅游活动安排的项目之一"));
+    helpType.add(new DefaultMutableTreeNode("免费开放"));
+    helpType.add(new DefaultMutableTreeNode("设立长期资助项目"));
+    helpType.add(new DefaultMutableTreeNode("其他"));
+
+    DefaultMutableTreeNode newsTheme = new DefaultMutableTreeNode("报道主题");
+    newsTheme.add(helpType);
+    newsTheme.add(new DefaultMutableTreeNode("社会建议与看法"));
+    newsTheme.add(new DefaultMutableTreeNode("表彰单位或个人"));
+    newsTheme.add(new DefaultMutableTreeNode("留守儿童遭受暴力殴打"));
+    newsTheme.add(new DefaultMutableTreeNode("留守儿童遭受性侵等"));
+    newsTheme.add(new DefaultMutableTreeNode("留守儿童意外死忙"));
+    newsTheme.add(new DefaultMutableTreeNode("留守儿童努力上进"));
+    newsTheme.add(new DefaultMutableTreeNode("父母在城市的艰难生活"));
+    newsTheme.add(new DefaultMutableTreeNode("其他"));
+
+    DefaultMutableTreeNode helpSponsor = new DefaultMutableTreeNode("帮助发起人");
+    helpSponsor.add(new DefaultMutableTreeNode("政府部门"));
+    helpSponsor.add(new DefaultMutableTreeNode("企业"));
+    helpSponsor.add(new DefaultMutableTreeNode("事业单位"));
+    helpSponsor.add(new DefaultMutableTreeNode("公益团体"));
+    helpSponsor.add(new DefaultMutableTreeNode("个人"));
+
+    DefaultMutableTreeNode awardBody = new DefaultMutableTreeNode("奖励对象");
+    awardBody.add(new DefaultMutableTreeNode("政府部门"));
+    awardBody.add(new DefaultMutableTreeNode("企业"));
+    awardBody.add(new DefaultMutableTreeNode("事业单位"));
+    awardBody.add(new DefaultMutableTreeNode("公益团体"));
+    awardBody.add(new DefaultMutableTreeNode("个人"));
+
+    DefaultMutableTreeNode newsImage = new DefaultMutableTreeNode("报道形象");
+    newsImage.add(new DefaultMutableTreeNode("积极健康"));
+    newsImage.add(new DefaultMutableTreeNode("可怜悲惨"));
+    newsImage.add(new DefaultMutableTreeNode("沐恩幸福"));
+    newsImage.add(new DefaultMutableTreeNode("问题儿童"));
+    newsImage.add(new DefaultMutableTreeNode("其他"));
+
+    DefaultMutableTreeNode allLabel = new DefaultMutableTreeNode("可选标签");
+    allLabel.add(newsRank);
+    allLabel.add(newsType);
+    allLabel.add(newsTheme);
+    allLabel.add(helpSponsor);
+    allLabel.add(awardBody);
+    allLabel.add(newsImage);
+
+    
     tagPanel = new JPanel();
     tagPanel.setBorder(BorderFactory.createEtchedBorder());
 
-    JLabel paperCatalog = new JLabel("报纸类别：");
-
-    centerButton = new JButton("中央党报");
-    provinceButton = new JButton("省级党报");
-    cityButton = new JButton("都市党报");
-
-    tagPanel.add(paperCatalog);
-    tagPanel.add(centerButton);
-    tagPanel.add(provinceButton);
-    tagPanel.add(cityButton);
-
-    paperCatalog.setBounds(10, 10, 80, 20);
-    centerButton.setBounds(10, 30, 90, 20);
-    provinceButton.setBounds(10, 55, 90, 20);
-    cityButton.setBounds(10, 80, 90, 20);
-
-    add(tagPanel);
+    
     tagPanel.setBounds(780, 30, 200, 510);
+    
+    parentTree = new JTree(allLabel);
+    JScrollPane treePane = new JScrollPane(parentTree);
+    add(treePane);
+    treePane.setBounds(780, 30, 200, 510);
+    
+    this.validate();
+    
   }
 
   @Override
