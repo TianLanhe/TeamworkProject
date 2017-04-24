@@ -99,7 +99,8 @@ public class News {
     int year = date.get(Calendar.YEAR);
     int month = date.get(Calendar.MONTH) + 1;
     int day = date.get(Calendar.DATE);
-    return "" + year + "-" + month + "-" + day;
+    String ret = String.format("%04d-%02d-%02d", year, month, day);
+    return ret;
   }
 
   public void setDate(String date) {

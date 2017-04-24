@@ -1,5 +1,6 @@
 package teamwork.controler;
 
+import teamwork.loader.NewsLoader;
 import teamwork.model.News;
 import teamwork.model.NewsCatalog;
 
@@ -7,16 +8,18 @@ public class NewsLoaderControler {
   private NewsLoader newsLoader;
 
   public NewsLoaderControler(NewsLoader newsLoader) {
-    this.newsLoder = newsLoader;
+    this.newsLoader = newsLoader;
   }
 
   public boolean loadData(String file) {
     NewsCatalog newsCatalog = NewsCatalog.getInstance();
-    newsLoder.loadFrom(file);
+    if (!newsLoader.loadFrom(file)) {
+      return false;
+    }
 
     News news;
-    while (newsLoder.hasNext()) {
-      news = newsLoder.next();
+    while (newsLoader.hasNext()) {
+      news = newsLoader.next();
       newsCatalog.add(news);
     }
 

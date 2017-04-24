@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teamwork.loader.NewsLoader;
 import teamwork.model.News;
 
 public class NewsLoaderTest {
@@ -19,12 +20,16 @@ public class NewsLoaderTest {
   public void initTest() {
     NewsLoader newsLoader2 = new NewsLoader();
     Assert.assertFalse(newsLoader2.hasNext());
-    Assert.assertEquals(newsLoader2, null);
+    Assert.assertEquals(newsLoader2.next(), null);
+
+    Assert.assertFalse(newsLoader2.loadFrom("abcde"));
+    Assert.assertFalse(newsLoader2.hasNext());
+    Assert.assertEquals(newsLoader2.next(), null);
   }
 
   @Test
   public void guangmingTest() {
-    newsLoader.loadFrom("guangming.xml");
+    newsLoader.loadFrom("D:\\Eclipse\\TeamworkProject\\guangming.xml");
     Assert.assertTrue(newsLoader.hasNext());
 
     News news = newsLoader.next();
@@ -40,7 +45,7 @@ public class NewsLoaderTest {
 
   @Test
   public void sichuanTest() {
-    newsLoader.loadFrom("sichuan.xml");
+    newsLoader.loadFrom("D:\\Eclipse\\TeamworkProject\\sichuan.xml");
     Assert.assertTrue(newsLoader.hasNext());
 
     News news = newsLoader.next();
@@ -56,7 +61,7 @@ public class NewsLoaderTest {
 
   @Test
   public void nanfangTest() {
-    newsLoader.loadFrom("nanfang.xml");
+    newsLoader.loadFrom("D:\\Eclipse\\TeamworkProject\\nanfangdaily.xml");
     Assert.assertTrue(newsLoader.hasNext());
 
     News news = newsLoader.next();
@@ -65,7 +70,7 @@ public class NewsLoaderTest {
     Assert.assertEquals("关爱留守儿童宝马车主捐赠图书1.4万余册", news.getTitle());
     Assert.assertEquals("2010-12-30", news.getDate());
     Assert.assertEquals("南方都市报(全国版)", news.getLocation());
-    Assert.assertEquals("news:15jl^201512293153338(S:196124888)", news.getId());
+    Assert.assertEquals("news:06cj^201012305333859(S:193625388)", news.getId());
     Assert.assertEquals("CⅡ29,黄金车市每周调查,车市简...", news.getType());
     Assert.assertEquals("", news.getUrl());
   }

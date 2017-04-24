@@ -19,6 +19,14 @@ public class NewsCatalog {
     return instance;
   }
 
+  public boolean updateAll() {
+    for (News news : newsList)
+      if (!news.update()) {
+        return false;
+      }
+    return true;
+  }
+
   public void add(News news) {
     newsList.add(news);
   }
