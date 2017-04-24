@@ -5,6 +5,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -49,7 +50,7 @@ public class NewsTextWindow extends AbstractWindow {
     author = new JTextField("作者");
     date = new JTextField("日期");
     type = new JTextField("类别");
-    content = new JTextArea("新闻内容", 20, 1000);
+    content = new JTextArea("新闻内容", 20, 50);
     content.setLineWrap(true);
     JScrollPane contentPane = new JScrollPane(content);
     lastNews = new JButton();
@@ -68,14 +69,20 @@ public class NewsTextWindow extends AbstractWindow {
     newsPane.add(lastNews);
     newsPane.add(nextNews);
 
-
+    title.setEditable(false);
+    source.setEditable(false);
+    author.setEditable(false);
+    date.setEditable(false);
+    type.setEditable(false);
+    
     newsPane.setBounds(0, 0, 800, 600);
-    title.setBounds(200, 0, 380, 40);
-    title.setFont(new Font("黑体", Font.BOLD, 20));
-    source.setBounds(200, 50, 80, 30);
-    author.setBounds(300, 50, 80, 30);
-    date.setBounds(400, 50, 80, 30);
-    type.setBounds(500, 50, 80, 30);
+    title.setBounds(40, 10, 720, 40);
+    title.setFont(new Font("宋体", Font.BOLD, 16));
+    title.setHorizontalAlignment(JTextField.CENTER);
+    source.setBounds(200, 60, 80, 30);
+    author.setBounds(300, 60, 80, 30);
+    date.setBounds(400, 60, 80, 30);
+    type.setBounds(500, 60, 80, 30);
     contentPane.setBounds(40, 100, 720, 600);
     lastNews.setBounds(0, 300, 40, 60);
     lastNews.setIcon(new ImageIcon("res/lastOne.png"));
@@ -86,15 +93,24 @@ public class NewsTextWindow extends AbstractWindow {
     labelPane.setBounds(800, 0, 200, 600);
     labelPane.setLayout(null);
     getContentPane().add(labelPane);
+    
+    String[] labels = {"中央党报","特稿与特写","社会帮助与关爱","设立长期资助项目","社会建议与看法","沐恩幸福","政府部门","政府部门"};
+    JList<String> label = new JList<String>(labels);
+    label.setSize(10, 5);
+    JScrollPane labelsPlayPane = new JScrollPane(label);
+    labelsPlayPane.setBounds(800, 20, 180, 180);
+    labelPane.add(labelsPlayPane);
 
+    
     JLabel tagLabel = new JLabel("已选标签：");
     tagLabel.setBounds(800, 0, 70, 20);
     labelPane.add(tagLabel);
-
+    /*
     JTextArea label = new JTextArea();
     labelPane.add(label);
     label.setBounds(800, 20, 180, 180);
-
+    */
+    
     JButton addLabel = new JButton("添加");
     labelPane.add(addLabel);
     addLabel.setBounds(820, 210, 60, 30);
@@ -165,7 +181,7 @@ public class NewsTextWindow extends AbstractWindow {
     parentTree = new JTree(allLabel);
     JScrollPane treePane = new JScrollPane(parentTree);
     labelPane.add(treePane);
-    treePane.setBounds(800, 250, 200, 300);
+    treePane.setBounds(800, 250, 180, 300);
     
     tagLabel.repaint();
     label.repaint();

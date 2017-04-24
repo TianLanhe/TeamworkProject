@@ -1,4 +1,4 @@
-package teamwork.window;
+﻿package teamwork.window;
 
 import java.awt.*;
 
