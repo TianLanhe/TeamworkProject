@@ -28,7 +28,9 @@ public class NewsCatalog {
   }
 
   public void add(News news) {
-    newsList.add(news);
+    if (!newsList.contains(news)) {
+      newsList.add(news);
+    }
   }
 
   public void remove(News news) {

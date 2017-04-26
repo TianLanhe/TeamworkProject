@@ -31,7 +31,6 @@ public class NewsUpdater {
 
     if (doc.getElementById("articleContent") != null) {
       content = doc.getElementById("articleContent");
-
     } else {
       content = doc.getElementById("page_a");
     }
