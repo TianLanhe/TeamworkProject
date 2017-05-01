@@ -2,6 +2,9 @@ package teamwork.loader;
 
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
@@ -33,7 +36,7 @@ public class NewsLoader {
       length = 0;
 
       // 解析文件，若成功则取出所有News节点留待备用，并重置index和length
-      if ((document = db.parse(filename)) != null) {
+      if ((document = db.parse(new FileInputStream(new File(filename)))) != null) {
         nodes = document.getElementsByTagName("NewsData");
 
         index = 0;
@@ -43,6 +46,8 @@ public class NewsLoader {
     } catch (ParserConfigurationException e) {
       return false;
     } catch (SAXException e) {
+      return false;
+    } catch (FileNotFoundException e) {
       return false;
     } catch (IOException e) {
       return false;

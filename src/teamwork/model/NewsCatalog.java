@@ -27,10 +27,11 @@ public class NewsCatalog {
     return true;
   }
 
-  public void add(News news) {
+  public boolean add(News news) {
     if (!newsList.contains(news)) {
-      newsList.add(news);
+      return newsList.add(news);
     }
+    return true;
   }
 
   public void remove(News news) {
@@ -47,5 +48,13 @@ public class NewsCatalog {
 
   public boolean contains(News news) {
     return newsList.contains(news);
+  }
+
+  public News get(int i) {
+    return newsList.get(i);
+  }
+
+  public int indexOf(News news) {
+    return newsList.indexOf(news);
   }
 }

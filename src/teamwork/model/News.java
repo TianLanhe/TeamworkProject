@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import teamwork.NewsUpdater;
+import teamwork.updater.NewsUpdater;
 
 public class News {
   private String id;// Î¨Ò»±êÊ¶·û
@@ -61,6 +61,51 @@ public class News {
 
   public void delete() {
     // TODO
+  }
+
+  public boolean postTag(Tag tag) {
+    if (hasTag(tag)) {
+      return false;
+    }
+    tagsList.add(tag);
+    tag.addNews(this);
+    return true;
+  }
+
+  public boolean hasTag(Tag tag) {
+    return tagsList.contains(tag);
+  }
+
+  public boolean hasClass(NewsClass c) {
+    for (Tag tag : tagsList) {
+      if (c.containsTag(tag)) return true;
+    }
+    return false;
+  }
+
+  public void removeTag(int i) {
+    tagsList.remove(i);
+  }
+
+  public void removeTag(Tag tag) {
+    tagsList.remove(tag);
+  }
+
+  public Tag getTag(int i) {
+    return tagsList.get(i);
+  }
+
+  public Tag getTag(String tagName) {
+    for (Tag tag : tagsList) {
+      if (tag.getName().equals(tagName)) {
+        return tag;
+      }
+    }
+    return null;
+  }
+
+  public int indexOfTag(Tag tag) {
+    return tagsList.indexOf(tag);
   }
 
   public String getId() {

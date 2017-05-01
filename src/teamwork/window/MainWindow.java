@@ -13,12 +13,13 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import teamwork.listener.ListDoubleClickListener;
+import teamwork.listener.LoadFileListener;
+import teamwork.listener.RecycleBinListener;
 
 public class MainWindow extends AbstractWindow {
 
   private static final long serialVersionUID = 1L;
 
-  private JPanel controlPanel;
   private JPanel tagPanel;
 
   private JButton loadFileButton;
@@ -39,6 +40,8 @@ public class MainWindow extends AbstractWindow {
   @Override
   protected void addListener() {
     newsList.addMouseListener(new ListDoubleClickListener());
+    loadFileButton.addActionListener(new LoadFileListener());
+    recycleButton.addActionListener(new RecycleBinListener());
   }
 
   @Override
@@ -48,9 +51,6 @@ public class MainWindow extends AbstractWindow {
 
   @Override
   protected void init() {
-    controlPanel = new JPanel();
-    controlPanel.setLayout(null);
-
     Font font = new Font("宋体", 1, 20);
 
     loadFileButton = new JButton("读取文件");
@@ -67,15 +67,7 @@ public class MainWindow extends AbstractWindow {
     loadButton.setFont(font);
     recycleButton = new JButton("回收站");
     recycleButton.setFont(font);
-
-    controlPanel.add(loadFileButton);
-    controlPanel.add(updateButton);
-    controlPanel.add(statisticsButton);
-    controlPanel.add(deleteButton);
-    controlPanel.add(saveButton);
-    controlPanel.add(loadButton);
-    controlPanel.add(recycleButton);
-
+    
     loadFileButton.setBounds(10, 30, 120, 40);
     updateButton.setBounds(10, 108, 120, 40);
     statisticsButton.setBounds(10, 186, 120, 40);
@@ -83,10 +75,14 @@ public class MainWindow extends AbstractWindow {
     saveButton.setBounds(10, 342, 120, 40);
     loadButton.setBounds(10, 420, 120, 40);
     recycleButton.setBounds(10, 498, 120, 40);
-
-    add(controlPanel);
-    controlPanel.setBounds(0, 0, 140, 600);
-
+    
+    add(loadFileButton);
+    add(updateButton);
+    add(statisticsButton);
+    add(deleteButton);
+    add(saveButton);
+    add(loadButton);
+    add(recycleButton);
 
     tagLabel = new JLabel("标签：");
     tagLabel.setFont(font);
@@ -197,14 +193,11 @@ public class MainWindow extends AbstractWindow {
   @Override
   protected void initWindow() {
     super.initWindow();
-
     setTitle("留守儿童舆情调查软件");
-
     setSize(1000, 600);
     setLocationRelativeTo(null);
-
-    setLayout(null);
-
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 关闭的默认操作：退出程序
+    
+    setLayout(null);//将界面设置为空布局
   }
 }

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import teamwork.NewsUpdater;
+import teamwork.updater.NewsUpdater;
 
 public class NewsUpdaterTest {
 

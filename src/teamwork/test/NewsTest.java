@@ -28,11 +28,14 @@ public class NewsTest {
   
   @Test
   public void newsEqualTest(){
-    News news2 = new News("newsId","","","","","","");
-    Assert.assertTrue(news.equals(news2));
+    Assert.assertEquals(news, news);
+    
+    News news2 = new News();
+    news2.setId("newsId");
+    Assert.assertEquals(news, news2);
     
     news2.setId("another_newsId");
-    Assert.assertFalse(news.equals(news2));
+    Assert.assertNotEquals(news, news2);
   }
   
 }
