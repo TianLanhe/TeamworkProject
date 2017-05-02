@@ -9,7 +9,7 @@ public class RecycleBinListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent arg0) {
-    new RecycleBin();
+    new RecycleBin().run();
   }
 
 }

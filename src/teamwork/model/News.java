@@ -59,6 +59,11 @@ public class News {
     return result;
   }
 
+  @Override
+  public String toString() {
+    return getTitle();
+  }
+
   public void delete() {
     // TODO
   }

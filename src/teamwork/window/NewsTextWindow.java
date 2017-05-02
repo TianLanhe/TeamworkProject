@@ -13,28 +13,40 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import teamwork.r.R;
+import teamwork.model.News;
 
 public class NewsTextWindow extends AbstractWindow {
 
   private static final long serialVersionUID = 1L;
 
-  JTextField title;
-  JTextField source;
-  JTextField author;
-  JTextField date;
-  JTextField type;
-  JTextArea content;
-  JButton lastNews;
-  JButton nextNews;
-  JPanel newsPane;
-  JTree parentTree;
+  private JTextField title;
+  private JTextField source;
+  private JTextField date;
+  private JTextField type;
+  private JTextArea content;
+  private JButton lastNews;
+  private JButton nextNews;
+  private JTree parentTree;
+
+  private News news;
+
+  public NewsTextWindow(News news) {
+    this.news = news;
+  }
+
+  private void showNewsDetails() {
+    title.setText(news.getTitle());
+    source.setText(news.getLocation());
+    date.setText(news.getDate());
+    type.setText(news.getType());
+
+    news.update();
+    content.setText(news.getContent());
+  }
 
   @Override
   protected void addListener() {
-    R r = R.getInstance();
-    r.registObject("newsTextWindow_textField_title", title);
-    r.registObject("newsTextWindow_textArea_content", content);
+
   }
 
   @Override
@@ -44,80 +56,90 @@ public class NewsTextWindow extends AbstractWindow {
 
   @Override
   protected void init() {
+    Font font = new Font("宋体", 0, 15);
+
+    JPanel newsDetailPane = new JPanel();
+    newsDetailPane.setLayout(null);
+    newsDetailPane.setBounds(0, 0, 800, 600);
+    add(newsDetailPane);
 
     title = new JTextField("新闻标题");
+    title.setFont(new Font("宋体", 1, 20));
+    title.setHorizontalAlignment(JTextField.CENTER);
+    title.setBounds(40, 10, 720, 40);
+    newsDetailPane.add(title);
+
+    JLabel locationLabel = new JLabel("来源：");
+    locationLabel.setFont(font);
+    locationLabel.setBounds(40, 55, 50, 40);
+    newsDetailPane.add(locationLabel);
+
     source = new JTextField("来源网站");
-    author = new JTextField("作者");
+    source.setBounds(90, 60, 120, 30);
+    newsDetailPane.add(source);
+
+    JLabel dateLabel = new JLabel("日期：");
+    dateLabel.setFont(font);
+    dateLabel.setBounds(340, 55, 50, 40);
+    newsDetailPane.add(dateLabel);
+
     date = new JTextField("日期");
-    type = new JTextField("类别");
+    date.setBounds(390, 60, 120, 30);
+    newsDetailPane.add(date);
+
+    JLabel typeLabel = new JLabel("类型：");
+    typeLabel.setFont(font);
+    typeLabel.setBounds(590, 55, 50, 40);
+    newsDetailPane.add(typeLabel);
+
+    type = new JTextField("类型");
+    type.setBounds(640, 60, 120, 30);
+    newsDetailPane.add(type);
+
     content = new JTextArea("新闻内容", 20, 50);
     content.setLineWrap(true);
     JScrollPane contentPane = new JScrollPane(content);
+    contentPane.setBounds(40, 100, 720, 460);
+    newsDetailPane.add(contentPane);
+
     lastNews = new JButton();
+    lastNews.setBounds(0, 300, 40, 60);
+    lastNews.setIcon(new ImageIcon("res/lastOne.png"));
+    newsDetailPane.add(lastNews);
+
     nextNews = new JButton();
-    newsPane = new JPanel();
-
-    newsPane.setLayout(null);
-
-    getContentPane().add(newsPane);
-    newsPane.add(title);
-    newsPane.add(source);
-    newsPane.add(author);
-    newsPane.add(date);
-    newsPane.add(type);
-    newsPane.add(contentPane);
-    newsPane.add(lastNews);
-    newsPane.add(nextNews);
+    nextNews.setBounds(760, 300, 40, 60);
+    nextNews.setIcon(new ImageIcon("res/nextOne.png"));
+    newsDetailPane.add(nextNews);
 
     title.setEditable(false);
     source.setEditable(false);
-    author.setEditable(false);
     date.setEditable(false);
     type.setEditable(false);
-    
-    newsPane.setBounds(0, 0, 800, 600);
-    title.setBounds(40, 10, 720, 40);
-    title.setFont(new Font("宋体", Font.BOLD, 16));
-    title.setHorizontalAlignment(JTextField.CENTER);
-    source.setBounds(200, 60, 80, 30);
-    author.setBounds(300, 60, 80, 30);
-    date.setBounds(400, 60, 80, 30);
-    type.setBounds(500, 60, 80, 30);
-    contentPane.setBounds(40, 100, 720, 600);
-    lastNews.setBounds(0, 300, 40, 60);
-    lastNews.setIcon(new ImageIcon("res/lastOne.png"));
-    nextNews.setBounds(760, 300, 40, 60);
-    nextNews.setIcon(new ImageIcon("res/nextOne.png"));
 
     JPanel labelPane = new JPanel();
-    labelPane.setBounds(800, 0, 200, 600);
+    labelPane.setBounds(810, 0, 200, 600);
     labelPane.setLayout(null);
-    getContentPane().add(labelPane);
-    
-    String[] labels = {"中央党报","特稿与特写","社会帮助与关爱","设立长期资助项目","社会建议与看法","沐恩幸福","政府部门","政府部门"};
+    add(labelPane);
+
+    String[] labels = {"中央党报", "特稿与特写", "社会帮助与关爱", "设立长期资助项目", "社会建议与看法", "沐恩幸福", "政府部门", "政府部门"};
     JList<String> label = new JList<String>(labels);
     label.setSize(10, 5);
     JScrollPane labelsPlayPane = new JScrollPane(label);
-    labelsPlayPane.setBounds(800, 20, 180, 180);
+    labelsPlayPane.setBounds(0, 30, 180, 180);
     labelPane.add(labelsPlayPane);
 
-    
     JLabel tagLabel = new JLabel("已选标签：");
-    tagLabel.setBounds(800, 0, 70, 20);
+    tagLabel.setBounds(0, 10, 70, 20);
     labelPane.add(tagLabel);
-    /*
-    JTextArea label = new JTextArea();
-    labelPane.add(label);
-    label.setBounds(800, 20, 180, 180);
-    */
-    
+
     JButton addLabel = new JButton("添加");
+    addLabel.setBounds(20, 220, 60, 30);
     labelPane.add(addLabel);
-    addLabel.setBounds(820, 210, 60, 30);
 
     JButton deleteLabel = new JButton("删除");
     labelPane.add(deleteLabel);
-    deleteLabel.setBounds(900, 210, 60, 30);
+    deleteLabel.setBounds(100, 220, 60, 30);
 
     DefaultMutableTreeNode newsRank = new DefaultMutableTreeNode("新闻类别");
     newsRank.add(new DefaultMutableTreeNode("中央党报"));
@@ -180,21 +202,19 @@ public class NewsTextWindow extends AbstractWindow {
 
     parentTree = new JTree(allLabel);
     JScrollPane treePane = new JScrollPane(parentTree);
+    treePane.setBounds(0, 260, 180, 300);
     labelPane.add(treePane);
-    treePane.setBounds(800, 250, 180, 300);
-    
-    tagLabel.repaint();
-    label.repaint();
-    this.validate();
-    
+
+    showNewsDetails();
+
   }
 
   @Override
   protected void initWindow() {
     super.initWindow();
     setTitle("留守儿童新闻报导");
-    setSize(1000, 600);
-    setLocationRelativeTo(null); // 设置居中显示
+
+    setLayout(null);
   }
 
 }

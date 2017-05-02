@@ -12,6 +12,14 @@ public class NewsCatalog {
     newsList = new ArrayList<News>();
   }
 
+  public List<News> getNewsList() {
+    return newsList;
+  }
+
+  public void setNewsList(List<News> newsList) {
+    this.newsList = newsList;
+  }
+
   public static NewsCatalog getInstance() {
     if (instance == null) {
       instance = new NewsCatalog();
