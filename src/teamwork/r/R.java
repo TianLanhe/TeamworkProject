@@ -15,15 +15,11 @@ public class R {
     return instance;
   }
 
-  public void registObject(String str, Object obj) throws IllegalAccessException {
-    if (map.containsKey(str))
-      throw new IllegalAccessException("the key \"" + str + "\" has already existed.");
+  public void registObject(String str, Object obj) {
     map.put(str, obj);
   }
 
-  public Object getObject(String str) throws IllegalAccessException {
-    if (!map.containsKey(str))
-      throw new IllegalAccessException("can not find the object named \"" + str + "\".");
+  public Object getObject(String str) {
     return map.get(str);
   }
 }
