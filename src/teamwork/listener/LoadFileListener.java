@@ -7,12 +7,14 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTree;
 import javax.swing.filechooser.FileFilter;
 
 import teamwork.controler.NewsLoadingControler;
 import teamwork.loader.NewsLoader;
 import teamwork.model.NewsCatalog;
 import teamwork.model.NewsListModel;
+import teamwork.model.NewsTreeModel;
 import teamwork.r.R;
 
 @SuppressWarnings("rawtypes")
@@ -20,11 +22,13 @@ public class LoadFileListener implements ActionListener {
 
   private JList newsList;
   private JLabel numLabel;
+  private JTree tagsTree;
 
   public LoadFileListener() {
     R r = R.getInstance();
     newsList = (JList) r.getObject("newsList");
     numLabel = (JLabel) r.getObject("numLabel");
+    tagsTree = (JTree) r.getObject("tagsTree");
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -40,8 +44,10 @@ public class LoadFileListener implements ActionListener {
       if (!dataLoadingControler.loadData(file.getAbsolutePath())) {
         JOptionPane.showMessageDialog(null, "文件格式错误！", "错误", JOptionPane.ERROR_MESSAGE);
       } else {
-        ((NewsListModel) newsList.getModel()).notifyDataChanged();
-        numLabel.setText("一共有 " + NewsCatalog.getInstance().size() + " 条新闻");
+        NewsCatalog catalog = NewsCatalog.getInstance();
+        ((NewsListModel) newsList.getModel()).setListData(catalog.getNewsList());
+        numLabel.setText("一共有 " + catalog.size() + " 条新闻");
+        ((NewsTreeModel) tagsTree.getModel()).updateTree();
       }
     }
 

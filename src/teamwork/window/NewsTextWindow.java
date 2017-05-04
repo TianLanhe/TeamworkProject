@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -13,19 +14,24 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import teamwork.listener.ChangeNewsListener;
 import teamwork.model.News;
+import teamwork.r.R;
 
 public class NewsTextWindow extends AbstractWindow {
 
   private static final long serialVersionUID = 1L;
 
-  private JTextField title;
-  private JTextField source;
-  private JTextField date;
-  private JTextField type;
-  private JTextArea content;
-  private JButton lastNews;
-  private JButton nextNews;
+  private JTextField title; // 标题
+  private JTextField source;// 来源
+  private JTextField date;// 日期
+  private JTextField type;// 类型
+
+  private JTextArea content;// 内容
+
+  private JButton prevNews;// 上一条
+  private JButton nextNews;// 下一条
+
   private JTree parentTree;
 
   private News news;
@@ -40,18 +46,30 @@ public class NewsTextWindow extends AbstractWindow {
     date.setText(news.getDate());
     type.setText(news.getType());
 
-    news.update();
-    content.setText(news.getContent());
+    if (!news.update()) {
+      JOptionPane.showMessageDialog(this, "联网获取新闻内容失败，请检查网络或链接", "警告", JOptionPane.WARNING_MESSAGE);
+    } else {
+      content.setText(news.getContent());
+      content.setCaretPosition(0);// 将光标移动到开头
+    }
+  }
+
+  public void changeNews(News news) {
+    this.news = news;
+    showNewsDetails();
   }
 
   @Override
   protected void addListener() {
-
+    ChangeNewsListener changeListener = new ChangeNewsListener(news);
+    nextNews.addActionListener(changeListener);
+    prevNews.addActionListener(changeListener);
   }
 
   @Override
   protected void regitstComponent() {
-
+    R r = R.getInstance();
+    r.registObject("NewsTextWindow", this);
   }
 
   @Override
@@ -96,18 +114,18 @@ public class NewsTextWindow extends AbstractWindow {
     type.setBounds(640, 60, 120, 30);
     newsDetailPane.add(type);
 
-    content = new JTextArea("新闻内容", 20, 50);
+    content = new JTextArea("", 20, 50);
     content.setLineWrap(true);
     JScrollPane contentPane = new JScrollPane(content);
     contentPane.setBounds(40, 100, 720, 460);
     newsDetailPane.add(contentPane);
 
-    lastNews = new JButton();
-    lastNews.setBounds(0, 300, 40, 60);
-    lastNews.setIcon(new ImageIcon("res/lastOne.png"));
-    newsDetailPane.add(lastNews);
+    prevNews = new JButton("prev");
+    prevNews.setBounds(0, 300, 40, 60);
+    prevNews.setIcon(new ImageIcon("res/lastOne.png"));
+    newsDetailPane.add(prevNews);
 
-    nextNews = new JButton();
+    nextNews = new JButton("next");
     nextNews.setBounds(760, 300, 40, 60);
     nextNews.setIcon(new ImageIcon("res/nextOne.png"));
     newsDetailPane.add(nextNews);
@@ -116,6 +134,7 @@ public class NewsTextWindow extends AbstractWindow {
     source.setEditable(false);
     date.setEditable(false);
     type.setEditable(false);
+    content.setEditable(false);
 
     JPanel labelPane = new JPanel();
     labelPane.setBounds(810, 0, 200, 600);

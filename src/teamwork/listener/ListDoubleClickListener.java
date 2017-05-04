@@ -16,7 +16,9 @@ public class ListDoubleClickListener implements MouseListener {
     if (arg0.getClickCount() == 2) {
       JList<News> list = (JList<News>) arg0.getSource();
       News news = list.getSelectedValue();
-      new NewsTextWindow(news).run();
+      if (news != null) {
+        new NewsTextWindow(news).run();
+      }
     }
   }
 

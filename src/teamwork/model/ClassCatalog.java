@@ -45,15 +45,22 @@ public class ClassCatalog {
   public NewsClass get(int i) {
     return list.get(i);
   }
-  
-  public NewsClass get(String name){
-    for(NewsClass c:list)
-      if(c.getName().equals(name))
-        return c;
+
+  public NewsClass get(String name) {
+    for (NewsClass c : list)
+      if (c.getName().equals(name)) return c;
     return null;
   }
 
   public int indexOf(NewsClass c) {
     return list.indexOf(c);
+  }
+
+  public List<NewsClass> getClassList() {
+    return list;
+  }
+
+  public void setClassList(List<NewsClass> list) {
+    this.list = list;
   }
 }
