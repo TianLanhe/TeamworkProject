@@ -1,30 +1,40 @@
 package teamwork.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-public class NewsListModel extends AbstractListModel<News> {
+public class NewsListModel<T> extends AbstractListModel<T> {
   private static final long serialVersionUID = 1L;
 
-  private List<News> catalog;
+  private List<T> list;
 
   public NewsListModel() {
-    catalog = NewsCatalog.getInstance().getNewsList();
+    this(new ArrayList<T>());
   }
-  
-  public void notifyDataChanged(){
+
+  public NewsListModel(List<T> newsList) {
+    list = newsList;
+  }
+
+  public void setListData(List<T> newsList) {
+    list = newsList;
+    notifyDataChanged();
+  }
+
+  public void notifyDataChanged() {
     fireContentsChanged(this, 0, getSize());
   }
 
   @Override
-  public News getElementAt(int index) {
-    return catalog.get(index);
+  public T getElementAt(int index) {
+    return list.get(index);
   }
 
   @Override
   public int getSize() {
-    return catalog.size();
+    return list.size();
   }
 
 }

@@ -14,51 +14,53 @@ public class NewsLoadingControler {
     this.newsLoader = newsLoader;
   }
 
-  public boolean loadData(String file) {
+  public int loadData(String file) {
     if (!newsLoader.loadFrom(file)) {
-      return false;
+      return -1;
     }
-    
+
     NewsCatalog newsCatalog = NewsCatalog.getInstance();
     ClassCatalog classCatalog = ClassCatalog.getInstance();
-    
-    //添加未分类标签
-    NewsClass c = classCatalog.get("是否分类");
-    if(c==null){
-      NewsClass newClass = new NewsClass("是否分类");
-      newClass.addTag(new Tag("已分类"));
-      newClass.addTag(new Tag("未分类"));
-      c = newClass;
-      classCatalog.add(c);
+
+    // 添加未分类标签
+    NewsClass cSort = classCatalog.get("是否分类");
+    if (cSort == null) {
+      cSort = new NewsClass("是否分类");
+      cSort.addTag(new Tag("已分类"));
+      cSort.addTag(new Tag("未分类"));
+      classCatalog.add(cSort);
     }
-    
-    //添加新闻类别标签
+
+    // 添加新闻类别标签
     NewsClass cLocation = classCatalog.get("报道数量");
-    if(cLocation==null){
-      NewsClass newClass = new NewsClass("报道数量");
-      newClass.addTag(new Tag("光明日报"));
-      newClass.addTag(new Tag("四川日报"));
-      newClass.addTag(new Tag("南方都市报"));
-      cLocation = newClass;
+    if (cLocation == null) {
+      cLocation = new NewsClass("报道数量");
       classCatalog.add(cLocation);
     }
 
+    int count = 0;
     News news;
-    Tag unsort = c.getTag("未分类");
+    Tag unsort = cSort.getTag("未分类");
     Tag locationTag;
     while (newsLoader.hasNext()) {
       news = newsLoader.next();
-      if(!newsCatalog.contains(news)){
+
+      if (!newsCatalog.contains(news)) {
         news.postTag(unsort);
 
-        String location = news.getLocation().substring(0, news.getLocation().indexOf("报")+1);
+        String location = news.getLocation().substring(0, news.getLocation().indexOf("报") + 1);
         locationTag = cLocation.getTag(location);
+        if (locationTag == null) {
+          locationTag = new Tag(location);
+          cLocation.addTag(locationTag);
+        }
+
         news.postTag(locationTag);
-        
+
         newsCatalog.add(news);
+        ++count;
       }
     }
-
-    return true;
+    return count;
   }
 }

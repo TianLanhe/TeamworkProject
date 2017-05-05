@@ -45,15 +45,38 @@ public class ClassCatalog {
   public NewsClass get(int i) {
     return list.get(i);
   }
-  
-  public NewsClass get(String name){
-    for(NewsClass c:list)
-      if(c.getName().equals(name))
-        return c;
+
+  public NewsClass get(String name) {
+    for (NewsClass c : list)
+      if (c.getName().equals(name)) return c;
     return null;
   }
 
   public int indexOf(NewsClass c) {
     return list.indexOf(c);
+  }
+
+  public List<NewsClass> getClassRelatedToTag() {
+    List<NewsClass> l = new ArrayList<NewsClass>();
+    for (NewsClass c : list) {
+      if (c.isRelatedToTag()) l.add(c);
+    }
+    return l;
+  }
+
+  public List<NewsClass> getClassNotRelatedToTag() {
+    List<NewsClass> l = new ArrayList<NewsClass>();
+    for (NewsClass c : list) {
+      if (!c.isRelatedToTag()) l.add(c);
+    }
+    return l;
+  }
+
+  public List<NewsClass> getClassList() {
+    return list;
+  }
+
+  public void setClassList(List<NewsClass> list) {
+    this.list = list;
   }
 }

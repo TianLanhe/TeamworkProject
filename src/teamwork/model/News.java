@@ -64,12 +64,8 @@ public class News {
     return getTitle();
   }
 
-  public void delete() {
-    // TODO
-  }
-
   public boolean postTag(Tag tag) {
-    if (hasTag(tag)) {
+    if (hasTag(tag)) {//TODO
       return false;
     }
     tagsList.add(tag);

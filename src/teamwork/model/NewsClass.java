@@ -6,10 +6,16 @@ import java.util.List;
 public class NewsClass {
   private String name;
   private List<Tag> tagsList;
+  private boolean isRelatedToTag;
 
-  public NewsClass(String name) {
+  public NewsClass(String name,boolean flag) {
     this.name = name;
+    isRelatedToTag = flag;
     tagsList = new ArrayList<Tag>();
+  }
+  
+  public NewsClass(String name){
+    this(name,false);
   }
 
   public boolean isAncestorOf(NewsClass c) {
@@ -98,5 +104,13 @@ public class NewsClass {
 
   public List<Tag> getTagsList() {
     return tagsList;
+  }
+
+  public boolean isRelatedToTag() {
+    return isRelatedToTag;
+  }
+
+  public void setRelatedToTag(boolean isRelatedToTag) {
+    this.isRelatedToTag = isRelatedToTag;
   }
 }
