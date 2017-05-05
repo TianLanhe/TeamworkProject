@@ -5,20 +5,20 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-public class NewsListModel extends AbstractListModel<News> {
+public class NewsListModel<T> extends AbstractListModel<T> {
   private static final long serialVersionUID = 1L;
 
-  private List<News> list;
+  private List<T> list;
 
   public NewsListModel() {
-    this(new ArrayList<News>());
+    this(new ArrayList<T>());
   }
 
-  public NewsListModel(List<News> newsList) {
+  public NewsListModel(List<T> newsList) {
     list = newsList;
   }
 
-  public void setListData(List<News> newsList) {
+  public void setListData(List<T> newsList) {
     list = newsList;
     notifyDataChanged();
   }
@@ -28,7 +28,7 @@ public class NewsListModel extends AbstractListModel<News> {
   }
 
   @Override
-  public News getElementAt(int index) {
+  public T getElementAt(int index) {
     return list.get(index);
   }
 

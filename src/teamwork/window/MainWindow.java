@@ -13,7 +13,8 @@ import javax.swing.JTree;
 
 import teamwork.listener.ListDoubleClickListener;
 import teamwork.listener.LoadFileListener;
-import teamwork.listener.RecycleBinListener;
+import teamwork.listener.NewsTreeSelectionListener;
+import teamwork.listener.OpenRecycleBinListener;
 import teamwork.listener.UpdateContentListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
@@ -35,26 +36,29 @@ public class MainWindow extends AbstractWindow {
 
   private JList<News> newsList;
 
-  private JLabel numLabel;
-  private JLabel tagLabel;
+  private JLabel numLabel;// 显示新闻数量
+  private JLabel tagLabel;// 显示标签名字
 
-  private JTree parentTree;
+  private JTree parentTree;// 类别与标签列表
 
   @Override
   protected void addListener() {
     newsList.addMouseListener(new ListDoubleClickListener());
+
     loadFileButton.addActionListener(new LoadFileListener());
     updateButton.addActionListener(new UpdateContentListener());
-    recycleButton.addActionListener(new RecycleBinListener());
+    recycleButton.addActionListener(new OpenRecycleBinListener());
+
+    parentTree.addTreeSelectionListener(new NewsTreeSelectionListener());
   }
 
   @Override
   protected void regitstComponent() {
     R r = R.getInstance();
-    r.registObject("newsList", newsList);
     r.registObject("numLabel", numLabel);
-    r.registObject("tagLabel", tagLabel);
+    r.registObject("newsList", newsList);
     r.registObject("tagsTree", parentTree);
+    r.registObject("tagLabel", tagLabel);
   }
 
   @Override
@@ -105,7 +109,7 @@ public class MainWindow extends AbstractWindow {
     tagLabel.setFont(font);
     tagLabel.setForeground(Color.blue);
 
-    newsList = new JList<News>(new NewsListModel());
+    newsList = new JList<News>(new NewsListModel<News>());
     JScrollPane scrollPane = new JScrollPane(newsList);
     newsList.setFont(new Font("宋体", 1, 14));// 调整字体
     newsList.setFixedCellHeight(24);// 调整间距
@@ -119,7 +123,7 @@ public class MainWindow extends AbstractWindow {
     add(numLabel);
 
     label.setBounds(170, 30, 70, 30);
-    tagLabel.setBounds(250, 30, 100, 30);
+    tagLabel.setBounds(250, 30, 200, 30);
     // newsList.setSize(10, 10);
     scrollPane.setBounds(155, 70, 615, 430);
     numLabel.setBounds(310, 510, 270, 30);

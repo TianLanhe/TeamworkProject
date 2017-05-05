@@ -13,7 +13,7 @@ public class NewsUpdater {
   public boolean connect(String url) {
     try {
       doc = Jsoup.connect(url).get();
-    } catch (IllegalArgumentException e){
+    } catch (IllegalArgumentException e) {
       return false;
     } catch (IOException e) {
       return false;

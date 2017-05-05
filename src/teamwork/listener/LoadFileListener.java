@@ -3,35 +3,30 @@ package teamwork.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import teamwork.controler.NewsLoadingControler;
 import teamwork.loader.NewsLoader;
-import teamwork.model.NewsCatalog;
-import teamwork.model.NewsListModel;
 import teamwork.model.NewsTreeModel;
 import teamwork.r.R;
 
-@SuppressWarnings("rawtypes")
 public class LoadFileListener implements ActionListener {
 
-  private JList newsList;
-  private JLabel numLabel;
   private JTree tagsTree;
 
   public LoadFileListener() {
     R r = R.getInstance();
-    newsList = (JList) r.getObject("newsList");
-    numLabel = (JLabel) r.getObject("numLabel");
     tagsTree = (JTree) r.getObject("tagsTree");
   }
 
   public void actionPerformed(ActionEvent e) {
+    // 创建文件选择器
     JFileChooser jfc = new JFileChooser();
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
     jfc.addChoosableFileFilter(new XmlFileFilter("xml"));
@@ -41,13 +36,20 @@ public class LoadFileListener implements ActionListener {
       NewsLoadingControler dataLoadingControler = new NewsLoadingControler(new NewsLoader());
 
       File file = jfc.getSelectedFile();
-      if (!dataLoadingControler.loadData(file.getAbsolutePath())) {
+      // 读取该文件的内容
+      int count = dataLoadingControler.loadData(file.getAbsolutePath());
+      if (count == -1) {
         JOptionPane.showMessageDialog(null, "文件格式错误！", "错误", JOptionPane.ERROR_MESSAGE);
       } else {
-        NewsCatalog catalog = NewsCatalog.getInstance();
-        ((NewsListModel) newsList.getModel()).setListData(catalog.getNewsList());
-        numLabel.setText("一共有 " + catalog.size() + " 条新闻");
+        // 更新树结构
         ((NewsTreeModel) tagsTree.getModel()).updateTree();
+        TreeNode[] nodes = ((NewsTreeModel) tagsTree.getModel()).getPathToRoot("未分类");
+        TreePath path = new TreePath(nodes);
+        // 显示"未分类"标签下的新闻
+        tagsTree.setSelectionPath(path);
+
+        JOptionPane.showMessageDialog(null, "成功读取 " + count + " 条新闻", "加载成功",
+            JOptionPane.INFORMATION_MESSAGE);
       }
     }
 
@@ -79,10 +81,7 @@ public class LoadFileListener implements ActionListener {
 
     @Override
     public String getDescription() {
-      if (xml.equals("xml")) {
-        return "*.xml";
-      }
-      return "";
+      return "*." + xml;
     }
   }
 }

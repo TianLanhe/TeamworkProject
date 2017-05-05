@@ -10,7 +10,7 @@ public class Tag {
 
   public Tag(String name, NewsClass nextClass) {
     this.name = name;
-    this.nextClass = nextClass;
+    this.nextClass = nextClass;//TODO
     newsList = new ArrayList<News>();
   }
 
@@ -53,6 +53,24 @@ public class Tag {
     return newsList.indexOf(news);
   }
 
+  public News findPrevNews(News news) {
+    int index = indexOfNews(news);
+    if (index == -1) {
+      return null;
+    }
+    index = Math.max(index - 1, 0);
+    return getNews(index);
+  }
+
+  public News findNextNews(News news) {
+    int index = indexOfNews(news);
+    if (index == -1) {
+      return null;
+    }
+    index = Math.min(index + 1, newsSize() - 1);
+    return getNews(index);
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj != null && obj.getClass() == this.getClass()) {
@@ -85,7 +103,7 @@ public class Tag {
   }
 
   public void setNextClass(NewsClass nextClass) {
-    this.nextClass = nextClass;
+    this.nextClass = nextClass;//TODO
   }
 
   public String getName() {

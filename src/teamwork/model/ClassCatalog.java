@@ -56,6 +56,22 @@ public class ClassCatalog {
     return list.indexOf(c);
   }
 
+  public List<NewsClass> getClassRelatedToTag() {
+    List<NewsClass> l = new ArrayList<NewsClass>();
+    for (NewsClass c : list) {
+      if (c.isRelatedToTag()) l.add(c);
+    }
+    return l;
+  }
+
+  public List<NewsClass> getClassNotRelatedToTag() {
+    List<NewsClass> l = new ArrayList<NewsClass>();
+    for (NewsClass c : list) {
+      if (!c.isRelatedToTag()) l.add(c);
+    }
+    return l;
+  }
+
   public List<NewsClass> getClassList() {
     return list;
   }

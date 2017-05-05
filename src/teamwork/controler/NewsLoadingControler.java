@@ -14,9 +14,9 @@ public class NewsLoadingControler {
     this.newsLoader = newsLoader;
   }
 
-  public boolean loadData(String file) {
+  public int loadData(String file) {
     if (!newsLoader.loadFrom(file)) {
-      return false;
+      return -1;
     }
 
     NewsCatalog newsCatalog = NewsCatalog.getInstance();
@@ -38,6 +38,7 @@ public class NewsLoadingControler {
       classCatalog.add(cLocation);
     }
 
+    int count = 0;
     News news;
     Tag unsort = cSort.getTag("Œ¥∑÷¿‡");
     Tag locationTag;
@@ -57,9 +58,9 @@ public class NewsLoadingControler {
         news.postTag(locationTag);
 
         newsCatalog.add(news);
+        ++count;
       }
     }
-
-    return true;
+    return count;
   }
 }
