@@ -12,11 +12,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import teamwork.listener.ChangeNewsListener;
+import teamwork.listener.PostTagListener;
+import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.NewsListModel;
+import teamwork.model.NewsTreeModel;
 import teamwork.model.Tag;
 import teamwork.r.R;
 
@@ -33,7 +35,10 @@ public class NewsTextWindow extends AbstractWindow {
 
   private JButton prevNews;// 上一条
   private JButton nextNews;// 下一条
-  
+
+  private JButton addLabel;// 添加标签
+  private JButton deleteLabel;// 删除标签
+
   private JList<Tag> tagsList;
 
   private JTree parentTree;
@@ -51,34 +56,40 @@ public class NewsTextWindow extends AbstractWindow {
     source.setText(news.getLocation());
     date.setText(news.getDate());
     type.setText(news.getType());
-    
-    content.setText("");
-    if (!news.update()) {
+
+    if (news.getContent().isEmpty() && !news.update()) {
       JOptionPane.showMessageDialog(this, "联网获取新闻内容失败，请检查网络或链接", "警告", JOptionPane.WARNING_MESSAGE);
-    } else {
-      content.setText(news.getContent());
-      content.setCaretPosition(0);// 将光标移动到开头
     }
-    
-    ((NewsListModel<Tag>)tagsList.getModel()).setListData(news.getTagsList());
+    content.setText(news.getContent());
+    content.setCaretPosition(0);// 将光标移动到开头
+
+    ((NewsListModel<Tag>) tagsList.getModel()).setListData(news.getTagsList());
   }
 
   public void changeNews(News news) {
     this.news = news;
     showNewsDetails();
   }
+  
+  public News getNews(){
+    return news;
+  }
 
   @Override
   protected void addListener() {
-    ChangeNewsListener changeListener = new ChangeNewsListener(news, tag);
+    ChangeNewsListener changeListener = new ChangeNewsListener(tag);
     nextNews.addActionListener(changeListener);
     prevNews.addActionListener(changeListener);
+
+    addLabel.addActionListener(new PostTagListener());
   }
 
   @Override
   protected void regitstComponent() {
     R r = R.getInstance();
     r.registObject("NewsTextWindow", this);
+    r.registObject("tagsTree", parentTree);
+    r.registObject("tagsList", tagsList);
   }
 
   @Override
@@ -87,7 +98,7 @@ public class NewsTextWindow extends AbstractWindow {
 
     JPanel newsDetailPane = new JPanel();
     newsDetailPane.setLayout(null);
-    newsDetailPane.setBounds(0, 0, 800, 600);
+    newsDetailPane.setBounds(5, 0, 800, 600);
     add(newsDetailPane);
 
     title = new JTextField("新闻标题");
@@ -128,7 +139,7 @@ public class NewsTextWindow extends AbstractWindow {
 
     content = new JTextArea("", 20, 50);
     content.setFont(font);
-    content.setLineWrap(true);//自动换行
+    content.setLineWrap(true);// 自动换行
     JScrollPane contentPane = new JScrollPane(content);
     contentPane.setBounds(40, 100, 720, 460);
     newsDetailPane.add(contentPane);
@@ -162,78 +173,28 @@ public class NewsTextWindow extends AbstractWindow {
     tagsList = new JList<Tag>(new NewsListModel<Tag>());
     JScrollPane labelsPlayPane = new JScrollPane(tagsList);
     tagsList.setFont(font);
-    //tagsList.setFixedCellHeight(20);
+    // tagsList.setFixedCellHeight(20);
     labelsPlayPane.setBounds(0, 30, 180, 180);
     labelPane.add(labelsPlayPane);
 
-    JButton addLabel = new JButton("添加");
-    addLabel.setBounds(20, 220, 60, 30);
+    addLabel = new JButton("添加");
+    addLabel.setFont(font);
+    addLabel.setBounds(0, 220, 80, 30);
     labelPane.add(addLabel);
 
-    JButton deleteLabel = new JButton("删除");
+    deleteLabel = new JButton("删除");
+    deleteLabel.setFont(font);
     labelPane.add(deleteLabel);
-    deleteLabel.setBounds(100, 220, 60, 30);
+    deleteLabel.setBounds(100, 220, 80, 30);
 
-    DefaultMutableTreeNode newsRank = new DefaultMutableTreeNode("新闻类别");
-    newsRank.add(new DefaultMutableTreeNode("中央党报"));
-    newsRank.add(new DefaultMutableTreeNode("省级党报"));
-    newsRank.add(new DefaultMutableTreeNode("都市党报"));
+    NewsTreeModel model = new NewsTreeModel(ClassCatalog.getInstance());
+    parentTree = new JTree(model);
+    parentTree.setFont(font);
+    parentTree.setRowHeight(20);// 调整间距
+    parentTree.setRootVisible(false);// 根节点不可见
+    parentTree.setToggleClickCount(1);// 单击一次展开节点
+    parentTree.setFont(new Font("宋体", 0, 14));
 
-
-    DefaultMutableTreeNode newsType = new DefaultMutableTreeNode("新闻类型");
-    newsType.add(new DefaultMutableTreeNode("纯净新闻"));
-    newsType.add(new DefaultMutableTreeNode("特稿与特写"));
-    newsType.add(new DefaultMutableTreeNode("评论"));
-    newsType.add(new DefaultMutableTreeNode("其他"));
-
-    DefaultMutableTreeNode helpType = new DefaultMutableTreeNode("社会帮助与关爱");
-    helpType.add(new DefaultMutableTreeNode("单纯一次捐款捐物"));
-    helpType.add(new DefaultMutableTreeNode("旅游活动安排的项目之一"));
-    helpType.add(new DefaultMutableTreeNode("免费开放"));
-    helpType.add(new DefaultMutableTreeNode("设立长期资助项目"));
-    helpType.add(new DefaultMutableTreeNode("其他"));
-
-    DefaultMutableTreeNode newsTheme = new DefaultMutableTreeNode("报道主题");
-    newsTheme.add(helpType);
-    newsTheme.add(new DefaultMutableTreeNode("社会建议与看法"));
-    newsTheme.add(new DefaultMutableTreeNode("表彰单位或个人"));
-    newsTheme.add(new DefaultMutableTreeNode("留守儿童遭受暴力殴打"));
-    newsTheme.add(new DefaultMutableTreeNode("留守儿童遭受性侵等"));
-    newsTheme.add(new DefaultMutableTreeNode("留守儿童意外死忙"));
-    newsTheme.add(new DefaultMutableTreeNode("留守儿童努力上进"));
-    newsTheme.add(new DefaultMutableTreeNode("父母在城市的艰难生活"));
-    newsTheme.add(new DefaultMutableTreeNode("其他"));
-
-    DefaultMutableTreeNode helpSponsor = new DefaultMutableTreeNode("帮助发起人");
-    helpSponsor.add(new DefaultMutableTreeNode("政府部门"));
-    helpSponsor.add(new DefaultMutableTreeNode("企业"));
-    helpSponsor.add(new DefaultMutableTreeNode("事业单位"));
-    helpSponsor.add(new DefaultMutableTreeNode("公益团体"));
-    helpSponsor.add(new DefaultMutableTreeNode("个人"));
-
-    DefaultMutableTreeNode awardBody = new DefaultMutableTreeNode("奖励对象");
-    awardBody.add(new DefaultMutableTreeNode("政府部门"));
-    awardBody.add(new DefaultMutableTreeNode("企业"));
-    awardBody.add(new DefaultMutableTreeNode("事业单位"));
-    awardBody.add(new DefaultMutableTreeNode("公益团体"));
-    awardBody.add(new DefaultMutableTreeNode("个人"));
-
-    DefaultMutableTreeNode newsImage = new DefaultMutableTreeNode("报道形象");
-    newsImage.add(new DefaultMutableTreeNode("积极健康"));
-    newsImage.add(new DefaultMutableTreeNode("可怜悲惨"));
-    newsImage.add(new DefaultMutableTreeNode("沐恩幸福"));
-    newsImage.add(new DefaultMutableTreeNode("问题儿童"));
-    newsImage.add(new DefaultMutableTreeNode("其他"));
-
-    DefaultMutableTreeNode allLabel = new DefaultMutableTreeNode("可选标签");
-    allLabel.add(newsRank);
-    allLabel.add(newsType);
-    allLabel.add(newsTheme);
-    allLabel.add(helpSponsor);
-    allLabel.add(awardBody);
-    allLabel.add(newsImage);
-
-    parentTree = new JTree(allLabel);
     JScrollPane treePane = new JScrollPane(parentTree);
     treePane.setBounds(0, 260, 180, 300);
     labelPane.add(treePane);

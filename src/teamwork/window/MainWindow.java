@@ -123,7 +123,7 @@ public class MainWindow extends AbstractWindow {
     add(numLabel);
 
     label.setBounds(170, 30, 70, 30);
-    tagLabel.setBounds(250, 30, 200, 30);
+    tagLabel.setBounds(250, 30, 400, 30);
     // newsList.setSize(10, 10);
     scrollPane.setBounds(155, 70, 615, 430);
     numLabel.setBounds(310, 510, 270, 30);

@@ -33,9 +33,17 @@ public class ClassCatalog {
   public void remove(NewsClass c) {
     list.remove(c);
   }
+  
+  public void remove(String className){
+    list.remove(new NewsClass(className));
+  }
 
   public boolean contains(NewsClass c) {
     return list.contains(c);
+  }
+  
+  public boolean contains(String className){
+    return contains(new NewsClass(className));
   }
 
   public int size() {
@@ -54,6 +62,10 @@ public class ClassCatalog {
 
   public int indexOf(NewsClass c) {
     return list.indexOf(c);
+  }
+  
+  public int indexOf(String className){
+    return indexOf(new NewsClass(className));
   }
 
   public List<NewsClass> getClassRelatedToTag() {

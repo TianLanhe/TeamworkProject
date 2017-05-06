@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import teamwork.controler.PostTagMediator;
 import teamwork.updater.NewsUpdater;
 
 public class News {
@@ -33,13 +34,11 @@ public class News {
   }
 
   public boolean update() {
-    if (content.isEmpty()) {
-      NewsUpdater newsUpdater = new NewsUpdater();
-      if (!newsUpdater.connect(url)) {
-        return false;
-      }
-      content = newsUpdater.getContent();
+    NewsUpdater newsUpdater = new NewsUpdater();
+    if (!newsUpdater.connect(url)) {
+      return false;
     }
+    content = newsUpdater.getContent();
     return true;
   }
 
@@ -65,16 +64,15 @@ public class News {
   }
 
   public boolean postTag(Tag tag) {
-    if (hasTag(tag)) {//TODO
-      return false;
-    }
-    tagsList.add(tag);
-    tag.addNews(this);
-    return true;
+    return new PostTagMediator(this, tag).post();
   }
 
   public boolean hasTag(Tag tag) {
     return tagsList.contains(tag);
+  }
+
+  public boolean hasTag(String tagName) {
+    return hasTag(new Tag(tagName));
   }
 
   public boolean hasClass(NewsClass c) {
@@ -90,6 +88,10 @@ public class News {
 
   public void removeTag(Tag tag) {
     tagsList.remove(tag);
+  }
+
+  public void removeTag(String tagName) {
+    removeTag(new Tag(tagName));
   }
 
   public Tag getTag(int i) {
@@ -109,6 +111,16 @@ public class News {
     return tagsList.indexOf(tag);
   }
 
+  public int indexOfTag(String tagName) {
+    return tagsList.indexOf(new Tag(tagName));
+  }
+
+  public int sizeTag() {
+    return tagsList.size();
+  }
+
+  // //////////////////////////////////////////////
+  // //////////////////////////////////////////////
   public String getId() {
     return id;
   }
