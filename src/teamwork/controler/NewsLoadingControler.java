@@ -6,6 +6,7 @@ import teamwork.model.News;
 import teamwork.model.NewsCatalog;
 import teamwork.model.NewsClass;
 import teamwork.model.Tag;
+import teamwork.util.GetBriefLocation;
 
 public class NewsLoadingControler {
   private NewsLoader newsLoader;
@@ -48,7 +49,7 @@ public class NewsLoadingControler {
       if (!newsCatalog.contains(news)) {
         news.postTag(unsort);
 
-        String location = news.getLocation().substring(0, news.getLocation().indexOf("±¨") + 1);
+        String location = new GetBriefLocation().parse(news.getLocation());
         locationTag = cLocation.getTag(location);
         if (locationTag == null) {
           locationTag = new Tag(location);

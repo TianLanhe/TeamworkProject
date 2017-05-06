@@ -10,7 +10,7 @@ import teamwork.model.Tag;
 public class TagTest {
 
   @Test
-  public void tagNullNextClassTest() {
+  public void tagNoNextClassTest() {
     Tag tag = new Tag("this is a tag");
     Assert.assertEquals(null, tag.getNextClass());
     Assert.assertFalse(tag.hasNextClass());
@@ -62,6 +62,32 @@ public class TagTest {
     Assert.assertEquals(tag1, tag1);
     Assert.assertEquals(tag1, tag2);
     Assert.assertNotEquals(tag1, tag3);
+  }
+
+  @Test
+  public void tagFindNewsTest() {
+    Tag tag = new Tag("this is a tag");
+
+    News news1 = new News();
+    news1.setId("新闻1");
+    tag.addNews(news1);
+
+    News news2 = new News();
+    news2.setId("新闻2");
+    tag.addNews(news2);
+
+    News news3 = new News();
+    news3.setId("新闻3");
+    tag.addNews(news3);
+
+    Assert.assertEquals(news1, tag.findPrevNews(news2));
+    Assert.assertEquals(news3, tag.findNextNews(news2));
+
+    Assert.assertEquals(news1, tag.findPrevNews(news1));
+    Assert.assertEquals(news2, tag.findNextNews(news1));
+
+    Assert.assertEquals(news2, tag.findPrevNews(news3));
+    Assert.assertEquals(news3, tag.findNextNews(news3));
   }
 
 }

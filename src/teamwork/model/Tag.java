@@ -3,6 +3,8 @@ package teamwork.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import teamwork.controler.ClassTagRelationMediator;
+
 public class Tag {
   private List<News> newsList;
   private NewsClass nextClass;
@@ -10,12 +12,14 @@ public class Tag {
 
   public Tag(String name, NewsClass nextClass) {
     this.name = name;
-    this.nextClass = nextClass;//TODO
+    setRelationClass(nextClass);
     newsList = new ArrayList<News>();
   }
 
   public Tag(String name) {
-    this(name, null);
+    this.name = name;
+    nextClass = null;
+    newsList = new ArrayList<News>();
   }
 
   public boolean hasNextClass() {
@@ -90,6 +94,13 @@ public class Tag {
     return name;
   }
 
+
+  public boolean setRelationClass(NewsClass nextClass) {
+    return new ClassTagRelationMediator(nextClass, this).addRelation();
+  }
+
+  // //////////////////////////////////////////////
+  // //////////////////////////////////////////////
   public List<News> getNewsList() {
     return newsList;
   }
@@ -103,7 +114,7 @@ public class Tag {
   }
 
   public void setNextClass(NewsClass nextClass) {
-    this.nextClass = nextClass;//TODO
+    this.nextClass = nextClass;
   }
 
   public String getName() {

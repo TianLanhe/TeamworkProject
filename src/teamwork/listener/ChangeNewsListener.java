@@ -10,12 +10,10 @@ import teamwork.window.NewsTextWindow;
 
 public class ChangeNewsListener implements ActionListener {
 
-  News news;
   Tag tag;
   NewsTextWindow window;
 
-  public ChangeNewsListener(News news, Tag tag) {
-    this.news = news;
+  public ChangeNewsListener(Tag tag) {
     this.tag = tag;
     window = (NewsTextWindow) R.getInstance().getObject("NewsTextWindow");
   }
@@ -23,6 +21,7 @@ public class ChangeNewsListener implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent arg0) {
     String command = arg0.getActionCommand();
+    News news = window.getNews();
     if (command.equals("prev")) {
       news = tag.findPrevNews(news);
     } else if (command.equals("next")) {

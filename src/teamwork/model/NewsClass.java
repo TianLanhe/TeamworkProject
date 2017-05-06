@@ -6,16 +6,29 @@ import java.util.List;
 public class NewsClass {
   private String name;
   private List<Tag> tagsList;
-  private boolean isRelatedToTag;
+  private int numRelatedToTag;// 有多少标签关联到此类别
 
-  public NewsClass(String name,boolean flag) {
+  public NewsClass(String name, boolean flag) {
     this.name = name;
-    isRelatedToTag = flag;
+    numRelatedToTag = flag ? 1 : 0;
     tagsList = new ArrayList<Tag>();
   }
-  
-  public NewsClass(String name){
-    this(name,false);
+
+  public NewsClass(String name) {
+    this(name, false);
+  }
+
+
+  public boolean isRelatedToTag() {
+    return numRelatedToTag != 0;
+  }
+
+  public void addRelationToTag() {
+    ++numRelatedToTag;
+  }
+
+  public void removeRelationToTag() {
+    --numRelatedToTag;
   }
 
   public boolean isAncestorOf(NewsClass c) {
@@ -46,12 +59,24 @@ public class NewsClass {
     tagsList.remove(tag);
   }
 
+  public void removeTag(String tagName) {
+    tagsList.remove(new Tag(tagName));
+  }
+
   public int indexOfTag(Tag tag) {
     return tagsList.indexOf(tag);
   }
 
+  public int indexOfTag(String tagName) {
+    return tagsList.indexOf(new Tag(tagName));
+  }
+
   public boolean containsTag(Tag tag) {
     return tagsList.contains(tag);
+  }
+
+  public boolean containsTag(String tagName) {
+    return containsTag(new Tag(tagName));
   }
 
   public Tag getTag(int i) {
@@ -67,7 +92,7 @@ public class NewsClass {
     return null;
   }
 
-  public int tagSize() {
+  public int sizeTag() {
     return tagsList.size();
   }
 
@@ -90,6 +115,8 @@ public class NewsClass {
     return name;
   }
 
+  // //////////////////////////////////////////////
+  // //////////////////////////////////////////////
   public String getName() {
     return name;
   }
@@ -104,13 +131,5 @@ public class NewsClass {
 
   public List<Tag> getTagsList() {
     return tagsList;
-  }
-
-  public boolean isRelatedToTag() {
-    return isRelatedToTag;
-  }
-
-  public void setRelatedToTag(boolean isRelatedToTag) {
-    this.isRelatedToTag = isRelatedToTag;
   }
 }
