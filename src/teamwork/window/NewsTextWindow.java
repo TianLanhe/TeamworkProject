@@ -16,6 +16,7 @@ import javax.swing.JTree;
 
 import teamwork.listener.ChangeNewsListener;
 import teamwork.listener.PostTagListener;
+import teamwork.listener.TearTagListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.NewsListModel;
@@ -83,6 +84,7 @@ public class NewsTextWindow extends AbstractWindow {
     prevNews.addActionListener(changeListener);
 
     addLabel.addActionListener(new PostTagListener());
+    deleteLabel.addActionListener(new TearTagListener());
   }
 
   @Override

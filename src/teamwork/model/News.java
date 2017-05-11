@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import teamwork.model.controler.PostTagMediator;
+import teamwork.model.controler.TearTagMediator;
 import teamwork.updater.NewsUpdater;
 
 public class News {
@@ -67,6 +68,10 @@ public class News {
 
   public boolean postTag(Tag tag) {
     return new PostTagMediator(this, tag).post();
+  }
+  
+  public boolean tearTag(Tag tag){
+    return new TearTagMediator(this,tag).tear();
   }
 
   public boolean hasTag(Tag tag) {

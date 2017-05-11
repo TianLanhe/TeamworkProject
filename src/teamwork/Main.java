@@ -10,5 +10,4 @@ public class Main {
     new TagsInitControler(ClassCatalog.getInstance()).init();
     new MainWindow().run();
   }
-
 }

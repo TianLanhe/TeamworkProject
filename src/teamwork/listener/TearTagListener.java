@@ -16,13 +16,13 @@ import teamwork.model.Tag;
 import teamwork.r.R;
 import teamwork.window.NewsTextWindow;
 
-public class PostTagListener implements ActionListener {
+public class TearTagListener implements ActionListener {
 
   private JTree tagsTree;
   private JList<Tag> tagsList;
 
   @SuppressWarnings("unchecked")
-  public PostTagListener() {
+  public TearTagListener() {
     R r = R.getInstance();
     tagsTree = (JTree) r.getObject("tagsTree");
     tagsList = (JList<Tag>) r.getObject("tagsList");
@@ -31,45 +31,34 @@ public class PostTagListener implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent arg0) {
     if (tagsTree.isSelectionEmpty()) {
-      JOptionPane.showMessageDialog(null, "请选择一个最终标签 ！", "贴标签", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(null, "请选择一个最终标签 ！", "撕标签", JOptionPane.INFORMATION_MESSAGE);
     } else {
       DefaultMutableTreeNode node =
           (DefaultMutableTreeNode) tagsTree.getSelectionPath().getLastPathComponent();
       if (!node.isLeaf()) {
-        JOptionPane.showMessageDialog(null, "请选择一个最终标签 ！", "贴标签", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "请选择一个最终标签 ！", "撕标签", JOptionPane.INFORMATION_MESSAGE);
       } else {
         News news = ((NewsTextWindow) R.getInstance().getObject("NewsTextWindow")).getNews();
         NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
         Tag[] tags = model.getTagsFromRoot(node);
 
-        if (tags[tags.length - 1].getParent() == ClassCatalog.getInstance().get("是否分类")) {
-          JOptionPane.showMessageDialog(null, "对不起，该标签由系统默认设置，用户无法改变 ！", "贴标签",
+        if (tags[tags.length - 1].getParent() == ClassCatalog.getInstance().get("是否分类")
+            || tags[tags.length - 1].getParent() == ClassCatalog.getInstance().get("报道数量")) {
+          JOptionPane.showMessageDialog(null, "对不起，该标签由系统默认设置，用户无法改变 ！", "撕标签",
               JOptionPane.INFORMATION_MESSAGE);
           return;
         }
 
-        boolean flag = false;
-        for (Tag tag : tags) {
-          if (news.postTag(tag)) {
-            flag = true;
+        // 要从后往前移除，可能会遇到最后一个标签并未贴上的情况，若从前往后操作则前面的已经移除了才发现后面贴的不对
+        for (int i = tags.length - 1; i >= 0; --i) {
+          if (!news.tearTag(tags[i])) {
+            JOptionPane.showMessageDialog(null, "您没有贴上 " + tags[i].getName() + " 标签！", "撕标签",
+                JOptionPane.WARNING_MESSAGE);
+            break;
           }
-        }
-
-        // 一个标签都没贴上
-        if (!flag) {
-          String tagName = "";
-          for (int i = 0; i < tags.length; ++i) {
-            if (i != 0)
-              tagName += "-" + tags[i].getName();
-            else
-              tagName += tags[i].getName();
-          }
-          JOptionPane.showMessageDialog(null, "无法重复贴上 " + tagName + " 标签！", "贴标签",
-              JOptionPane.WARNING_MESSAGE);
         }
         ((NewsListModel<Tag>) tagsList.getModel()).setListData(news.getTagsList());
       }
     }
   }
-
 }
