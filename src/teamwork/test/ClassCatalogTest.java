@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import teamwork.model.ClassCatalog;
 import teamwork.model.NewsClass;
+import teamwork.model.Tag;
 
 
 public class ClassCatalogTest {
@@ -50,11 +51,15 @@ public class ClassCatalogTest {
     Assert.assertEquals(0, catalog.getClassNotRelatedToTag().size());
     Assert.assertEquals(0, catalog.getClassRelatedToTag().size());
     
-    NewsClass c = new NewsClass("被关联的类",true);
+    NewsClass c = new NewsClass("被关联的类");
     catalog.add(c);
     
     NewsClass c2 = new NewsClass("无关联的类");
     catalog.add(c2);
+    
+    //设置关联
+    Tag tag = new Tag("标签",c2,c); //c2->tag->c
+    c2.addTag(tag);
     
     Assert.assertEquals(1, catalog.getClassNotRelatedToTag().size());
     Assert.assertEquals(1, catalog.getClassRelatedToTag().size());

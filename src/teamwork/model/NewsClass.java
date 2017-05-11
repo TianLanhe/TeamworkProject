@@ -6,29 +6,16 @@ import java.util.List;
 public class NewsClass {
   private String name;
   private List<Tag> tagsList;
-  private int numRelatedToTag;// 有多少标签关联到此类别
+  private boolean isMultChoice;// 该类别是否是多选
 
   public NewsClass(String name, boolean flag) {
     this.name = name;
-    numRelatedToTag = flag ? 1 : 0;
+    isMultChoice = flag;
     tagsList = new ArrayList<Tag>();
   }
 
   public NewsClass(String name) {
     this(name, false);
-  }
-
-
-  public boolean isRelatedToTag() {
-    return numRelatedToTag != 0;
-  }
-
-  public void addRelationToTag() {
-    ++numRelatedToTag;
-  }
-
-  public void removeRelationToTag() {
-    --numRelatedToTag;
   }
 
   public boolean isAncestorOf(NewsClass c) {
@@ -60,7 +47,7 @@ public class NewsClass {
   }
 
   public void removeTag(String tagName) {
-    tagsList.remove(new Tag(tagName));
+    tagsList.remove(new Tag(tagName,this));
   }
 
   public int indexOfTag(Tag tag) {
@@ -68,7 +55,7 @@ public class NewsClass {
   }
 
   public int indexOfTag(String tagName) {
-    return tagsList.indexOf(new Tag(tagName));
+    return tagsList.indexOf(new Tag(tagName,this));
   }
 
   public boolean containsTag(Tag tag) {
@@ -76,7 +63,7 @@ public class NewsClass {
   }
 
   public boolean containsTag(String tagName) {
-    return containsTag(new Tag(tagName));
+    return containsTag(new Tag(tagName,this));
   }
 
   public Tag getTag(int i) {
@@ -131,5 +118,13 @@ public class NewsClass {
 
   public List<Tag> getTagsList() {
     return tagsList;
+  }
+
+  public boolean isMultChoice() {
+    return isMultChoice;
+  }
+
+  public void setMultChoice(boolean multChoice) {
+    this.isMultChoice = multChoice;
   }
 }

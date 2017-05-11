@@ -1,6 +1,7 @@
 package teamwork.window;
 
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -44,11 +45,11 @@ public class NewsTextWindow extends AbstractWindow {
   private JTree parentTree;
 
   private News news;
-  private Tag tag;
+  private List<News> newsList;
 
-  public NewsTextWindow(News news, Tag tag) {
+  public NewsTextWindow(News news, List<News> newsList) {
     this.news = news;
-    this.tag = tag;
+    this.newsList = newsList;
   }
 
   private void showNewsDetails() {
@@ -70,14 +71,14 @@ public class NewsTextWindow extends AbstractWindow {
     this.news = news;
     showNewsDetails();
   }
-  
-  public News getNews(){
+
+  public News getNews() {
     return news;
   }
 
   @Override
   protected void addListener() {
-    ChangeNewsListener changeListener = new ChangeNewsListener(tag);
+    ChangeNewsListener changeListener = new ChangeNewsListener(newsList);
     nextNews.addActionListener(changeListener);
     prevNews.addActionListener(changeListener);
 

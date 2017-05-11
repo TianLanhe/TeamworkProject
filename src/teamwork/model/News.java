@@ -1,13 +1,14 @@
 package teamwork.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import teamwork.controler.PostTagMediator;
+import teamwork.model.controler.PostTagMediator;
 import teamwork.updater.NewsUpdater;
 
 public class News {
+
   private String id;// 唯一标识符
   private String title;// 标题
   private String url;// 网页链接
@@ -15,7 +16,8 @@ public class News {
   private Calendar date;// 日期
   private String location;// 报社
   private String type;// 新闻类型
-  private List<Tag> tagsList;// 标签列表
+
+  private ClassAndTagChoiceManager manager;
 
   public News(String id, String title, String content, String date, String location, String type,
       String url) {
@@ -26,7 +28,7 @@ public class News {
     this.type = type;
     this.url = url;
     this.setDate(date);
-    tagsList = new ArrayList<Tag>();
+    manager = new ClassAndTagChoiceManager();
   }
 
   public News() {
@@ -68,55 +70,28 @@ public class News {
   }
 
   public boolean hasTag(Tag tag) {
-    return tagsList.contains(tag);
-  }
-
-  public boolean hasTag(String tagName) {
-    return hasTag(new Tag(tagName));
+    return manager.hasTag(tag);
   }
 
   public boolean hasClass(NewsClass c) {
-    for (Tag tag : tagsList) {
-      if (c.containsTag(tag)) return true;
-    }
-    return false;
-  }
-
-  public void removeTag(int i) {
-    tagsList.remove(i);
+    return manager.hasClass(c);
   }
 
   public void removeTag(Tag tag) {
-    tagsList.remove(tag);
+    manager.removeTag(tag);
   }
 
-  public void removeTag(String tagName) {
-    removeTag(new Tag(tagName));
+  public Tag[] getTags() {
+    return manager.getTags();
   }
 
-  public Tag getTag(int i) {
-    return tagsList.get(i);
-  }
-
-  public Tag getTag(String tagName) {
-    for (Tag tag : tagsList) {
-      if (tag.getName().equals(tagName)) {
-        return tag;
-      }
-    }
-    return null;
-  }
-
-  public int indexOfTag(Tag tag) {
-    return tagsList.indexOf(tag);
-  }
-
-  public int indexOfTag(String tagName) {
-    return tagsList.indexOf(new Tag(tagName));
+  public List<Tag> getTagsList() {
+    Tag[] tags = getTags();
+    return Arrays.asList(tags);
   }
 
   public int sizeTag() {
-    return tagsList.size();
+    return manager.tagSize();
   }
 
   // //////////////////////////////////////////////
@@ -187,11 +162,11 @@ public class News {
     this.type = type;
   }
 
-  public List<Tag> getTagsList() {
-    return tagsList;
+  public ClassAndTagChoiceManager getManager() {
+    return manager;
   }
 
-  public void setTagsList(List<Tag> tagsList) {
-    this.tagsList = tagsList;
+  public void setManager(ClassAndTagChoiceManager manager) {
+    this.manager = manager;
   }
 }

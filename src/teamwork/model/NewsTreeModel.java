@@ -42,6 +42,10 @@ public class NewsTreeModel extends DefaultTreeModel {
   // 根据TreeNode返回根节点到最后节点所有标签的数组
   public Tag[] getTagsFromRoot(TreeNode node) {
     TreeNode[] path = getPathToRoot(node);
+    return getTagsByPath(path);
+  }
+
+  public Tag[] getTagsByPath(TreeNode[] path) {
     if (path == null || path.length == 0) {
       return null;
     }

@@ -40,16 +40,15 @@ public class NewsTreeModelTest {
  */
     for (int i = 1; i <= 6; ++i) {
       NewsClass c = new NewsClass("类别" + i);
-      if (i == 5 || i == 6) c.addRelationToTag();
       catalog.add(c);
     }
 
-    Tag t1_1 = new Tag("标签1-1");
-    Tag t2_1 = new Tag("标签2-1", catalog.get("类别5"));
-    Tag t3_1 = new Tag("标签3-1", catalog.get("类别6"));
-    Tag t3_2 = new Tag("标签3-2", catalog.get("类别6"));
-    Tag t5_1 = new Tag("标签5-1");
-    Tag t6_1 = new Tag("标签6-1");
+    Tag t1_1 = new Tag("标签1-1",catalog.get("类别1"));
+    Tag t2_1 = new Tag("标签2-1",catalog.get("类别2"), catalog.get("类别5"));
+    Tag t3_1 = new Tag("标签3-1",catalog.get("类别3"), catalog.get("类别6"));
+    Tag t3_2 = new Tag("标签3-2",catalog.get("类别3"), catalog.get("类别6"));
+    Tag t5_1 = new Tag("标签5-1",catalog.get("类别5"));
+    Tag t6_1 = new Tag("标签6-1",catalog.get("类别6"));
 
     catalog.get("类别1").addTag(t1_1);
     catalog.get("类别2").addTag(t2_1);

@@ -24,10 +24,10 @@ public class NewsClassTest {
     NewsClass c = new NewsClass("class name");
     Assert.assertEquals(0, c.sizeTag());// sizeTag()
 
-    c.addTag(new Tag("this is a tag"));// addTag()
+    c.addTag(new Tag("this is a tag",c));// addTag()
     Assert.assertEquals(1, c.sizeTag());
 
-    Tag tag = new Tag("another tag");
+    Tag tag = new Tag("another tag",c);
     Assert.assertFalse(c.containsTag(tag));// containsTag()
 
     c.addTag(tag);
@@ -56,7 +56,7 @@ public class NewsClassTest {
     NewsClass c2 = new NewsClass("another class name");// c c2
     Assert.assertFalse(c.isAncestorOf(c2));
 
-    Tag tag = new Tag("tag name");
+    Tag tag = new Tag("tag name",c);
     tag.setNextClass(c2);// tag->c2
     c.addTag(tag);// c->tag->c2
     Assert.assertTrue(c.isAncestorOf(c2));
@@ -64,7 +64,7 @@ public class NewsClassTest {
     NewsClass c3 = new NewsClass("the third class name");// c->tag->c2 c3
     Assert.assertFalse(c.isAncestorOf(c3));
 
-    Tag tag2 = new Tag("another tag name");
+    Tag tag2 = new Tag("another tag name",c2);
     tag2.setNextClass(c3);// c->tag->c2 tag2->c3
     c2.addTag(tag2);// c->tag->c2->tag2->c3
     Assert.assertTrue(c.isAncestorOf(c3));
@@ -77,21 +77,5 @@ public class NewsClassTest {
     c.removeTag(0);// c tag->c2->tag2->c3
     Assert.assertFalse(c.isAncestorOf(c2));
     Assert.assertFalse(c.isAncestorOf(c3));
-  }
-  
-  @Test
-  public void classRelationWithTagTest(){
-    NewsClass c = new NewsClass("class name");
-    Assert.assertFalse(c.isRelatedToTag());
-    
-    c.addRelationToTag();
-    Assert.assertTrue(c.isRelatedToTag());
-    
-    c.addRelationToTag();
-    c.removeRelationToTag();
-    Assert.assertTrue(c.isRelatedToTag());
-    
-    c.removeRelationToTag();
-    Assert.assertFalse(c.isRelatedToTag());
   }
 }

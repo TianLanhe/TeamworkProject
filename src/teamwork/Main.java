@@ -1,7 +1,7 @@
 package teamwork;
 
-import teamwork.controler.TagsInitControler;
 import teamwork.model.ClassCatalog;
+import teamwork.model.controler.TagsInitControler;
 import teamwork.window.MainWindow;
 
 public class Main {

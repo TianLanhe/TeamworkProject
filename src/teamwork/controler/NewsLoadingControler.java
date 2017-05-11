@@ -27,8 +27,8 @@ public class NewsLoadingControler {
     NewsClass cSort = classCatalog.get("是否分类");
     if (cSort == null) {
       cSort = new NewsClass("是否分类");
-      cSort.addTag(new Tag("已分类"));
-      cSort.addTag(new Tag("未分类"));
+      cSort.addTag(new Tag("已分类",cSort));
+      cSort.addTag(new Tag("未分类",cSort));
       classCatalog.add(cSort);
     }
 
@@ -52,7 +52,7 @@ public class NewsLoadingControler {
         String location = new GetBriefLocation().parse(news.getLocation());
         locationTag = cLocation.getTag(location);
         if (locationTag == null) {
-          locationTag = new Tag(location);
+          locationTag = new Tag(location,cLocation);
           cLocation.addTag(locationTag);
         }
 

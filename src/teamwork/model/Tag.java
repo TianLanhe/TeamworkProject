@@ -3,23 +3,21 @@ package teamwork.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import teamwork.controler.ClassTagRelationMediator;
-
 public class Tag {
   private List<News> newsList;
   private NewsClass nextClass;
+  private NewsClass parent;
   private String name;
-
-  public Tag(String name, NewsClass nextClass) {
+  
+  public Tag(String name,NewsClass parent,NewsClass next){
     this.name = name;
-    setRelationClass(nextClass);
+    this.parent = parent;
+    setNextClass(next);
     newsList = new ArrayList<News>();
   }
 
-  public Tag(String name) {
-    this.name = name;
-    nextClass = null;
-    newsList = new ArrayList<News>();
+  public Tag(String name,NewsClass parent) {
+    this(name,parent,null);
   }
 
   public boolean hasNextClass() {
@@ -79,24 +77,27 @@ public class Tag {
   public boolean equals(Object obj) {
     if (obj != null && obj.getClass() == this.getClass()) {
       Tag tag = (Tag) obj;
-      return name.equals(tag.name);
+      return name.equals(tag.name) && parent.equals(tag.getParent());
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return name.hashCode();
+    int result = 17;
+    result = result * 31 + name.hashCode();
+    result = result * 31 + parent.hashCode();
+    return result;
   }
 
   @Override
   public String toString() {
     return name;
   }
-
-
-  public boolean setRelationClass(NewsClass nextClass) {
-    return new ClassTagRelationMediator(nextClass, this).addRelation();
+  
+  public void setNextClass(NewsClass nextClass) {
+    this.nextClass = nextClass;
+    ClassCatalog.getInstance().addRelation(this,nextClass);
   }
 
   // //////////////////////////////////////////////
@@ -113,15 +114,19 @@ public class Tag {
     return nextClass;
   }
 
-  public void setNextClass(NewsClass nextClass) {
-    this.nextClass = nextClass;
-  }
-
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public NewsClass getParent() {
+    return parent;
+  }
+
+  public void setParent(NewsClass parent) {
+    this.parent = parent;
   }
 }
