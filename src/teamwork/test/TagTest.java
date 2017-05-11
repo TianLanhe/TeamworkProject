@@ -1,6 +1,7 @@
 package teamwork.test;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import teamwork.model.News;
@@ -8,10 +9,17 @@ import teamwork.model.NewsClass;
 import teamwork.model.Tag;
 
 public class TagTest {
+  
+  private static NewsClass newsClass;
+  
+  @BeforeClass
+  public static void setUpBeforeClass() throws Exception {
+    newsClass = new NewsClass("this is a class");
+  }
 
   @Test
-  public void tagNullNextClassTest() {
-    Tag tag = new Tag("this is a tag");
+  public void tagNoNextClassTest() {
+    Tag tag = new Tag("this is a tag",newsClass);
     Assert.assertEquals(null, tag.getNextClass());
     Assert.assertFalse(tag.hasNextClass());
   }
@@ -19,14 +27,14 @@ public class TagTest {
   @Test
   public void tagHasNextClassTest() {
     NewsClass c = new NewsClass("this is a news class");
-    Tag tag = new Tag("this is a tag", c);
+    Tag tag = new Tag("this is a tag",newsClass,c);
     Assert.assertEquals(c, tag.getNextClass());
     Assert.assertTrue(tag.hasNextClass());
   }
 
   @Test
   public void newsOperationTest() {
-    Tag tag = new Tag("this is a tag");
+    Tag tag = new Tag("this is a tag", newsClass);
     Assert.assertEquals(0, tag.newsSize());// size()
 
     tag.addNews(new News());// addNews()
@@ -55,13 +63,41 @@ public class TagTest {
 
   @Test
   public void tagEqualTest() {
-    Tag tag1 = new Tag("this is a tag");
-    Tag tag2 = new Tag("this is a tag");
-    Tag tag3 = new Tag("this is an another tag");
+    Tag tag1 = new Tag("this is a tag",newsClass);
+    Tag tag2 = new Tag("this is a tag",newsClass);
+    Tag tag3 = new Tag("this is an another tag",newsClass);
+    Tag tag4 = new Tag("this is a tag",new NewsClass(""));
 
     Assert.assertEquals(tag1, tag1);
     Assert.assertEquals(tag1, tag2);
     Assert.assertNotEquals(tag1, tag3);
+    Assert.assertNotEquals(tag1, tag4);
+  }
+
+  @Test
+  public void tagFindNewsTest() {
+    Tag tag = new Tag("this is a tag",newsClass);
+
+    News news1 = new News();
+    news1.setId("新闻1");
+    tag.addNews(news1);
+
+    News news2 = new News();
+    news2.setId("新闻2");
+    tag.addNews(news2);
+
+    News news3 = new News();
+    news3.setId("新闻3");
+    tag.addNews(news3);
+
+    Assert.assertEquals(news1, tag.findPrevNews(news2));
+    Assert.assertEquals(news3, tag.findNextNews(news2));
+
+    Assert.assertEquals(news1, tag.findPrevNews(news1));
+    Assert.assertEquals(news2, tag.findNextNews(news1));
+
+    Assert.assertEquals(news2, tag.findPrevNews(news3));
+    Assert.assertEquals(news3, tag.findNextNews(news3));
   }
 
 }

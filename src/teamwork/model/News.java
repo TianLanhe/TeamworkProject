@@ -1,12 +1,15 @@
 package teamwork.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import teamwork.model.controler.PostTagMediator;
+import teamwork.model.controler.TearTagMediator;
 import teamwork.updater.NewsUpdater;
 
 public class News {
+
   private String id;// 唯一标识符
   private String title;// 标题
   private String url;// 网页链接
@@ -14,7 +17,8 @@ public class News {
   private Calendar date;// 日期
   private String location;// 报社
   private String type;// 新闻类型
-  private List<Tag> tagsList;// 标签列表
+
+  private ClassAndTagChoiceManager manager;
 
   public News(String id, String title, String content, String date, String location, String type,
       String url) {
@@ -25,7 +29,7 @@ public class News {
     this.type = type;
     this.url = url;
     this.setDate(date);
-    tagsList = new ArrayList<Tag>();
+    manager = new ClassAndTagChoiceManager();
   }
 
   public News() {
@@ -33,13 +37,11 @@ public class News {
   }
 
   public boolean update() {
-    if (content.isEmpty()) {
-      NewsUpdater newsUpdater = new NewsUpdater();
-      if (!newsUpdater.connect(url)) {
-        return false;
-      }
-      content = newsUpdater.getContent();
+    NewsUpdater newsUpdater = new NewsUpdater();
+    if (!newsUpdater.connect(url)) {
+      return false;
     }
+    content = newsUpdater.getContent();
     return true;
   }
 
@@ -65,50 +67,40 @@ public class News {
   }
 
   public boolean postTag(Tag tag) {
-    if (hasTag(tag)) {//TODO
-      return false;
-    }
-    tagsList.add(tag);
-    tag.addNews(this);
-    return true;
+    return new PostTagMediator(this, tag).post();
+  }
+  
+  public boolean tearTag(Tag tag){
+    return new TearTagMediator(this,tag).tear();
   }
 
   public boolean hasTag(Tag tag) {
-    return tagsList.contains(tag);
+    return manager.hasTag(tag);
   }
 
   public boolean hasClass(NewsClass c) {
-    for (Tag tag : tagsList) {
-      if (c.containsTag(tag)) return true;
-    }
-    return false;
-  }
-
-  public void removeTag(int i) {
-    tagsList.remove(i);
+    return manager.hasClass(c);
   }
 
   public void removeTag(Tag tag) {
-    tagsList.remove(tag);
+    manager.removeTag(tag);
   }
 
-  public Tag getTag(int i) {
-    return tagsList.get(i);
+  public Tag[] getTags() {
+    return manager.getTags();
   }
 
-  public Tag getTag(String tagName) {
-    for (Tag tag : tagsList) {
-      if (tag.getName().equals(tagName)) {
-        return tag;
-      }
-    }
-    return null;
+  public List<Tag> getTagsList() {
+    Tag[] tags = getTags();
+    return Arrays.asList(tags);
   }
 
-  public int indexOfTag(Tag tag) {
-    return tagsList.indexOf(tag);
+  public int sizeTag() {
+    return manager.tagSize();
   }
 
+  // //////////////////////////////////////////////
+  // //////////////////////////////////////////////
   public String getId() {
     return id;
   }
@@ -175,11 +167,11 @@ public class News {
     this.type = type;
   }
 
-  public List<Tag> getTagsList() {
-    return tagsList;
+  public ClassAndTagChoiceManager getManager() {
+    return manager;
   }
 
-  public void setTagsList(List<Tag> tagsList) {
-    this.tagsList = tagsList;
+  public void setManager(ClassAndTagChoiceManager manager) {
+    this.manager = manager;
   }
 }

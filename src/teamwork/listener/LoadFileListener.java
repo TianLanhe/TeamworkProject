@@ -42,8 +42,10 @@ public class LoadFileListener implements ActionListener {
         JOptionPane.showMessageDialog(null, "文件格式错误！", "错误", JOptionPane.ERROR_MESSAGE);
       } else {
         // 更新树结构
-        ((NewsTreeModel) tagsTree.getModel()).updateTree();
-        TreeNode[] nodes = ((NewsTreeModel) tagsTree.getModel()).getPathToRoot("未分类");
+        NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
+        model.updateTree();
+
+        TreeNode[] nodes = model.getPathToRoot("未分类");
         TreePath path = new TreePath(nodes);
         // 显示"未分类"标签下的新闻
         tagsTree.setSelectionPath(path);
@@ -52,7 +54,6 @@ public class LoadFileListener implements ActionListener {
             JOptionPane.INFORMATION_MESSAGE);
       }
     }
-
   }
 
   // JFileChoose的文件过滤器，筛选XML文件

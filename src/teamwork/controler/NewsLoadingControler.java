@@ -6,6 +6,7 @@ import teamwork.model.News;
 import teamwork.model.NewsCatalog;
 import teamwork.model.NewsClass;
 import teamwork.model.Tag;
+import teamwork.util.GetBriefLocation;
 
 public class NewsLoadingControler {
   private NewsLoader newsLoader;
@@ -26,8 +27,8 @@ public class NewsLoadingControler {
     NewsClass cSort = classCatalog.get("是否分类");
     if (cSort == null) {
       cSort = new NewsClass("是否分类");
-      cSort.addTag(new Tag("已分类"));
-      cSort.addTag(new Tag("未分类"));
+      cSort.addTag(new Tag("已分类",cSort));
+      cSort.addTag(new Tag("未分类",cSort));
       classCatalog.add(cSort);
     }
 
@@ -48,10 +49,10 @@ public class NewsLoadingControler {
       if (!newsCatalog.contains(news)) {
         news.postTag(unsort);
 
-        String location = news.getLocation().substring(0, news.getLocation().indexOf("报") + 1);
+        String location = new GetBriefLocation().parse(news.getLocation());
         locationTag = cLocation.getTag(location);
         if (locationTag == null) {
-          locationTag = new Tag(location);
+          locationTag = new Tag(location,cLocation);
           cLocation.addTag(locationTag);
         }
 

@@ -1,12 +1,14 @@
 package teamwork.listener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 
 import teamwork.model.News;
 import teamwork.model.NewsListModel;
@@ -22,7 +24,8 @@ public class NewsTreeSelectionListener implements TreeSelectionListener {
   private JList newsList;
   private JTree tagsTree;
 
-  private Tag tag;
+  private List<News> list;
+  private Tag[] tags;
 
   public NewsTreeSelectionListener() {
     R r = R.getInstance();
@@ -38,7 +41,7 @@ public class NewsTreeSelectionListener implements TreeSelectionListener {
       DefaultMutableTreeNode node =
           (DefaultMutableTreeNode) tagsTree.getSelectionPath().getLastPathComponent();
       if (node.getUserObject() instanceof Tag) {
-        tag = (Tag) node.getUserObject();
+        getNewsList();
 
         displayList();
         displayNumLabel();
@@ -47,20 +50,27 @@ public class NewsTreeSelectionListener implements TreeSelectionListener {
     }
   }
 
+  private void getNewsList() {
+    NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
+    DefaultMutableTreeNode node =
+        (DefaultMutableTreeNode) tagsTree.getSelectionPath().getLastPathComponent();
+    tags = model.getTagsFromRoot(node);
+
+    list = new ArrayList<News>(tags[0].getNewsList());
+    for (int i = 1; i < tags.length; ++i) {
+      list.retainAll(tags[i].getNewsList());
+    }
+  }
+
   private void displayNumLabel() {
-    String msg = "一共有 " + tag.getNewsList().size() + " 条新闻";
+    String msg = "一共有 " + list.size() + " 条新闻";
     numLabel.setText(msg);
   }
 
   private void displayTagLabel() {
-    NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
-    TreeNode[] nodes = model.getPathToRoot(tag.getName());
     String str = "";
-    for (TreeNode n : nodes) {
-      DefaultMutableTreeNode dn = (DefaultMutableTreeNode) n;
-      if (dn.getUserObject() instanceof Tag) {
-        str += ((Tag) dn.getUserObject()).getName() + "  ";
-      }
+    for (Tag t : tags) {
+      str += t.getName() + "  ";
     }
     tagLabel.setText(str);
   }
@@ -68,7 +78,7 @@ public class NewsTreeSelectionListener implements TreeSelectionListener {
   @SuppressWarnings("unchecked")
   private void displayList() {
     NewsListModel<News> model = (NewsListModel<News>) newsList.getModel();
-    model.setListData(tag.getNewsList());
+    model.setListData(list);
   }
 
 }

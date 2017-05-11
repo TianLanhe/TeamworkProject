@@ -22,28 +22,30 @@ public class NewsClassTest {
   @Test
   public void tagOperationTest() {
     NewsClass c = new NewsClass("class name");
-    Assert.assertEquals(0, c.tagSize());// size()
+    Assert.assertEquals(0, c.sizeTag());// sizeTag()
 
-    c.addTag(new Tag("this is a tag"));// addTag()
-    Assert.assertEquals(1, c.tagSize());
+    c.addTag(new Tag("this is a tag",c));// addTag()
+    Assert.assertEquals(1, c.sizeTag());
 
-    Tag tag = new Tag("another tag");
-    Assert.assertFalse(c.containsTag(tag));// containsNews()
-
-    c.addTag(tag);
-    Assert.assertEquals(2, c.tagSize());
+    Tag tag = new Tag("another tag",c);
+    Assert.assertFalse(c.containsTag(tag));// containsTag()
 
     c.addTag(tag);
-    Assert.assertEquals(2, c.tagSize());// addTag()
+    Assert.assertEquals(2, c.sizeTag());
+    Assert.assertTrue(c.containsTag("another tag"));
 
-    Assert.assertEquals(0, c.indexOfTag(new Tag("this is a tag")));// indexOfNews()
+    //不能重复添加相同标签到同一类别下
+    c.addTag(tag);
+    Assert.assertEquals(2, c.sizeTag());// addTag()
+
+    Assert.assertEquals(0, c.indexOfTag("this is a tag"));// indexOfTag()
     Assert.assertEquals(1, c.indexOfTag(tag));
 
     c.removeTag(0);// removeTag
-    Assert.assertEquals(1, c.tagSize());
+    Assert.assertEquals(1, c.sizeTag());
 
-    c.removeTag(tag);
-    Assert.assertEquals(0, c.tagSize());
+    c.removeTag("another tag");
+    Assert.assertEquals(0, c.sizeTag());
   }
 
   @Test
@@ -54,7 +56,7 @@ public class NewsClassTest {
     NewsClass c2 = new NewsClass("another class name");// c c2
     Assert.assertFalse(c.isAncestorOf(c2));
 
-    Tag tag = new Tag("tag name");
+    Tag tag = new Tag("tag name",c);
     tag.setNextClass(c2);// tag->c2
     c.addTag(tag);// c->tag->c2
     Assert.assertTrue(c.isAncestorOf(c2));
@@ -62,7 +64,7 @@ public class NewsClassTest {
     NewsClass c3 = new NewsClass("the third class name");// c->tag->c2 c3
     Assert.assertFalse(c.isAncestorOf(c3));
 
-    Tag tag2 = new Tag("another tag name");
+    Tag tag2 = new Tag("another tag name",c2);
     tag2.setNextClass(c3);// c->tag->c2 tag2->c3
     c2.addTag(tag2);// c->tag->c2->tag2->c3
     Assert.assertTrue(c.isAncestorOf(c3));
@@ -72,7 +74,7 @@ public class NewsClassTest {
     Assert.assertFalse(c3.isAncestorOf(c));
     Assert.assertFalse(c2.isAncestorOf(c));
 
-    c.removeTag(0);
+    c.removeTag(0);// c tag->c2->tag2->c3
     Assert.assertFalse(c.isAncestorOf(c2));
     Assert.assertFalse(c.isAncestorOf(c3));
   }

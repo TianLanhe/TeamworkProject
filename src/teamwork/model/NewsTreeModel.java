@@ -1,8 +1,8 @@
 package teamwork.model;
 
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 public class NewsTreeModel extends DefaultTreeModel {
@@ -18,13 +18,59 @@ public class NewsTreeModel extends DefaultTreeModel {
     updateTree();
   }
 
-  // 根据名称寻找节点，并返回根节点到该节点的节点数组
+  // 根据名称返回根节点到最后节点所有标签的数组 FIXME
+  public Tag[] getTagsFromRoot(String lastName) {
+    TreeNode[] path = getPathToRoot(lastName);
+    if (path == null) {
+      return null;
+    }
+
+    Tag[] tags = new Tag[path.length];
+    int count = 0;
+    for (TreeNode n : path) {
+      DefaultMutableTreeNode dn = (DefaultMutableTreeNode) n;
+      if (dn.getUserObject() instanceof Tag) {
+        tags[count++] = (Tag) dn.getUserObject();
+      }
+    }
+
+    Tag[] ret = new Tag[count];
+    System.arraycopy(tags, 0, ret, 0, count);
+    return ret;
+  }
+
+  // 根据TreeNode返回根节点到最后节点所有标签的数组
+  public Tag[] getTagsFromRoot(TreeNode node) {
+    TreeNode[] path = getPathToRoot(node);
+    return getTagsByPath(path);
+  }
+
+  public Tag[] getTagsByPath(TreeNode[] path) {
+    if (path == null || path.length == 0) {
+      return null;
+    }
+
+    Tag[] tags = new Tag[path.length];
+    int count = 0;
+    for (TreeNode n : path) {
+      DefaultMutableTreeNode dn = (DefaultMutableTreeNode) n;
+      if (dn.getUserObject() instanceof Tag) {
+        tags[count++] = (Tag) dn.getUserObject();
+      }
+    }
+
+    Tag[] ret = new Tag[count];
+    System.arraycopy(tags, 0, ret, 0, count);
+    return ret;
+  }
+
+  // 根据名称返回根节点到最后节点的TreeNode数组 FIXME
   public TreeNode[] getPathToRoot(String name) {
     DefaultMutableTreeNode node = getPathToRoot((DefaultMutableTreeNode) getRoot(), name);
     return node == null ? null : node.getPath();
   }
 
-  // 递归寻找指定名字的节点，找到这返回节点引用，否则返回null
+  // 递归寻找指定名字的节点，找到则返回节点引用，否则返回null
   private DefaultMutableTreeNode getPathToRoot(DefaultMutableTreeNode node, String name) {
     if (node.getUserObject().toString().equals(name)) {
       return node;
@@ -45,14 +91,13 @@ public class NewsTreeModel extends DefaultTreeModel {
     setRoot(root);
   }
 
-  // 根据ClassCatalog中的情况创建模型
+  // 根据ClassCatalog中的类别和标签创建模型
   private TreeNode createTreeRoot() {
-    DefaultMutableTreeNode root = (DefaultMutableTreeNode) createTreeNode(classCatalog);
-    return root;
+    return createTreeNode(classCatalog);
   }
 
   // 递归创建模型
-  private TreeNode createTreeNode(Object obj) {
+  private DefaultMutableTreeNode createTreeNode(Object obj) {
     DefaultMutableTreeNode node = new DefaultMutableTreeNode(obj);
 
     if (obj instanceof Tag) {
@@ -60,18 +105,18 @@ public class NewsTreeModel extends DefaultTreeModel {
       if (tag.hasNextClass()) {
         NewsClass c = tag.getNextClass();
         for (Tag t : c.getTagsList()) {
-          node.add((MutableTreeNode) createTreeNode(t)); // 跳过关联类别，直接显示标签
+          node.add(createTreeNode(t)); // 跳过关联类别，直接显示标签
         }
       }
     } else if (obj instanceof NewsClass) {
       NewsClass c = (NewsClass) obj;
       for (Tag t : c.getTagsList()) {
-        node.add((MutableTreeNode) createTreeNode(t));
+        node.add(createTreeNode(t));
       }
     } else if (obj instanceof ClassCatalog) {
       ClassCatalog classCatalog = (ClassCatalog) obj;
       for (NewsClass c : classCatalog.getClassNotRelatedToTag()) { // 只有没有关联到Tag的类别才能显示
-        node.add((MutableTreeNode) createTreeNode(c));
+        node.add(createTreeNode(c));
       }
     }
     return node;

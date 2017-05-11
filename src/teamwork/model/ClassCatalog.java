@@ -1,15 +1,21 @@
 package teamwork.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClassCatalog {
   private static ClassCatalog instance = null;
 
   private List<NewsClass> list;
 
+  private Map<Tag, NewsClass> tagNextToClass;
+
   private ClassCatalog() {
     list = new ArrayList<NewsClass>();
+    tagNextToClass = new HashMap<Tag, NewsClass>();
   }
 
   public static ClassCatalog getInstance() {
@@ -31,11 +37,19 @@ public class ClassCatalog {
   }
 
   public void remove(NewsClass c) {
-    list.remove(c);
+    list.remove(c);//TODO
+  }
+
+  public void remove(String className) {
+    list.remove(new NewsClass(className));//TODO
   }
 
   public boolean contains(NewsClass c) {
     return list.contains(c);
+  }
+
+  public boolean contains(String className) {
+    return contains(new NewsClass(className));
   }
 
   public int size() {
@@ -56,20 +70,34 @@ public class ClassCatalog {
     return list.indexOf(c);
   }
 
+  public int indexOf(String className) {
+    return indexOf(new NewsClass(className));
+  }
+
   public List<NewsClass> getClassRelatedToTag() {
-    List<NewsClass> l = new ArrayList<NewsClass>();
-    for (NewsClass c : list) {
-      if (c.isRelatedToTag()) l.add(c);
-    }
+    Collection<NewsClass> coll = tagNextToClass.values();
+    List<NewsClass> l = new ArrayList<NewsClass>(coll);
     return l;
   }
 
   public List<NewsClass> getClassNotRelatedToTag() {
     List<NewsClass> l = new ArrayList<NewsClass>();
     for (NewsClass c : list) {
-      if (!c.isRelatedToTag()) l.add(c);
+      if (!tagNextToClass.containsValue(c)) {
+        l.add(c);
+      }
     }
     return l;
+  }
+
+  public void addRelation(Tag tag, NewsClass nextClass) {
+    if(nextClass == null){
+      if(tagNextToClass.containsKey(tag)){
+        tagNextToClass.remove(tag);
+      }
+    }else{
+      tagNextToClass.put(tag, nextClass);
+    }
   }
 
   public List<NewsClass> getClassList() {

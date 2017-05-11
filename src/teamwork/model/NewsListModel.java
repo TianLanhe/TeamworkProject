@@ -22,6 +22,10 @@ public class NewsListModel<T> extends AbstractListModel<T> {
     list = newsList;
     notifyDataChanged();
   }
+  
+  public List<T> getListData(){
+    return list;
+  }
 
   public void notifyDataChanged() {
     fireContentsChanged(this, 0, getSize());
