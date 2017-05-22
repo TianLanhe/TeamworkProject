@@ -28,9 +28,10 @@ public class LoadFileListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     // 创建文件选择器
     JFileChooser jfc = new JFileChooser();
+    jfc.setCurrentDirectory(jfc.getSelectedFile()); 
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
     jfc.addChoosableFileFilter(new XmlFileFilter("xml"));
-
+    
     int state = jfc.showOpenDialog(null);
     if (state == JFileChooser.APPROVE_OPTION) {
       NewsLoadingControler dataLoadingControler = new NewsLoadingControler(new NewsLoader());
