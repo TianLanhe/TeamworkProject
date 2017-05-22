@@ -52,7 +52,8 @@ public class BinCatalog {
     return newsList.indexOf(news);
   }
 
-
+  // ///////////////////////
+  // ///////////////////////
   public List<News> getNewsList() {
     return newsList;
   }

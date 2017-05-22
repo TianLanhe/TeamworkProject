@@ -1,5 +1,6 @@
 package teamwork.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -9,8 +10,10 @@ import teamwork.model.controler.PostTagMediator;
 import teamwork.model.controler.TearTagMediator;
 import teamwork.updater.NewsUpdater;
 
-public class News {
+public class News implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+  
   private String id;// 唯一标识符
   private String title;// 标题
   private String url;// 网页链接

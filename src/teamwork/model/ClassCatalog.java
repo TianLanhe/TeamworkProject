@@ -37,11 +37,11 @@ public class ClassCatalog {
   }
 
   public void remove(NewsClass c) {
-    list.remove(c);//TODO
+    list.remove(c);// TODO
   }
 
   public void remove(String className) {
-    list.remove(new NewsClass(className));//TODO
+    list.remove(new NewsClass(className));// TODO
   }
 
   public boolean contains(NewsClass c) {
@@ -91,20 +91,30 @@ public class ClassCatalog {
   }
 
   public void addRelation(Tag tag, NewsClass nextClass) {
-    if(nextClass == null){
-      if(tagNextToClass.containsKey(tag)){
+    if (nextClass == null) {
+      if (tagNextToClass.containsKey(tag)) {
         tagNextToClass.remove(tag);
       }
-    }else{
+    } else {
       tagNextToClass.put(tag, nextClass);
     }
   }
 
+  // //////////////////////
+  // //////////////////////
   public List<NewsClass> getClassList() {
     return list;
   }
 
   public void setClassList(List<NewsClass> list) {
     this.list = list;
+  }
+
+  public void setTagToClassMap(Map<Tag, NewsClass> tagNextToClass) {
+    this.tagNextToClass = tagNextToClass;
+  }
+
+  public Map<Tag, NewsClass> getTagToClassMap() {
+    return tagNextToClass;
   }
 }
