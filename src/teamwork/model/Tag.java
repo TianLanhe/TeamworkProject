@@ -1,9 +1,13 @@
 package teamwork.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tag {
+public class Tag implements Serializable {
+  
+  private static final long serialVersionUID = 1L;
+  
   private List<News> newsList;
   private NewsClass nextClass;
   private NewsClass parent;

@@ -3,6 +3,7 @@ package teamwork.test;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -43,12 +44,12 @@ public class NewsTreeModelTest {
       catalog.add(c);
     }
 
-    Tag t1_1 = new Tag("标签1-1",catalog.get("类别1"));
-    Tag t2_1 = new Tag("标签2-1",catalog.get("类别2"), catalog.get("类别5"));
-    Tag t3_1 = new Tag("标签3-1",catalog.get("类别3"), catalog.get("类别6"));
-    Tag t3_2 = new Tag("标签3-2",catalog.get("类别3"), catalog.get("类别6"));
-    Tag t5_1 = new Tag("标签5-1",catalog.get("类别5"));
-    Tag t6_1 = new Tag("标签6-1",catalog.get("类别6"));
+    Tag t1_1 = new Tag("标签1-1", catalog.get("类别1"));
+    Tag t2_1 = new Tag("标签2-1", catalog.get("类别2"), catalog.get("类别5"));
+    Tag t3_1 = new Tag("标签3-1", catalog.get("类别3"), catalog.get("类别6"));
+    Tag t3_2 = new Tag("标签3-2", catalog.get("类别3"), catalog.get("类别6"));
+    Tag t5_1 = new Tag("标签5-1", catalog.get("类别5"));
+    Tag t6_1 = new Tag("标签6-1", catalog.get("类别6"));
 
     catalog.get("类别1").addTag(t1_1);
     catalog.get("类别2").addTag(t2_1);
@@ -56,6 +57,11 @@ public class NewsTreeModelTest {
     catalog.get("类别3").addTag(t3_2);
     catalog.get("类别5").addTag(t5_1);
     catalog.get("类别6").addTag(t6_1);
+  }
+
+  @AfterClass
+  public static void afterClass() throws Exception {
+    catalog.getClassList().clear();
   }
 
   @Test
@@ -108,34 +114,34 @@ public class NewsTreeModelTest {
     Assert.assertTrue(node.getUserObject() instanceof Tag);
     Assert.assertEquals(node.getUserObject().toString(), "标签6-1");
   }
-  
+
   @Test
-  public void getPathFromRootByName(){
+  public void getPathFromRootByName() {
     NewsTreeModel model = new NewsTreeModel(catalog);
-    
+
     TreeNode[] nodes = model.getPathToRoot("类别1");
-    Assert.assertEquals(2,nodes.length);
-    Assert.assertEquals(catalog,((DefaultMutableTreeNode)nodes[0]).getUserObject());
-    Assert.assertEquals("类别1",((DefaultMutableTreeNode)nodes[1]).getUserObject().toString());
-    
+    Assert.assertEquals(2, nodes.length);
+    Assert.assertEquals(catalog, ((DefaultMutableTreeNode) nodes[0]).getUserObject());
+    Assert.assertEquals("类别1", ((DefaultMutableTreeNode) nodes[1]).getUserObject().toString());
+
     nodes = model.getPathToRoot("标签2-1");
-    Assert.assertEquals(3,nodes.length);
-    Assert.assertEquals(catalog,((DefaultMutableTreeNode)nodes[0]).getUserObject());
-    Assert.assertEquals("类别2",((DefaultMutableTreeNode)nodes[1]).getUserObject().toString());
-    Assert.assertEquals("标签2-1",((DefaultMutableTreeNode)nodes[2]).getUserObject().toString());
-    
+    Assert.assertEquals(3, nodes.length);
+    Assert.assertEquals(catalog, ((DefaultMutableTreeNode) nodes[0]).getUserObject());
+    Assert.assertEquals("类别2", ((DefaultMutableTreeNode) nodes[1]).getUserObject().toString());
+    Assert.assertEquals("标签2-1", ((DefaultMutableTreeNode) nodes[2]).getUserObject().toString());
+
     nodes = model.getPathToRoot("标签3-2");
-    Assert.assertEquals(3,nodes.length);
-    Assert.assertEquals(catalog,((DefaultMutableTreeNode)nodes[0]).getUserObject());
-    Assert.assertEquals("类别3",((DefaultMutableTreeNode)nodes[1]).getUserObject().toString());
-    Assert.assertEquals("标签3-2",((DefaultMutableTreeNode)nodes[2]).getUserObject().toString());
-    
+    Assert.assertEquals(3, nodes.length);
+    Assert.assertEquals(catalog, ((DefaultMutableTreeNode) nodes[0]).getUserObject());
+    Assert.assertEquals("类别3", ((DefaultMutableTreeNode) nodes[1]).getUserObject().toString());
+    Assert.assertEquals("标签3-2", ((DefaultMutableTreeNode) nodes[2]).getUserObject().toString());
+
     // 注意：这里用标签名或类别名去寻找，但有可能名称出现在多处，可能无法找到想要的路径
     // FIXME
     nodes = model.getPathToRoot("标签6-1");
-    Assert.assertEquals(4,nodes.length);
-    Assert.assertEquals(catalog,((DefaultMutableTreeNode)nodes[0]).getUserObject());
-    Assert.assertEquals("类别3",((DefaultMutableTreeNode)nodes[1]).getUserObject().toString());
-    Assert.assertEquals("标签3-1",((DefaultMutableTreeNode)nodes[2]).getUserObject().toString());
+    Assert.assertEquals(4, nodes.length);
+    Assert.assertEquals(catalog, ((DefaultMutableTreeNode) nodes[0]).getUserObject());
+    Assert.assertEquals("类别3", ((DefaultMutableTreeNode) nodes[1]).getUserObject().toString());
+    Assert.assertEquals("标签3-1", ((DefaultMutableTreeNode) nodes[2]).getUserObject().toString());
   }
 }

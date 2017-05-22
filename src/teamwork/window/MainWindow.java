@@ -14,6 +14,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
+import teamwork.listener.DeleteNewsListener;
 import teamwork.listener.ListDoubleClickListener;
 import teamwork.listener.LoadFileListener;
 import teamwork.listener.LoadListener;
@@ -52,8 +53,14 @@ public class MainWindow extends AbstractWindow {
     loadFileButton.addActionListener(new LoadFileListener());
     updateButton.addActionListener(new UpdateContentListener());
     recycleButton.addActionListener(new OpenRecycleBinListener());
+<<<<<<< HEAD
     saveButton.addActionListener(new SaveListener());
     loadButton.addActionListener(new LoadListener());
+=======
+    deleteButton.addActionListener(new DeleteNewsListener());
+    loadButton.addActionListener(new LoadListener());
+
+>>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
     parentTree.addTreeSelectionListener(new NewsTreeSelectionListener());
   }
 

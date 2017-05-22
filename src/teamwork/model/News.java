@@ -1,15 +1,19 @@
 package teamwork.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import teamwork.model.controler.NewsDeleteControler;
 import teamwork.model.controler.PostTagMediator;
 import teamwork.model.controler.TearTagMediator;
 import teamwork.updater.NewsUpdater;
 
-public class News {
+public class News implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+  
   private String id;// 唯一标识符
   private String title;// 标题
   private String url;// 网页链接
@@ -69,9 +73,17 @@ public class News {
   public boolean postTag(Tag tag) {
     return new PostTagMediator(this, tag).post();
   }
-  
-  public boolean tearTag(Tag tag){
-    return new TearTagMediator(this,tag).tear();
+
+  public boolean tearTag(Tag tag) {
+    return new TearTagMediator(this, tag).tear();
+  }
+
+  public boolean delete() {
+    return new NewsDeleteControler(this).delete();
+  }
+
+  public void revoke() {
+    new NewsDeleteControler(this).revoke();
   }
 
   public boolean hasTag(Tag tag) {
