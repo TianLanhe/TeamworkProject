@@ -2,36 +2,29 @@ package teamwork.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-=======
-import java.io.File;
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
-
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 public class LoadListener implements ActionListener {
 
-<<<<<<< HEAD
   private FileWriter fileWriter;
   private BufferedWriter out;
   
   @Override
-  public void actionPerformed(ActionEvent e) {
-=======
 
   public void actionPerformed(ActionEvent e) {
     // 创建文件选择器
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
+
     JFileChooser jfc = new JFileChooser();
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
     jfc.addChoosableFileFilter(new MmpFileFilter("mmp"));
 
-<<<<<<< HEAD
+
     if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 
     }
@@ -49,17 +42,9 @@ public class LoadListener implements ActionListener {
     }
   }
 
-=======
-    int state = jfc.showOpenDialog(null);
-    if (state == JFileChooser.APPROVE_OPTION) {
-      
-     
-      
-    }
-  }
 
   // JFileChoose的文件过滤器，筛选XML文件
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
+
   private class MmpFileFilter extends FileFilter {
     String mmp;
 
@@ -88,9 +73,4 @@ public class LoadListener implements ActionListener {
       return "*." + mmp;
     }
   }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
 }
