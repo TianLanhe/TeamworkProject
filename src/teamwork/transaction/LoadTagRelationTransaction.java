@@ -28,7 +28,7 @@ public class LoadTagRelationTransaction extends LoadTransaction {
         className = attrs.getNamedItem("parent").getNodeValue();
         tagName = attrs.getNamedItem("name").getNodeValue();
       }else if(n.getNodeName().equals("NextClass")){
-        nextClassName = node.getAttributes().getNamedItem("name").getNodeValue();
+        nextClassName = n.getAttributes().getNamedItem("name").getNodeValue();
       }
     }
     
