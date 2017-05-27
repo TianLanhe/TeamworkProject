@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ClassAndTagChoiceManager {
+public class ClassAndTagChoiceManager{
   private Map<NewsClass, List<Tag>> map;
 
   public ClassAndTagChoiceManager() {

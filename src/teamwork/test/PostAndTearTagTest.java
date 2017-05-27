@@ -7,10 +7,10 @@ import teamwork.model.News;
 import teamwork.model.NewsClass;
 import teamwork.model.Tag;
 
-public class PostTagTest {
+public class PostAndTearTagTest {
 
   @Test
-  public void postSingleTagTest() {
+  public void postAndTearSingleTagTest() {
     News news =
         new News("newsId", "newsTitle", "newsContent", "1996-12-23", "newsLocation", "newsType",
             "www.baidu.com");
@@ -27,6 +27,7 @@ public class PostTagTest {
     Assert.assertFalse(news.hasTag(tag1));
     Assert.assertFalse(news.hasTag(tag2));
 
+    // 贴上"标签1"
     news.postTag(tag1);
     Assert.assertEquals(news.sizeTag(), 1);
 
@@ -34,16 +35,28 @@ public class PostTagTest {
     Assert.assertTrue(news.hasTag(tag1));
     Assert.assertFalse(news.hasTag(tag2));
 
+    // 贴上 "标签2" 替代 "标签1"
     news.postTag(tag2);
     Assert.assertEquals(news.sizeTag(), 1);
 
     Assert.assertTrue(news.hasClass(c_single));
     Assert.assertFalse(news.hasTag(tag1));
     Assert.assertTrue(news.hasTag(tag2));
+
+    // 撕去标签
+    boolean flag = news.tearTag(tag2);
+    Assert.assertTrue(flag);
+    Assert.assertFalse(news.hasClass(c_single));
+    Assert.assertFalse(news.hasTag(tag1));
+    Assert.assertFalse(news.hasTag(tag2));
+    Assert.assertEquals(news.sizeTag(), 0);
+
+    flag = news.tearTag(tag1);
+    Assert.assertFalse(flag);
   }
 
   @Test
-  public void postMultTagTest() {
+  public void postAndTearMultTagTest() {
     News news =
         new News("newsId", "newsTitle", "newsContent", "1996-12-23", "newsLocation", "newsType",
             "www.baidu.com");
@@ -78,5 +91,23 @@ public class PostTagTest {
     // 不能重复贴标签
     news.postTag(tag1);
     Assert.assertEquals(news.sizeTag(), 2);
+
+    // 撕去标签
+    boolean flag = news.tearTag(tag2);
+    Assert.assertTrue(flag);
+    Assert.assertTrue(news.hasClass(c_mult));
+    Assert.assertTrue(news.hasTag(tag1));
+    Assert.assertFalse(news.hasTag(tag2));
+    Assert.assertEquals(news.sizeTag(), 1);
+
+    flag = news.tearTag(tag1);
+    Assert.assertTrue(flag);
+    Assert.assertFalse(news.hasClass(c_mult));
+    Assert.assertFalse(news.hasTag(tag1));
+    Assert.assertFalse(news.hasTag(tag2));
+    Assert.assertEquals(news.sizeTag(), 0);
+
+    flag = news.tearTag(tag1);
+    Assert.assertFalse(flag);
   }
 }

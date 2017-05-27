@@ -42,6 +42,10 @@ public class NewsCatalog {
     newsList.remove(news);
   }
 
+  public void remove(String id) {
+    remove(new News(id, "", "", "", "", "", ""));
+  }
+
   public void remove(int index) {
     newsList.remove(index);
   }
@@ -54,30 +58,29 @@ public class NewsCatalog {
     return newsList.contains(news);
   }
 
+  public boolean contains(String id) {
+    return contains(new News(id, "", "", "", "", "", ""));
+  }
+
   public News get(int i) {
     return newsList.get(i);
+  }
+
+  public News get(String id) {
+    int index = indexOf(new News(id, "", "", "", "", "", ""));
+    if (index == -1) {
+      return null;
+    } else {
+      return get(index);
+    }
   }
 
   public int indexOf(News news) {
     return newsList.indexOf(news);
   }
 
-  public News findPrev(News news) {
-    int index = indexOf(news);
-    if (index == -1) {
-      return null;
-    }
-    index = Math.max(index - 1, 0);
-    return get(index);
-  }
-
-  public News findNext(News news) {
-    int index = indexOf(news);
-    if (index == -1) {
-      return null;
-    }
-    index = Math.min(index + 1, size() - 1);
-    return get(index);
+  public int indexOf(String id) {
+    return indexOf(new News(id, "", "", "", "", "", ""));
   }
 
   public List<News> getNewsList() {

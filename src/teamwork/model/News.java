@@ -9,8 +9,7 @@ import teamwork.model.controler.PostTagMediator;
 import teamwork.model.controler.TearTagMediator;
 import teamwork.updater.NewsUpdater;
 
-public class News {
-
+public class News{
   private String id;// 唯一标识符
   private String title;// 标题
   private String url;// 网页链接

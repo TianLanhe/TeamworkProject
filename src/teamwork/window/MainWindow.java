@@ -14,8 +14,10 @@ import javax.swing.JTree;
 import teamwork.listener.DeleteNewsListener;
 import teamwork.listener.ListDoubleClickListener;
 import teamwork.listener.LoadFileListener;
+import teamwork.listener.LoadListener;
 import teamwork.listener.NewsTreeSelectionListener;
 import teamwork.listener.OpenRecycleBinListener;
+import teamwork.listener.SaveListener;
 import teamwork.listener.UpdateContentListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
@@ -49,6 +51,8 @@ public class MainWindow extends AbstractWindow {
     loadFileButton.addActionListener(new LoadFileListener());
     updateButton.addActionListener(new UpdateContentListener());
     recycleButton.addActionListener(new OpenRecycleBinListener());
+    saveButton.addActionListener(new SaveListener());
+    loadButton.addActionListener(new LoadListener());
     deleteButton.addActionListener(new DeleteNewsListener());
 
     parentTree.addTreeSelectionListener(new NewsTreeSelectionListener());

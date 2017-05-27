@@ -3,7 +3,8 @@ package teamwork.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tag {
+public class Tag{
+  
   private List<News> newsList;
   private NewsClass nextClass;
   private NewsClass parent;
@@ -97,7 +98,7 @@ public class Tag {
   
   public void setNextClass(NewsClass nextClass) {
     this.nextClass = nextClass;
-    ClassCatalog.getInstance().addRelation(this,nextClass);
+    ClassCatalog.getInstance().tieNewsClass(this,nextClass);
   }
 
   // //////////////////////////////////////////////

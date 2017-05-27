@@ -3,7 +3,8 @@ package teamwork.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsClass {
+public class NewsClass{
+  
   private String name;
   private List<Tag> tagsList;
   private boolean isMultChoice;// 该类别是否是多选

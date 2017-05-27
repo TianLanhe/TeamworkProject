@@ -2,6 +2,7 @@ package teamwork.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -11,37 +12,37 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import teamwork.controler.NewsLoadingControler;
-import teamwork.loader.NewsLoader;
 import teamwork.model.NewsTreeModel;
+import teamwork.model.controler.LoadControler;
 import teamwork.r.R;
 
-public class LoadFileListener implements ActionListener {
+public class LoadListener implements ActionListener {
 
   private JTree tagsTree;
 
-  public LoadFileListener() {
-    R r = R.getInstance();
-    tagsTree = (JTree) r.getObject("tagsTree");
+  public LoadListener() {
+    tagsTree = (JTree) R.getInstance().getObject("tagsTree");
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     // 创建文件选择器
     JFileChooser jfc = new JFileChooser();
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    FileNameExtensionFilter filter = new FileNameExtensionFilter(".xml", "xml");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("进度文件(*.mmp)", "mmp");
     jfc.setFileFilter(filter);
 
-    int state = jfc.showOpenDialog(null);
+    int state = jfc.showDialog(null, "读取");
     if (state == JFileChooser.APPROVE_OPTION) {
-      NewsLoadingControler dataLoadingControler = new NewsLoadingControler(new NewsLoader());
-
       File file = jfc.getSelectedFile();
-      // 读取该文件的内容
-      int count = dataLoadingControler.loadData(file.getAbsolutePath());
-      if (count == -1) {
-        JOptionPane.showMessageDialog(null, "文件格式错误！", "错误", JOptionPane.ERROR_MESSAGE);
+      if (!file.exists()) {
+        JOptionPane.showMessageDialog(null, "文件不存在，读取失败！", "错误", JOptionPane.ERROR_MESSAGE);
       } else {
+        LoadControler loadControler = new LoadControler();
+        if (!loadControler.load(file)) {
+          JOptionPane.showMessageDialog(null, "读取失败！", "错误", JOptionPane.ERROR_MESSAGE);
+        }
+
         // 更新树结构
         NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
         model.updateTree();
@@ -50,9 +51,6 @@ public class LoadFileListener implements ActionListener {
         TreePath path = new TreePath(nodes);
         // 显示"未分类"标签下的新闻
         tagsTree.setSelectionPath(path);
-
-        JOptionPane.showMessageDialog(null, "成功读取 " + count + " 条新闻", "加载成功",
-            JOptionPane.INFORMATION_MESSAGE);
       }
     }
   }
