@@ -1,25 +1,36 @@
 package teamwork.transaction;
 
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import teamwork.model.ClassCatalog;
 import teamwork.model.NewsCatalog;
 
 public class LoadPostTagTransaction extends LoadTransaction {
 
-  public LoadPostTagTransaction(String str) {
-    super(str);
+  public LoadPostTagTransaction(Node node) {
+    super(node);
   }
 
   @Override
-  protected void parseCommand(String command) {
-    String[] words = command.split(" ");
+  protected void parseNode(Node node) {
+    String id = node.getAttributes().getNamedItem("id").getNodeValue();
 
-    String id = words[1];
-    String className = words[2];
-    String tagName = words[3];
+    NodeList childNode = node.getChildNodes();
+    for (int i = 0; i < childNode.getLength(); ++i) {
+      Node n = childNode.item(i);
+      if (n.getNodeName().equals("Tag")) {
+        NamedNodeMap attrs = n.getAttributes();
 
-    NewsCatalog.getInstance().get(id)
-        .postTag(ClassCatalog.getInstance().get(className).getTag(tagName));
+        String className = attrs.getNamedItem("parent").getNodeValue();
+        String tagName = attrs.getNamedItem("name").getNodeValue();
 
+        NewsCatalog.getInstance().get(id)
+            .postTag(ClassCatalog.getInstance().get(className).getTag(tagName));
+        break;
+      }
+    }
   }
 
 }

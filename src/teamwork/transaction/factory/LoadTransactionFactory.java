@@ -1,5 +1,7 @@
 package teamwork.transaction.factory;
 
+import org.w3c.dom.Node;
+
 import teamwork.transaction.LoadAddNewsClassTransaction;
 import teamwork.transaction.LoadAddNewsTransaction;
 import teamwork.transaction.LoadAddTagTransaction;
@@ -10,20 +12,20 @@ import teamwork.transaction.Transaction;
 
 public class LoadTransactionFactory {
 
-  public Transaction create(String line) {
-    String command = line.split(" ")[0];
-    if (command.equals("addNews")) {
-      return new LoadAddNewsTransaction(line);
-    } else if (command.equals("addNewsClass")) {
-      return new LoadAddNewsClassTransaction(line);
-    } else if (command.equals("addTag")) {
-      return new LoadAddTagTransaction(line);
-    } else if (command.equals("deleteNews")) {
-      return new LoadDeleteNewsTransaction(line);
-    } else if (command.equals("postTag")) {
-      return new LoadPostTagTransaction(line);
-    } else if (command.equals("addRelation")) {
-      return new LoadTagRelationTransaction(line);
+  public Transaction create(Node node) {
+    String command = node.getAttributes().getNamedItem("name").getNodeValue();
+    if (command.equals(Transaction.ADD_NEWS)) {
+      return new LoadAddNewsTransaction(node);
+    } else if (command.equals(Transaction.ADD_NEWS_CLASS)) {
+      return new LoadAddNewsClassTransaction(node);
+    } else if (command.equals(Transaction.ADD_TAG)) {
+      return new LoadAddTagTransaction(node);
+    } else if (command.equals(Transaction.DELETE_NEWS)) {
+      return new LoadDeleteNewsTransaction(node);
+    } else if (command.equals(Transaction.POST_TAG)) {
+      return new LoadPostTagTransaction(node);
+    } else if (command.equals(Transaction.ADD_RELATION)) {
+      return new LoadTagRelationTransaction(node);
     } else {
       return null;
     }

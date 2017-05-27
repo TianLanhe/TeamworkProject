@@ -22,6 +22,9 @@ public class SaveListener implements ActionListener {
     int state = jfc.showSaveDialog(null);
     if (state == JFileChooser.APPROVE_OPTION) {
       String name = jfc.getSelectedFile().getName();
+      if (name.length() < 4 || name.indexOf(".mmp") != name.length() - 4) {
+        name += ".mmp";
+      }
 
       File file = new File(jfc.getCurrentDirectory(), name);
       if (file.exists()) {// 已存在文件
@@ -31,8 +34,6 @@ public class SaveListener implements ActionListener {
         if (flag == JOptionPane.NO_OPTION) {
           return;
         }
-      } else if (name.length() < 4 || name.indexOf(".mmp") != name.length() - 4) {
-        file = new File(jfc.getCurrentDirectory(), name + ".mmp");
       }
       SaveControler saveControler = new SaveControler();
       if (!saveControler.save(file)) {

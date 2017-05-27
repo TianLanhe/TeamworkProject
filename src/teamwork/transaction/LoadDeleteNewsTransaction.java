@@ -1,20 +1,18 @@
 package teamwork.transaction;
 
+import org.w3c.dom.Node;
+
 import teamwork.model.NewsCatalog;
 
 public class LoadDeleteNewsTransaction extends LoadTransaction {
 
-  public LoadDeleteNewsTransaction(String str) {
-    super(str);
+  public LoadDeleteNewsTransaction(Node node) {
+    super(node);
   }
 
   @Override
-  protected void parseCommand(String command) {
-    String[] words = command.split(" ");
-
-    String id = words[1];
-
+  protected void parseNode(Node node) {
+    String id = node.getAttributes().getNamedItem("id").getNodeValue();
     NewsCatalog.getInstance().get(id).delete();
   }
-
 }

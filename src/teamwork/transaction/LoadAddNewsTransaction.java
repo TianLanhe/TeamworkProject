@@ -1,41 +1,32 @@
 package teamwork.transaction;
 
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import teamwork.model.News;
 import teamwork.model.NewsCatalog;
 
 public class LoadAddNewsTransaction extends LoadTransaction {
 
-  public LoadAddNewsTransaction(String str) {
-    super(str);
+  public LoadAddNewsTransaction(Node node) {
+    super(node);
   }
 
   @Override
-  protected void parseCommand(String command) {
-    String[] words = command.split(" ");
-
-    String[] keyVal;
-    String field;
-    String text;
+  protected void parseNode(Node node) {
     News news = new News();
-    for (int i = 1; i < words.length; ++i) {
-      keyVal = words[i].split(":");
-      field = keyVal[0];
-      text = keyVal.length > 1 ? keyVal[1] : "";
-      if ("url".equals(field)) {
-        news.setUrl(text);
-      } else if ("content".equals(field)) {
-        news.setContent(text);
-      } else if ("type".equals(field)) {
-        news.setType(text);
-      } else if ("location".equals(field)) {
-        news.setLocation(text);
-      } else if ("id".equals(field)) {
-        news.setId(text);
-      } else if ("date".equals(field)) {
-        news.setDate(text);
-      } else if ("title".equals(field)) {
-        news.setTitle(text);
-      }
+    NodeList childNode = node.getChildNodes();
+    for (int i = 0; i < childNode.getLength(); ++i) {
+      Node n = childNode.item(i);
+      String nodeName = n.getNodeName();
+      String nodeValue = n.getTextContent();
+      if (nodeName.equals("Title")) news.setTitle(nodeValue);
+      if (nodeName.equals("Date")) news.setDate(nodeValue);
+      if (nodeName.equals("Location")) news.setLocation(nodeValue);
+      if (nodeName.equals("Id")) news.setId(nodeValue);
+      if (nodeName.equals("Type")) news.setType(nodeValue);
+      if (nodeName.equals("Url")) news.setUrl(nodeValue);
+      if (nodeName.equals("Content")) news.setContent(nodeValue);
     }
     NewsCatalog.getInstance().add(news);
   }

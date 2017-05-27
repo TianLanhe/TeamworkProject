@@ -1,20 +1,23 @@
 package teamwork.transaction;
 
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import teamwork.model.ClassCatalog;
 import teamwork.model.NewsClass;
 
 public class LoadAddNewsClassTransaction extends LoadTransaction {
 
-  public LoadAddNewsClassTransaction(String str) {
-    super(str);
+  public LoadAddNewsClassTransaction(Node node) {
+    super(node);
   }
 
   @Override
-  protected void parseCommand(String command) {
-    String[] words = command.split(" ");
+  protected void parseNode(Node node) {
+    NamedNodeMap attrs = node.getAttributes();
 
-    String name = words[1];
-    boolean isMult = Boolean.parseBoolean(words[2]);
+    String name = attrs.getNamedItem("className").getNodeValue();
+    boolean isMult = Boolean.parseBoolean(attrs.getNamedItem("isMult").getNodeValue());
 
     ClassCatalog.getInstance().add(new NewsClass(name, isMult));
   }

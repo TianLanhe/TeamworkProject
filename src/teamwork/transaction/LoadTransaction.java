@@ -1,18 +1,20 @@
 package teamwork.transaction;
 
+import org.w3c.dom.Node;
+
 public abstract class LoadTransaction extends Transaction {
 
-  private String command;
+  private Node node;
 
-  public LoadTransaction(String str) {
-    command = str;
+  public LoadTransaction(Node node) {
+    this.node = node;
   }
 
   @Override
   public void execute() {
-    parseCommand(command);
+    parseNode(node);
   }
 
-  protected abstract void parseCommand(String command);
+  protected abstract void parseNode(Node node);
 
 }
