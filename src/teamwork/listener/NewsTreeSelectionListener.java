@@ -11,9 +11,9 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
-import teamwork.model.NewsTreeModel;
 import teamwork.model.Tag;
+import teamwork.model.viewmodel.NewsListModel;
+import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
 @SuppressWarnings("rawtypes")

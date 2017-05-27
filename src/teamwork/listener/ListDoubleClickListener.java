@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JList;
 
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
+import teamwork.model.viewmodel.NewsListModel;
 import teamwork.window.NewsTextWindow;
 
 public class ListDoubleClickListener implements MouseListener {

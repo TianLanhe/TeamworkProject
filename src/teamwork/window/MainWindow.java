@@ -21,8 +21,8 @@ import teamwork.listener.SaveListener;
 import teamwork.listener.UpdateContentListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
-import teamwork.model.NewsTreeModel;
+import teamwork.model.viewmodel.NewsListModel;
+import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
 public class MainWindow extends AbstractWindow {

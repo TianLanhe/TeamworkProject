@@ -13,7 +13,7 @@ import javax.swing.tree.TreePath;
 
 import teamwork.controler.NewsLoadingControler;
 import teamwork.loader.NewsLoader;
-import teamwork.model.NewsTreeModel;
+import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
 public class LoadFileListener implements ActionListener {

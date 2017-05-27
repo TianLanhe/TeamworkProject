@@ -1,9 +1,13 @@
-package teamwork.model;
+package teamwork.model.viewmodel;
 
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+
+import teamwork.model.ClassCatalog;
+import teamwork.model.NewsClass;
+import teamwork.model.Tag;
 
 public class NewsTreeModel extends DefaultTreeModel {
 

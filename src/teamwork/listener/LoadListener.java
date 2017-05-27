@@ -12,8 +12,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import teamwork.model.NewsTreeModel;
 import teamwork.model.controler.LoadControler;
+import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
 public class LoadListener implements ActionListener {

@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
+import teamwork.model.viewmodel.NewsListModel;
 import teamwork.r.R;
 
 public class RevokeDeleteListener implements ActionListener {

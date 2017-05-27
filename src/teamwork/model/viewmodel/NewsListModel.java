@@ -1,4 +1,4 @@
-package teamwork.model;
+package teamwork.model.viewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 
 public class NewsListModel<T> extends AbstractListModel<T> {
+  
   private static final long serialVersionUID = 1L;
 
   private List<T> list;
