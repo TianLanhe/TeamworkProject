@@ -7,7 +7,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -28,10 +28,10 @@ public class LoadFileListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     // 创建文件选择器
     JFileChooser jfc = new JFileChooser();
-    jfc.setCurrentDirectory(jfc.getSelectedFile()); 
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    jfc.addChoosableFileFilter(new XmlFileFilter("xml"));
-    
+    FileNameExtensionFilter filter = new FileNameExtensionFilter(".xml", "xml");
+    jfc.setFileFilter(filter);
+
     int state = jfc.showOpenDialog(null);
     if (state == JFileChooser.APPROVE_OPTION) {
       NewsLoadingControler dataLoadingControler = new NewsLoadingControler(new NewsLoader());
@@ -54,36 +54,6 @@ public class LoadFileListener implements ActionListener {
         JOptionPane.showMessageDialog(null, "成功读取 " + count + " 条新闻", "加载成功",
             JOptionPane.INFORMATION_MESSAGE);
       }
-    }
-  }
-
-  // JFileChoose的文件过滤器，筛选XML文件
-  private class XmlFileFilter extends FileFilter {
-    String xml;
-
-    public XmlFileFilter(String xml) {
-      this.xml = xml;
-    }
-
-    @Override
-    public boolean accept(File f) {
-      if (f.isDirectory()) {
-        return true;
-      }
-      String fileName = f.getName();
-      int index = fileName.lastIndexOf('.');
-      if (index > 0 && index < fileName.length() - 1) {
-        String extension = fileName.substring(index + 1).toLowerCase();
-        if (extension.equals(xml)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    public String getDescription() {
-      return "*." + xml;
     }
   }
 }

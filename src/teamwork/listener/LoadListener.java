@@ -2,95 +2,56 @@ package teamwork.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD
-import java.io.BufferedWriter;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-=======
-import java.io.File;
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
+import javax.swing.JOptionPane;
+import javax.swing.JTree;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
+import teamwork.model.NewsTreeModel;
+import teamwork.model.controler.LoadControler;
+import teamwork.r.R;
 
 public class LoadListener implements ActionListener {
 
-<<<<<<< HEAD
-  private FileWriter fileWriter;
-  private BufferedWriter out;
-  
+  private JTree tagsTree;
+
+  public LoadListener() {
+    tagsTree = (JTree) R.getInstance().getObject("tagsTree");
+  }
+
   @Override
   public void actionPerformed(ActionEvent e) {
-=======
-
-  public void actionPerformed(ActionEvent e) {
     // 创建文件选择器
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
     JFileChooser jfc = new JFileChooser();
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    jfc.addChoosableFileFilter(new MmpFileFilter("mmp"));
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("进度文件(*.mmp)", "mmp");
+    jfc.setFileFilter(filter);
 
-<<<<<<< HEAD
-    if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-
-    }
-    int state = jfc.showSaveDialog(null);
+    int state = jfc.showDialog(null, "读取");
     if (state == JFileChooser.APPROVE_OPTION) {
-      try {
-        File dir = jfc.getCurrentDirectory();
-        String name = jfc.getSelectedFile().getName();
-        File file = new File(dir, name);
-        fileWriter = new FileWriter(file);
-        out = new BufferedWriter(fileWriter);
-        out.close();
-        fileWriter.close();
-      } catch (IOException exp) {}
-    }
-  }
-
-=======
-    int state = jfc.showOpenDialog(null);
-    if (state == JFileChooser.APPROVE_OPTION) {
-      
-     
-      
-    }
-  }
-
-  // JFileChoose的文件过滤器，筛选XML文件
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
-  private class MmpFileFilter extends FileFilter {
-    String mmp;
-
-    public MmpFileFilter(String mmp) {
-      this.mmp = mmp;
-    }
-
-    @Override
-    public boolean accept(File f) {
-      if (f.isDirectory()) {
-        return true;
-      }
-      String fileName = f.getName();
-      int index = fileName.lastIndexOf('.');
-      if (index > 0 && index < fileName.length() - 1) {
-        String extension = fileName.substring(index + 1).toLowerCase();
-        if (extension.equals(mmp)) {
-          return true;
+      File file = jfc.getSelectedFile();
+      if (!file.exists()) {
+        JOptionPane.showMessageDialog(null, "文件不存在，读取失败！", "错误", JOptionPane.ERROR_MESSAGE);
+      } else {
+        LoadControler loadControler = new LoadControler();
+        if (!loadControler.load(file)) {
+          JOptionPane.showMessageDialog(null, "读取失败！", "错误", JOptionPane.ERROR_MESSAGE);
         }
-      }
-      return false;
-    }
 
-    @Override
-    public String getDescription() {
-      return "*." + mmp;
+        // 更新树结构
+        NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
+        model.updateTree();
+
+        TreeNode[] nodes = model.getPathToRoot("未分类");
+        TreePath path = new TreePath(nodes);
+        // 显示"未分类"标签下的新闻
+        tagsTree.setSelectionPath(path);
+      }
     }
   }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 4a2f2d51d824c6c09fe6cbd99ed9087fba35c98b
 }

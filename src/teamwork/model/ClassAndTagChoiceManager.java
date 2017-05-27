@@ -1,6 +1,5 @@
 package teamwork.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,9 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ClassAndTagChoiceManager implements Serializable {
-  private static final long serialVersionUID = 1L;
-  
+public class ClassAndTagChoiceManager{
   private Map<NewsClass, List<Tag>> map;
 
   public ClassAndTagChoiceManager() {
