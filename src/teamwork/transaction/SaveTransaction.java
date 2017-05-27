@@ -1,18 +1,20 @@
 package teamwork.transaction;
 
-import java.io.PrintWriter;
+import org.w3c.dom.Element;
+
+import teamwork.util.XMLCreator;
 
 public abstract class SaveTransaction extends Transaction {
-  private PrintWriter printer;
+  protected XMLCreator creator;
 
-  public SaveTransaction(PrintWriter p) {
-    printer = p;
+  public SaveTransaction(XMLCreator c) {
+    creator = c;
   }
 
-  protected abstract String getCommandString();
+  protected abstract Element createElement();
 
   @Override
   public void execute() {
-    printer.println(getCommandString());
+    creator.appendChild(createElement());
   }
 }

@@ -1,21 +1,25 @@
 package teamwork.transaction;
 
-import java.io.PrintWriter;
+import org.w3c.dom.Element;
 
 import teamwork.model.News;
+import teamwork.util.XMLCreator;
 
 public class SaveDeleteNewsTransaction extends SaveTransaction {
 
   private News news;
 
-  public SaveDeleteNewsTransaction(PrintWriter p, News news) {
-    super(p);
+  public SaveDeleteNewsTransaction(XMLCreator creator, News news) {
+    super(creator);
     this.news = news;
   }
 
   @Override
-  protected String getCommandString() {
-    return "deleteNews " + news.getId();
+  protected Element createElement() {
+    Element element = creator.getNewElement("Transaction");
+    element.setAttribute("name", Transaction.DELETE_NEWS);
+    element.setAttribute("id", news.getId());
+    return element;
   }
 
 }

@@ -2,9 +2,7 @@ package teamwork.model.controler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +19,7 @@ import teamwork.transaction.SaveDeleteNewsTransaction;
 import teamwork.transaction.SavePostTagTransaction;
 import teamwork.transaction.SaveTagRelationTransaction;
 import teamwork.transaction.TransactionSource;
+import teamwork.util.XMLCreator;
 
 public class SaveControler {
 
@@ -33,17 +32,17 @@ public class SaveControler {
       // 若文件不存在，则新建该文件
       if (!file.exists()) file.createNewFile();
 
-      PrintWriter printer = new PrintWriter(new FileWriter(file));
+      XMLCreator creator = new XMLCreator("Transactions");
       TransactionSource source = new TransactionSource();
 
       List<SaveTagRelationTransaction> transactions = new ArrayList<SaveTagRelationTransaction>();
       for (NewsClass c : ClassCatalog.getInstance().getClassList()) {
-        source.add(new SaveAddNewsClassTransaction(printer, c));
+        source.add(new SaveAddNewsClassTransaction(creator, c));
 
         for (Tag tag : c.getTagsList()) {
-          source.add(new SaveAddTagTransaction(printer, tag));
+          source.add(new SaveAddTagTransaction(creator, tag));
           if (tag.hasNextClass()) {
-            transactions.add(new SaveTagRelationTransaction(printer, tag));
+            transactions.add(new SaveTagRelationTransaction(creator, tag));
           }
         }
       }
@@ -52,18 +51,18 @@ public class SaveControler {
       }
 
       for (News news : NewsCatalog.getInstance().getNewsList()) {
-        source.add(new SaveAddNewsTransaction(printer, news));
+        source.add(new SaveAddNewsTransaction(creator, news));
         for (Tag tag : news.getTags()) {
-          source.add(new SavePostTagTransaction(printer, news, tag));
+          source.add(new SavePostTagTransaction(creator, news, tag));
         }
       }
 
       for (News news : BinCatalog.getInstance().getNewsList()) {
-        source.add(new SaveDeleteNewsTransaction(printer, news));
+        source.add(new SaveDeleteNewsTransaction(creator, news));
       }
 
       source.run();
-      printer.close();
+      creator.output(file);
     } catch (FileNotFoundException e) {
       return false;
     } catch (IOException e) {
