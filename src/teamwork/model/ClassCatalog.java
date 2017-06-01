@@ -90,7 +90,7 @@ public class ClassCatalog {
     return l;
   }
 
-  public void addRelation(Tag tag, NewsClass nextClass) {
+  public void tieNewsClass(Tag tag, NewsClass nextClass) {
     if (nextClass == null) {
       if (tagNextToClass.containsKey(tag)) {
         tagNextToClass.remove(tag);

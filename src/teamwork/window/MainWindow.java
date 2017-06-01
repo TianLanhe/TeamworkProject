@@ -2,15 +2,12 @@ package teamwork.window;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
@@ -24,8 +21,8 @@ import teamwork.listener.SaveListener;
 import teamwork.listener.UpdateContentListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
-import teamwork.model.NewsTreeModel;
+import teamwork.model.viewmodel.NewsListModel;
+import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
 public class MainWindow extends AbstractWindow {
@@ -50,17 +47,13 @@ public class MainWindow extends AbstractWindow {
   @Override
   protected void addListener() {
     newsList.addMouseListener(new ListDoubleClickListener());
-    
+
     loadFileButton.addActionListener(new LoadFileListener());
     updateButton.addActionListener(new UpdateContentListener());
     recycleButton.addActionListener(new OpenRecycleBinListener());
-
     saveButton.addActionListener(new SaveListener());
     loadButton.addActionListener(new LoadListener());
-
     deleteButton.addActionListener(new DeleteNewsListener());
-    loadButton.addActionListener(new LoadListener());
-
 
     parentTree.addTreeSelectionListener(new NewsTreeSelectionListener());
   }
@@ -103,7 +96,7 @@ public class MainWindow extends AbstractWindow {
     saveButton.setBounds(10, 342, 120, 40);
     loadButton.setBounds(10, 420, 120, 40);
     recycleButton.setBounds(10, 498, 120, 40);
-    
+
     buttonPanel.add(loadFileButton);
     buttonPanel.add(updateButton);
     buttonPanel.add(statisticsButton);

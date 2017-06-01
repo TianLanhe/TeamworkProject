@@ -12,7 +12,7 @@ import teamwork.listener.PermanentlyDeleteListener;
 import teamwork.listener.RevokeDeleteListener;
 import teamwork.model.BinCatalog;
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
+import teamwork.model.viewmodel.NewsListModel;
 import teamwork.r.R;
 
 

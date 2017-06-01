@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import teamwork.model.ClassCatalog;
 import teamwork.model.NewsClass;
-import teamwork.model.NewsTreeModel;
 import teamwork.model.Tag;
+import teamwork.model.viewmodel.NewsTreeModel;
 
 public class NewsTreeModelTest {
 

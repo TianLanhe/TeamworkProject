@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import teamwork.model.BinCatalog;
 import teamwork.model.News;
 import teamwork.model.NewsCatalog;
-import teamwork.model.NewsListModel;
+import teamwork.model.viewmodel.NewsListModel;
 import teamwork.r.R;
 
 public class PermanentlyDeleteListener implements ActionListener {

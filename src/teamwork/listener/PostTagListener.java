@@ -10,22 +10,22 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
-import teamwork.model.NewsTreeModel;
 import teamwork.model.Tag;
+import teamwork.model.viewmodel.NewsTreeModel;
+import teamwork.model.viewmodel.TagListModel;
 import teamwork.r.R;
 import teamwork.window.NewsTextWindow;
 
 public class PostTagListener implements ActionListener {
 
   private JTree tagsTree;
-  private JList<Tag> tagsList;
+  private JList<String> tagsList;
 
   @SuppressWarnings("unchecked")
   public PostTagListener() {
     R r = R.getInstance();
     tagsTree = (JTree) r.getObject("tagsTree");
-    tagsList = (JList<Tag>) r.getObject("tagsList");
+    tagsList = (JList<String>) r.getObject("tagsList");
   }
 
   @Override
@@ -67,7 +67,7 @@ public class PostTagListener implements ActionListener {
           JOptionPane.showMessageDialog(null, "无法重复贴上 " + tagName + " 标签！", "贴标签",
               JOptionPane.WARNING_MESSAGE);
         }
-        ((NewsListModel<Tag>) tagsList.getModel()).setListData(news.getTagsList());
+        ((TagListModel) tagsList.getModel()).setListData(news.getTagsList());
       }
     }
   }

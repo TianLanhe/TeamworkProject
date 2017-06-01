@@ -1,46 +1,33 @@
 package teamwork.model.controler;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.List;
-import java.util.Map;
 
-import teamwork.model.BinCatalog;
-import teamwork.model.ClassCatalog;
-import teamwork.model.News;
-import teamwork.model.NewsCatalog;
-import teamwork.model.NewsClass;
-import teamwork.model.Tag;
+import teamwork.transaction.TransactionSource;
+import teamwork.transaction.factory.LoadTransactionFactory;
+import teamwork.util.XMLParser;
 
 public class LoadControler {
   public boolean load(String fileName) {
     return load(new File(fileName));
   }
 
-  @SuppressWarnings("unchecked")
-  private boolean load(File file) {
-    try {
-      // 若文件不存在，则返回false
-      if (!file.exists()) return false;
+  public boolean load(File file) {
+    // 若文件不存在，则返回false
+    if (!file.exists()) return false;
 
-      ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
-
-      NewsCatalog.getInstance().setNewsList((List<News>) objIn.readObject());
-      ClassCatalog.getInstance().setClassList((List<NewsClass>) objIn.readObject());
-      ClassCatalog.getInstance().setTagToClassMap((Map<Tag, NewsClass>) objIn.readObject());
-      BinCatalog.getInstance().setNewsList((List<News>) objIn.readObject());
-
-      objIn.close();
-    } catch (FileNotFoundException e) {
-      return false;
-    } catch (IOException e) {
-      return false;
-    } catch (ClassNotFoundException e) {
+    XMLParser parser = new XMLParser();
+    if (!parser.loadFrom(file, "Transaction")){
       return false;
     }
-    return false;
+
+    TransactionSource source = new TransactionSource();
+    LoadTransactionFactory factory = new LoadTransactionFactory();
+
+    while (parser.hasNext()) {
+      source.add(factory.create(parser.next()));
+    }
+
+    source.run();
+    return true;
   }
 }

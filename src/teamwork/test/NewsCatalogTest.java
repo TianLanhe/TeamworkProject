@@ -26,50 +26,25 @@ public class NewsCatalogTest {
     News news = new News();
     news.setId("new_id");
     Assert.assertFalse(catalog.contains(news));// containsNews()
+    Assert.assertFalse(catalog.contains(news.getId()));// containsNews()
 
     catalog.add(news);
     Assert.assertEquals(2, catalog.size());
     Assert.assertTrue(catalog.contains(news));
+    Assert.assertTrue(catalog.contains(news.getId()));
 
     catalog.add(news);
     Assert.assertEquals(2, catalog.size());// addNews()
 
     Assert.assertEquals(0, catalog.indexOf(new News()));// indexOfNews()
+    Assert.assertEquals(0, catalog.indexOf(""));
     Assert.assertEquals(1, catalog.indexOf(news));
+    Assert.assertEquals(1, catalog.indexOf(news.getId()));
 
     catalog.remove(0);// removeNews()
     Assert.assertEquals(1, catalog.size());
 
-    catalog.remove(news);
-    Assert.assertEquals(0, catalog.size());
-  }
-
-  @Test
-  public void findNewsTest() {
-    News news1 = new News();
-    news1.setId("新闻1");
-    catalog.add(news1);
-
-    News news2 = new News();
-    news2.setId("新闻2");
-    catalog.add(news2);
-
-    News news3 = new News();
-    news3.setId("新闻3");
-    catalog.add(news3);
-
-    Assert.assertEquals(news1, catalog.findPrev(news2));
-    Assert.assertEquals(news3, catalog.findNext(news2));
-
-    Assert.assertEquals(news1, catalog.findPrev(news1));
-    Assert.assertEquals(news2, catalog.findNext(news1));
-
-    Assert.assertEquals(news2, catalog.findPrev(news3));
-    Assert.assertEquals(news3, catalog.findNext(news3));
-
-    catalog.remove(0);
-    catalog.remove(0);
-    catalog.remove(0);
+    catalog.remove(news.getId());
     Assert.assertEquals(0, catalog.size());
   }
 
