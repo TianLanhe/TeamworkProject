@@ -16,12 +16,16 @@ import teamwork.transaction.SaveAddNewsClassTransaction;
 import teamwork.transaction.SaveAddNewsTransaction;
 import teamwork.transaction.SaveAddTagTransaction;
 import teamwork.transaction.SaveDeleteNewsTransaction;
+import teamwork.transaction.SavePasswordTransaction;
 import teamwork.transaction.SavePostTagTransaction;
 import teamwork.transaction.SaveTagRelationTransaction;
 import teamwork.transaction.TransactionSource;
 import teamwork.util.XMLCreator;
 
 public class SaveControler {
+
+  private XMLCreator creator = new XMLCreator("Transactions");
+  private TransactionSource source = new TransactionSource();
 
   public boolean save(String fileName) {
     return save(new File(fileName));
@@ -31,9 +35,6 @@ public class SaveControler {
     try {
       // 若文件不存在，则新建该文件
       if (!file.exists()) file.createNewFile();
-
-      XMLCreator creator = new XMLCreator("Transactions");
-      TransactionSource source = new TransactionSource();
 
       List<SaveTagRelationTransaction> transactions = new ArrayList<SaveTagRelationTransaction>();
       for (NewsClass c : ClassCatalog.getInstance().getClassList()) {
@@ -69,5 +70,13 @@ public class SaveControler {
       return false;
     }
     return true;
+  }
+
+  public void addPassword(char[] pwd) {
+    addPassword(new String(pwd));
+  }
+
+  public void addPassword(String password) {
+    source.add(new SavePasswordTransaction(creator, password));
   }
 }
