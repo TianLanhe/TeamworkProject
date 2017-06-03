@@ -208,7 +208,6 @@ public class NewsTextWindow extends AbstractWindow {
   protected void initWindow() {
     super.initWindow();
     setTitle("留守儿童新闻报导");
-
     setLayout(null);
   }
 

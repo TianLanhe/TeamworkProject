@@ -18,6 +18,7 @@ import teamwork.listener.LoadListener;
 import teamwork.listener.NewsTreeSelectionListener;
 import teamwork.listener.OpenRecycleBinListener;
 import teamwork.listener.SaveListener;
+import teamwork.listener.TestListener;
 import teamwork.listener.UpdateContentListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
@@ -35,6 +36,7 @@ public class MainWindow extends AbstractWindow {
   private JButton deleteButton;
   private JButton saveButton;
   private JButton loadButton;
+  private JButton testButton;
   private JButton recycleButton;
 
   private JList<News> newsList;
@@ -54,7 +56,8 @@ public class MainWindow extends AbstractWindow {
     saveButton.addActionListener(new SaveListener());
     loadButton.addActionListener(new LoadListener());
     deleteButton.addActionListener(new DeleteNewsListener());
-
+    testButton.addActionListener(new TestListener());
+    
     parentTree.addTreeSelectionListener(new NewsTreeSelectionListener());
   }
 
@@ -86,16 +89,19 @@ public class MainWindow extends AbstractWindow {
     saveButton.setFont(font);
     loadButton = new JButton("读取进度");
     loadButton.setFont(font);
+    testButton = new JButton("合并测试");
+    testButton.setFont(font);
     recycleButton = new JButton("回收站");
     recycleButton.setFont(font);
 
     loadFileButton.setBounds(10, 30, 120, 40);
-    updateButton.setBounds(10, 108, 120, 40);
-    statisticsButton.setBounds(10, 186, 120, 40);
-    deleteButton.setBounds(10, 264, 120, 40);
-    saveButton.setBounds(10, 342, 120, 40);
-    loadButton.setBounds(10, 420, 120, 40);
-    recycleButton.setBounds(10, 498, 120, 40);
+    updateButton.setBounds(10, 98, 120, 40);
+    statisticsButton.setBounds(10, 166, 120, 40);
+    deleteButton.setBounds(10, 234, 120, 40);
+    saveButton.setBounds(10, 302, 120, 40);
+    loadButton.setBounds(10, 370, 120, 40);
+    testButton.setBounds(10, 438, 120, 40);
+    recycleButton.setBounds(10, 506, 120, 40);
 
     buttonPanel.add(loadFileButton);
     buttonPanel.add(updateButton);
@@ -103,6 +109,7 @@ public class MainWindow extends AbstractWindow {
     buttonPanel.add(deleteButton);
     buttonPanel.add(saveButton);
     buttonPanel.add(loadButton);
+    buttonPanel.add(testButton);
     buttonPanel.add(recycleButton);
 
     buttonPanel.setBounds(10, 0, 130, 600);
@@ -144,7 +151,7 @@ public class MainWindow extends AbstractWindow {
     JScrollPane treePane = new JScrollPane(parentTree);
 
     add(treePane);
-    treePane.setBounds(780, 30, 200, 510);
+    treePane.setBounds(780, 30, 200, 516);
 
     this.validate();
   }

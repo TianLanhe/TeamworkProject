@@ -2,52 +2,36 @@ package teamwork.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.util.prefs.Preferences;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
 import javax.swing.JPasswordField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import teamwork.model.controler.SaveControler;
 
-public class SaveListener implements ActionListener {
+public class SaveTestListener implements ActionListener {
 
-  private int returnVal;
-  private char[] pwd;
   private JFileChooser jfc = new JFileChooser();
-
+  
   @Override
   public void actionPerformed(ActionEvent e) {
-    
+  
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-    jfc.setSelectedFile(new File(".mmp"));
+    jfc.setSelectedFile(new File(".test"));
+    jfc.setCurrentDirectory(jfc.getSelectedFile());
     FileNameExtensionFilter filter = new FileNameExtensionFilter(  
-      "进度文件(*.mmp)", "mmp");  
+      "测试文件(*.test)", "test");  
     jfc.setFileFilter(filter); 
     jfc.setCurrentDirectory(jfc.getSelectedFile());
-    
-    returnVal = jfc.showOpenDialog(null);
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-      JPasswordField pw = new JPasswordField();
-      JOptionPane.showMessageDialog(null, pw, "请设定6位密码", JOptionPane.PLAIN_MESSAGE);
-      
-      pwd = pw.getPassword();
-      while(pwd.length != 6){
-        JOptionPane.showMessageDialog(null,pw,"密码必须为6位", JOptionPane.PLAIN_MESSAGE);
-        pwd = pw.getPassword();
-        }
-    }
-    
+   
     int state = jfc.showSaveDialog(null);
     if (state == JFileChooser.APPROVE_OPTION) {
       String name = jfc.getSelectedFile().getName();
-      if (name.length() < 4 || name.indexOf(".mmp") != name.length() - 4) {
-        name += ".mmp";
+      if (name.length() < 5 || name.indexOf(".test") != name.length() - 5) {
+        name += ".test";
       }
 
       File file = new File(jfc.getCurrentDirectory(), name);
