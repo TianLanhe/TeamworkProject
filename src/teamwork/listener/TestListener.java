@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import teamwork.window.TestWindow;
 
-public class TestListener implements ActionListener{
+public class TestListener implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
