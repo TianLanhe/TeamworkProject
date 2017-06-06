@@ -106,6 +106,10 @@ public class News{
   public int sizeTag() {
     return manager.tagSize();
   }
+  
+  public int getYear(){
+    return date.get(Calendar.YEAR);
+  }
 
   // //////////////////////////////////////////////
   // //////////////////////////////////////////////

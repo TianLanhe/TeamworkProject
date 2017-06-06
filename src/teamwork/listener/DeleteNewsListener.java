@@ -11,7 +11,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import teamwork.model.News;
-import teamwork.model.NewsTreeModel;
+import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
 public class DeleteNewsListener implements ActionListener {

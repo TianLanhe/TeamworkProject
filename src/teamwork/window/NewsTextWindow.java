@@ -19,9 +19,8 @@ import teamwork.listener.PostTagListener;
 import teamwork.listener.TearTagListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
-import teamwork.model.NewsListModel;
-import teamwork.model.NewsTreeModel;
-import teamwork.model.Tag;
+import teamwork.model.viewmodel.NewsTreeModel;
+import teamwork.model.viewmodel.TagListModel;
 import teamwork.r.R;
 
 public class NewsTextWindow extends AbstractWindow {
@@ -41,7 +40,7 @@ public class NewsTextWindow extends AbstractWindow {
   private JButton addLabel;// 添加标签
   private JButton deleteLabel;// 删除标签
 
-  private JList<Tag> tagsList;
+  private JList<String> tagsList;
 
   private JTree parentTree;
 
@@ -65,7 +64,7 @@ public class NewsTextWindow extends AbstractWindow {
     content.setText(news.getContent());
     content.setCaretPosition(0);// 将光标移动到开头
 
-    ((NewsListModel<Tag>) tagsList.getModel()).setListData(news.getTagsList());
+    ((TagListModel) tagsList.getModel()).setListData(news.getTagsList());
   }
 
   public void changeNews(News news) {
@@ -173,7 +172,7 @@ public class NewsTextWindow extends AbstractWindow {
     tagLabel.setBounds(0, 10, 100, 20);
     labelPane.add(tagLabel);
 
-    tagsList = new JList<Tag>(new NewsListModel<Tag>());
+    tagsList = new JList<String>(new TagListModel());
     JScrollPane labelsPlayPane = new JScrollPane(tagsList);
     tagsList.setFont(font);
     // tagsList.setFixedCellHeight(20);
@@ -209,7 +208,6 @@ public class NewsTextWindow extends AbstractWindow {
   protected void initWindow() {
     super.initWindow();
     setTitle("留守儿童新闻报导");
-
     setLayout(null);
   }
 
