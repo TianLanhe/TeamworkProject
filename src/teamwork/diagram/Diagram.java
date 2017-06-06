@@ -24,7 +24,15 @@ public abstract class Diagram {
   
   public Diagram(double[] values, String[] keys) {
       setCategoryDataset(values, keys);
+
+      StandardChartTheme mChartTheme = new StandardChartTheme("CN");
+      mChartTheme.setExtraLargeFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 20)); // ÉèÖÃ±êÌâ×ÖÌå
+      mChartTheme.setLargeFont(new Font("Î¢ÈíÑÅºÚ", Font.CENTER_BASELINE, 12)); // ÉèÖÃÖáÏò×ÖÌå
+      mChartTheme.setRegularFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 12)); // ÉèÖÃÍ¼Àı×ÖÌå
+      ChartFactory.setChartTheme(mChartTheme);
+      
       diagram = createDiagram();
+      diagram.removeLegend();
   }
 
   public DefaultCategoryDataset getCategoryDataset() {
@@ -49,15 +57,6 @@ public abstract class Diagram {
   }
 
   public void draw() {
-    StandardChartTheme mChartTheme = new StandardChartTheme("CN");
-    mChartTheme.setExtraLargeFont(new Font("Î¢ÈíÑÅºÚ", Font.BOLD, 20)); // ÉèÖÃ±êÌâ×ÖÌå
-    mChartTheme.setLargeFont(new Font("Î¢ÈíÑÅºÚ", Font.CENTER_BASELINE, 12)); // ÉèÖÃÖáÏò×ÖÌå
-    mChartTheme.setRegularFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 12)); // ÉèÖÃÍ¼Àı×ÖÌå
-    ChartFactory.setChartTheme(mChartTheme);
-
-    diagram = createDiagram();
-    diagram.removeLegend();
-
     ChartFrame frame = new ChartFrame(frameTitle, diagram, true);
     frame.pack();
     RefineryUtilities.centerFrameOnScreen(frame);
