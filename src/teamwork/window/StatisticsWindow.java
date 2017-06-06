@@ -45,7 +45,7 @@ public class StatisticsWindow extends AbstractWindow {
     parentTree = new JTree(treeModel);
     parentTree.setRowHeight(20);// 调整间距
     parentTree.setRootVisible(false);// 根节点不可见
-    parentTree.setToggleClickCount(1);// 单击一次展开节点
+    parentTree.setToggleClickCount(2);// 单击二次展开节点
     parentTree.setFont(new Font("宋体", 0, 14));
 
     JScrollPane treePane = new JScrollPane(parentTree);
@@ -66,6 +66,7 @@ public class StatisticsWindow extends AbstractWindow {
     diagramPanel = new JPanel();
     add(diagramPanel);
     diagramPanel.setBounds(30, 70, 700, 440);
+    diagramPanel.setBackground(Color.WHITE);
 
     numLabel = new JLabel("一共有 XXX 条新闻");
     numLabel.setFont(font);

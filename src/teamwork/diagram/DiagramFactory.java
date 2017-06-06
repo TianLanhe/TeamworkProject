@@ -12,6 +12,10 @@ public class DiagramFactory {
     double[] groupValues = arrayGroup.getValueGroup();
     String[] groupKeys = arrayGroup.getCategoryGroup();
 
+    return createDiagram(chartName, groupValues, groupKeys);
+  }
+
+  public static Diagram createDiagram(String chartName, double[] groupValues, String[] groupKeys) {
     if (chartName.equals("bar")) {
       return new BarDiagram(groupValues, groupKeys);
     } else if (chartName.equals("line")) {
@@ -23,14 +27,5 @@ public class DiagramFactory {
     } else {
       return null;
     }
-  }
-
-  public static Diagram createDiagram(String chartName, double[] values, String[] keys) {
-    int start;
-    if (keys.length != 0)
-      start = Integer.parseInt(keys[0]);
-    else
-      start = 0;
-    return createDiagram(chartName, values, keys, start, 0);
   }
 }

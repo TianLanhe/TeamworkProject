@@ -32,12 +32,28 @@ public class NewsTreeStatisticsListener extends MyTreeSelectionListener {
     if (node.getUserObject() instanceof Tag) {
       getNewsList();
 
-      displayLineDiagram();
       displayNumLabel();
       displayTagLabel();
+      displayLineDiagram();
     } else if (node.getUserObject() instanceof NewsClass) {
-
+      createPieDiagram((NewsClass) node.getUserObject());
     }
+  }
+
+  private void createPieDiagram(NewsClass c) {
+    String[] keys = new String[c.sizeTag()];
+    for(int i=0;i<c.sizeTag();++i)
+      keys[i] = c.getTag(i).getName();
+    
+    double[] values = new double[c.sizeTag()];
+    for(int i=0;i<c.sizeTag();++i)
+      values[i] = c.getTag(i).getNewsList().size();
+    
+    Diagram diagram = DiagramFactory.createDiagram("pie", values, keys);
+    diagramPanel.removeAll();
+    diagramPanel.add(diagram.getPanel());
+    diagramPanel.validate();
+    //diagram.draw();
   }
 
   private void displayLineDiagram() {
