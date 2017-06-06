@@ -18,6 +18,7 @@ import teamwork.listener.LoadListener;
 import teamwork.listener.NewsTreeSelectionListener;
 import teamwork.listener.OpenRecycleBinListener;
 import teamwork.listener.SaveListener;
+import teamwork.listener.StatisticsListener;
 import teamwork.listener.TestListener;
 import teamwork.listener.UpdateContentListener;
 import teamwork.model.ClassCatalog;
@@ -57,6 +58,7 @@ public class MainWindow extends AbstractWindow {
     loadButton.addActionListener(new LoadListener());
     deleteButton.addActionListener(new DeleteNewsListener());
     testButton.addActionListener(new TestListener());
+    statisticsButton.addActionListener(new StatisticsListener());
     
     parentTree.addTreeSelectionListener(new NewsTreeSelectionListener());
   }
