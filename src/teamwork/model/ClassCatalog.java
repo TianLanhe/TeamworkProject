@@ -100,14 +100,6 @@ public class ClassCatalog {
   }
   
   public void clear(){
-    for(NewsClass c:list){
-      for(Tag t:c.getTagsList()){
-        for(News n:t.getNewsList()){
-          n.tearTag(t);
-        }
-      }
-      while(c.sizeTag()>0)c.removeTag(0);
-    }
     tagNextToClass.clear();
     list.clear();
   }

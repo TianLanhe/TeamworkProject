@@ -14,7 +14,6 @@ import teamwork.listener.LoadTestListener;
 import teamwork.listener.SaveTestListener;
 import teamwork.model.ClassCatalog;
 import teamwork.model.News;
-import teamwork.model.controler.TagsInitControler;
 import teamwork.model.viewmodel.NewsListModel;
 import teamwork.r.R;
 
@@ -30,14 +29,8 @@ public class TestWindow extends AbstractWindow {
   
   private ClassCatalog catalog;
 
-  private static boolean first = true;// 判断是不是第一次打开此界面，是的话初始化ClassCatalog
-
   public TestWindow() {
     catalog = ClassCatalog.getInstance("testCatalog");// 获得界面测试用的ClassCatalog
-    if (first) {// 第一次打开则初始化ClassCatalog
-      first = false;
-      new TagsInitControler(catalog).init();
-    }
   }
 
   @Override

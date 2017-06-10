@@ -94,11 +94,6 @@ public class NewsCatalog {
   }
 
   public void clear() {
-    for (News n : newsList) {
-      for (Tag t : n.getTags()) {
-        n.tearTag(t);
-      }
-    }
     newsList.clear();
   }
 
