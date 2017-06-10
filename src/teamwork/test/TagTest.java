@@ -1,9 +1,11 @@
 package teamwork.test;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.NewsClass;
 import teamwork.model.Tag;
@@ -11,10 +13,18 @@ import teamwork.model.Tag;
 public class TagTest {
   
   private static NewsClass newsClass;
+  private static ClassCatalog catalog;
   
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
+    catalog = ClassCatalog.getInstance();
     newsClass = new NewsClass("this is a class");
+    catalog.add(newsClass);
+  }
+  
+  @AfterClass
+  public static void afterClass() throws Exception{
+    catalog.remove(newsClass);
   }
 
   @Test
@@ -27,9 +37,11 @@ public class TagTest {
   @Test
   public void tagHasNextClassTest() {
     NewsClass c = new NewsClass("this is a news class");
+    catalog.add(c);
     Tag tag = new Tag("this is a tag",newsClass,c);
     Assert.assertEquals(c, tag.getNextClass());
     Assert.assertTrue(tag.hasNextClass());
+    catalog.remove(c);
   }
 
   @Test

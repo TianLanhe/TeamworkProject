@@ -41,7 +41,7 @@ public class StatisticsWindow extends AbstractWindow {
   protected void init() {
     Font font = new Font("宋体", 1, 20);
 
-    NewsTreeModel treeModel = new NewsTreeModel(ClassCatalog.getInstance());
+    NewsTreeModel treeModel = new NewsTreeModel(ClassCatalog.getInstance());//TODO
     parentTree = new JTree(treeModel);
     parentTree.setRowHeight(20);// 调整间距
     parentTree.setRootVisible(false);// 根节点不可见

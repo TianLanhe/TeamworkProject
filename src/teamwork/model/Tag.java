@@ -11,14 +11,14 @@ public class Tag{
   private String name;
   
   public Tag(String name,NewsClass parent,NewsClass next){
-    this.name = name;
-    this.parent = parent;
+    this(name,parent);
     setNextClass(next);
-    newsList = new ArrayList<News>();
   }
 
   public Tag(String name,NewsClass parent) {
-    this(name,parent,null);
+    this.name = name;
+    this.parent = parent;
+    newsList = new ArrayList<News>();
   }
 
   public boolean hasNextClass() {
@@ -98,7 +98,7 @@ public class Tag{
   
   public void setNextClass(NewsClass nextClass) {
     this.nextClass = nextClass;
-    ClassCatalog.getInstance().tieNewsClass(this,nextClass);
+    nextClass.getParent().tieNewsClass(this,nextClass);
   }
 
   // //////////////////////////////////////////////

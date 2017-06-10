@@ -4,6 +4,7 @@ import java.io.File;
 
 import teamwork.transaction.TransactionSource;
 import teamwork.transaction.factory.LoadTransactionFactory;
+import teamwork.transaction.factory.TransactionFactory;
 import teamwork.util.XMLParser;
 
 import org.w3c.dom.NamedNodeMap;
@@ -21,12 +22,18 @@ public class LoadControler {
     // 若文件不存在，则返回false
     if (!file.exists()) return false;
 
-    if (!parser.loadFrom(file, "Transaction")) {
+    // 不是进度文件，则返回false
+    if (!parser.loadFrom(file, "Transactions") || !parser.hasNext()) {
+      return false;
+    }
+
+    // 无法解析进度文件中的Transaction节点或无Transaction节点
+    if (!parser.loadFrom(file, "Transaction") || !parser.hasNext()) {
       return false;
     }
 
     TransactionSource source = new TransactionSource();
-    LoadTransactionFactory factory = new LoadTransactionFactory();
+    TransactionFactory factory = new LoadTransactionFactory();
 
     while (parser.hasNext()) {
       source.add(factory.create(parser.next()));

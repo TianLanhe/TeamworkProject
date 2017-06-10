@@ -4,13 +4,16 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import teamwork.model.ClassCatalog;
 import teamwork.model.NewsClass;
 
 public class LoadTagRelationTransaction extends LoadTransaction {
 
   public LoadTagRelationTransaction(Node node) {
     super(node);
+  }
+  
+  public LoadTagRelationTransaction(Node node, String newsTagName, String classTagName) {
+    super(node,newsTagName,classTagName);
   }
 
   @Override
@@ -32,8 +35,8 @@ public class LoadTagRelationTransaction extends LoadTransaction {
       }
     }
     
-    NewsClass c = ClassCatalog.getInstance().get(className);
-    NewsClass nextClass = ClassCatalog.getInstance().get(nextClassName);
+    NewsClass c = getClassCatalog().get(className);
+    NewsClass nextClass = getClassCatalog().get(nextClassName);
     c.getTag(tagName).setNextClass(nextClass);
   }
 

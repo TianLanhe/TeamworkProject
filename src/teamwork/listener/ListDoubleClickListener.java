@@ -6,11 +6,18 @@ import java.util.List;
 
 import javax.swing.JList;
 
+import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.viewmodel.NewsListModel;
 import teamwork.window.NewsTextWindow;
 
 public class ListDoubleClickListener implements MouseListener {
+
+  private ClassCatalog catalog;
+
+  public ListDoubleClickListener(ClassCatalog catalog) {
+    this.catalog = catalog;
+  }
 
   @SuppressWarnings("unchecked")
   @Override
@@ -24,7 +31,7 @@ public class ListDoubleClickListener implements MouseListener {
         // 取得列表中所有新闻，用于上下翻页
         List<News> newsList = ((NewsListModel<News>) list.getModel()).getListData();
         // 将当前选择的新闻和标签传递给新闻详细界面并显示
-        new NewsTextWindow(news, newsList).run();
+        new NewsTextWindow(news, newsList, catalog).run();
       }
     }
   }

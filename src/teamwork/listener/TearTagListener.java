@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.Tag;
 import teamwork.model.viewmodel.NewsTreeModel;
@@ -42,8 +41,8 @@ public class TearTagListener implements ActionListener {
         NewsTreeModel model = (NewsTreeModel) tagsTree.getModel();
         Tag[] tags = model.getTagsFromRoot(node);
 
-        if (tags[tags.length - 1].getParent() == ClassCatalog.getInstance().get("是否分类")
-            || tags[tags.length - 1].getParent() == ClassCatalog.getInstance().get("报道数量")) {
+        if (tags[tags.length - 1].getParent().getName().equals("是否分类")
+            || tags[tags.length - 1].getParent().getName().equals("报道数量")) {
           JOptionPane.showMessageDialog(null, "对不起，该标签由系统默认设置，用户无法改变 ！", "撕标签",
               JOptionPane.INFORMATION_MESSAGE);
           return;

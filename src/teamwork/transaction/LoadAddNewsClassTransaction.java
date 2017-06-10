@@ -3,13 +3,16 @@ package teamwork.transaction;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import teamwork.model.ClassCatalog;
 import teamwork.model.NewsClass;
 
 public class LoadAddNewsClassTransaction extends LoadTransaction {
 
   public LoadAddNewsClassTransaction(Node node) {
     super(node);
+  }
+
+  public LoadAddNewsClassTransaction(Node node, String newsTagName, String classTagName) {
+    super(node, newsTagName, classTagName);
   }
 
   @Override
@@ -19,7 +22,7 @@ public class LoadAddNewsClassTransaction extends LoadTransaction {
     String name = attrs.getNamedItem("className").getNodeValue();
     boolean isMult = Boolean.parseBoolean(attrs.getNamedItem("isMult").getNodeValue());
 
-    ClassCatalog.getInstance().add(new NewsClass(name, isMult));
+    getClassCatalog().add(new NewsClass(name, isMult));
   }
 
 }

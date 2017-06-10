@@ -8,6 +8,7 @@ public class NewsClass{
   private String name;
   private List<Tag> tagsList;
   private boolean isMultChoice;// 该类别是否是多选
+  private ClassCatalog parent;
 
   public NewsClass(String name, boolean flag) {
     this.name = name;
@@ -127,5 +128,13 @@ public class NewsClass{
 
   public void setMultChoice(boolean multChoice) {
     this.isMultChoice = multChoice;
+  }
+
+  public ClassCatalog getParent() {
+    return parent;
+  }
+
+  public void setParent(ClassCatalog parent) {
+    this.parent = parent;
   }
 }

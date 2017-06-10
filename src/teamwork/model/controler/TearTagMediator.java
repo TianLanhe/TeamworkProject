@@ -1,7 +1,6 @@
 package teamwork.model.controler;
 
 import teamwork.model.ClassAndTagChoiceManager;
-import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.Tag;
 
@@ -21,8 +20,7 @@ public class TearTagMediator {
       return false;
     }
     // 不能移除"是否分类"和"报道数量"的标签
-    if (tag.getParent() == ClassCatalog.getInstance().get("是否分类")
-        || tag.getParent() == ClassCatalog.getInstance().get("报道数量")) {
+    if (tag.getParent().getName().equals("是否分类") || tag.getParent().getName().equals("报道数量")) {
       return false;
     }
 
@@ -33,7 +31,7 @@ public class TearTagMediator {
 
     // 如果只剩下"报道数量"和"已分类"两个标签，则将新闻从已分类移至未分类
     if (news.sizeTag() == 2) {
-      Tag unsort = ClassCatalog.getInstance().get("是否分类").getTag("未分类");
+      Tag unsort = tag.getParent().getParent().get("是否分类").getTag("未分类");
       Tag sort = manager.alterChoiceToTag(unsort);
       sort.removeNews(news);
       unsort.addNews(news);

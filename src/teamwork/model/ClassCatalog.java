@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class ClassCatalog {
   private static ClassCatalog instance = null;
+  private static Map<String, ClassCatalog> catalogList = new HashMap<String, ClassCatalog>();
 
   private List<NewsClass> list;
 
@@ -25,8 +26,16 @@ public class ClassCatalog {
     return instance;
   }
 
+  public static ClassCatalog getInstance(String tagName) {
+    if (!catalogList.containsKey(tagName)) {
+      catalogList.put(tagName, new ClassCatalog());
+    }
+    return catalogList.get(tagName);
+  }
+
   public boolean add(NewsClass c) {
     if (!list.contains(c)) {
+      c.setParent(this);
       return list.add(c);
     }
     return true;
@@ -88,6 +97,19 @@ public class ClassCatalog {
       }
     }
     return l;
+  }
+  
+  public void clear(){
+    for(NewsClass c:list){
+      for(Tag t:c.getTagsList()){
+        for(News n:t.getNewsList()){
+          n.tearTag(t);
+        }
+      }
+      while(c.sizeTag()>0)c.removeTag(0);
+    }
+    tagNextToClass.clear();
+    list.clear();
   }
 
   public void tieNewsClass(Tag tag, NewsClass nextClass) {

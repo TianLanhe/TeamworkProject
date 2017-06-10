@@ -2,11 +2,14 @@ package teamwork.model;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class NewsCatalog {
   private static NewsCatalog instance = null;
+  private static Map<String, NewsCatalog> catalogList = new HashMap<String, NewsCatalog>();
 
   private List<News> newsList;
 
@@ -19,6 +22,13 @@ public class NewsCatalog {
       instance = new NewsCatalog();
     }
     return instance;
+  }
+
+  public static NewsCatalog getInstance(String tagName) {
+    if (!catalogList.containsKey(tagName)) {
+      catalogList.put(tagName, new NewsCatalog());
+    }
+    return catalogList.get(tagName);
   }
 
   public int updateAll() {
@@ -81,6 +91,15 @@ public class NewsCatalog {
 
   public int indexOf(String id) {
     return indexOf(new News(id, "", "", "", "", "", ""));
+  }
+
+  public void clear() {
+    for (News n : newsList) {
+      for (Tag t : n.getTags()) {
+        n.tearTag(t);
+      }
+    }
+    newsList.clear();
   }
 
   public List<News> getNewsList() {

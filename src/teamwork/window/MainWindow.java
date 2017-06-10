@@ -49,7 +49,7 @@ public class MainWindow extends AbstractWindow {
 
   @Override
   protected void addListener() {
-    newsList.addMouseListener(new ListDoubleClickListener());
+    newsList.addMouseListener(new ListDoubleClickListener(ClassCatalog.getInstance()));
 
     loadFileButton.addActionListener(new LoadFileListener());
     updateButton.addActionListener(new UpdateContentListener());

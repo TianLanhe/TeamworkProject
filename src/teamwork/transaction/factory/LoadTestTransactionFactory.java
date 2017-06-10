@@ -10,23 +10,23 @@ import teamwork.transaction.LoadPostTagTransaction;
 import teamwork.transaction.LoadTagRelationTransaction;
 import teamwork.transaction.Transaction;
 
-public class LoadTransactionFactory extends TransactionFactory {
+public class LoadTestTransactionFactory extends TransactionFactory {
 
   @Override
   public Transaction create(Node node) {
     String command = node.getAttributes().getNamedItem("name").getNodeValue();
     if (command.equals(Transaction.ADD_NEWS)) {
-      return new LoadAddNewsTransaction(node);
+      return new LoadAddNewsTransaction(node, "testCatalog", "testCatalog");
     } else if (command.equals(Transaction.ADD_NEWS_CLASS)) {
-      return new LoadAddNewsClassTransaction(node);
+      return new LoadAddNewsClassTransaction(node, "testCatalog", "testCatalog");
     } else if (command.equals(Transaction.ADD_TAG)) {
-      return new LoadAddTagTransaction(node);
+      return new LoadAddTagTransaction(node, "testCatalog", "testCatalog");
     } else if (command.equals(Transaction.DELETE_NEWS)) {
-      return new LoadDeleteNewsTransaction(node);
+      return new LoadDeleteNewsTransaction(node, "testCatalog", "testCatalog");
     } else if (command.equals(Transaction.POST_TAG)) {
-      return new LoadPostTagTransaction(node);
+      return new LoadPostTagTransaction(node, "testCatalog", "testCatalog");
     } else if (command.equals(Transaction.ADD_RELATION)) {
-      return new LoadTagRelationTransaction(node);
+      return new LoadTagRelationTransaction(node, "testCatalog", "testCatalog");
     } else {
       return null;
     }

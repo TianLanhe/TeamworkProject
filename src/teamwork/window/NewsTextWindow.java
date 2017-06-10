@@ -46,10 +46,12 @@ public class NewsTextWindow extends AbstractWindow {
 
   private News news;
   private List<News> newsList;
+  private ClassCatalog catalog;
 
-  public NewsTextWindow(News news, List<News> newsList) {
+  public NewsTextWindow(News news, List<News> newsList, ClassCatalog catalog) {
     this.news = news;
     this.newsList = newsList;
+    this.catalog = catalog;
   }
 
   private void showNewsDetails() {
@@ -189,7 +191,7 @@ public class NewsTextWindow extends AbstractWindow {
     labelPane.add(deleteLabel);
     deleteLabel.setBounds(100, 220, 80, 30);
 
-    NewsTreeModel model = new NewsTreeModel(ClassCatalog.getInstance());
+    NewsTreeModel model = new NewsTreeModel(catalog);
     parentTree = new JTree(model);
     parentTree.setFont(font);
     parentTree.setRowHeight(20);// µ÷Õû¼ä¾à
