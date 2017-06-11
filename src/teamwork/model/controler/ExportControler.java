@@ -1,19 +1,18 @@
 package teamwork.model.controler;
 
-import teamwork.model.BinCatalog;
 import teamwork.model.ClassCatalog;
-import teamwork.model.News;
 import teamwork.model.NewsCatalog;
-import teamwork.transaction.SaveDeleteNewsTransaction;
+import teamwork.transaction.SavePasswordTransaction;
 import teamwork.util.XMLCreator;
 
-public class SaveControler extends OutputControler {
+public class ExportControler extends OutputControler {
 
-  @Override
-  protected void dealBinCatalog() {
-    for (News news : BinCatalog.getInstance().getNewsList()) {
-      source.add(new SaveDeleteNewsTransaction(creator, news));
-    }
+  public void addPassword(char[] pwd) {
+    addPassword(new String(pwd));
+  }
+
+  public void addPassword(String password) {
+    source.add(new SavePasswordTransaction(creator, password));
   }
 
   @Override
@@ -23,7 +22,7 @@ public class SaveControler extends OutputControler {
 
   @Override
   protected XMLCreator createXMLCreator() {
-    return new XMLCreator("SaveTransactions");
+    return new XMLCreator("StatisticsTransactions");
   }
 
   @Override
@@ -31,4 +30,7 @@ public class SaveControler extends OutputControler {
     return NewsCatalog.getInstance();
   }
 
+  @Override
+  protected void dealBinCatalog() {
+  }
 }

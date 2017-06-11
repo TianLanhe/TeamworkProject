@@ -39,8 +39,7 @@ public class SaveTestListener implements ActionListener {
     int state = jfc.showSaveDialog(null);
     if (state == JFileChooser.APPROVE_OPTION) {
       String name = jfc.getSelectedFile().getName();
-
-      if (name.length() < 5 || name.indexOf(".test") != name.length() - 5) {
+      if (!name.endsWith(".test")) {
         name += ".test";
       }
 

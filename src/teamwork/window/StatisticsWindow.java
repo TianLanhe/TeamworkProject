@@ -12,6 +12,7 @@ import javax.swing.JTree;
 import teamwork.listener.ImportListener;
 import teamwork.listener.NewsTreeStatisticsListener;
 import teamwork.model.ClassCatalog;
+import teamwork.model.controler.TagsInitControler;
 import teamwork.model.viewmodel.NewsTreeModel;
 import teamwork.r.R;
 
@@ -26,7 +27,15 @@ public class StatisticsWindow extends AbstractWindow {
   private JPanel diagramPanel;// 图面板
 
   private JButton importButton;// 导入按钮
-  
+
+  private ClassCatalog catalog;
+
+  public StatisticsWindow() {
+    catalog = ClassCatalog.getInstance("statisticsCatalog");
+    catalog.clear();
+    new TagsInitControler(catalog).init();
+  }
+
   @Override
   protected void addListener() {
     parentTree.addTreeSelectionListener(new NewsTreeStatisticsListener());
@@ -36,7 +45,7 @@ public class StatisticsWindow extends AbstractWindow {
   @Override
   protected void regitstComponent() {
     R r = R.getInstance();
-    r.registObject("tagsTree", parentTree);
+    r.registObject("statisticsTagsTree", parentTree);
     r.registObject("diagramPanel", diagramPanel);
     r.registObject("other_numLabel", numLabel);
     r.registObject("other_tagLabel", tagLabel);
@@ -46,7 +55,7 @@ public class StatisticsWindow extends AbstractWindow {
   protected void init() {
     Font font = new Font("宋体", 1, 20);
 
-    NewsTreeModel treeModel = new NewsTreeModel(ClassCatalog.getInstance());//TODO
+    NewsTreeModel treeModel = new NewsTreeModel(catalog);
     parentTree = new JTree(treeModel);
     parentTree.setRowHeight(20);// 调整间距
     parentTree.setRootVisible(false);// 根节点不可见
@@ -67,10 +76,10 @@ public class StatisticsWindow extends AbstractWindow {
     add(tagLabel);
     label.setBounds(70, 30, 70, 30);
     tagLabel.setBounds(150, 30, 400, 30);
-    
+
     importButton = new JButton("导入");
     importButton.setFont(font);
-    importButton.setBounds(550,30,80,30);
+    importButton.setBounds(600, 25, 120, 40);
     add(importButton);
 
     diagramPanel = new JPanel();
@@ -89,7 +98,7 @@ public class StatisticsWindow extends AbstractWindow {
   @Override
   protected void initWindow() {
     super.initWindow();
-    
+
     setTitle("统计新闻分类结果");
 
     setLayout(null);// 将界面设置为空布局
