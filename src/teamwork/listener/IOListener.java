@@ -26,7 +26,7 @@ public abstract class IOListener implements ActionListener {
     // 创建文件选择器
     jfc = new JFileChooser();
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    FileNameExtensionFilter filter = new FileNameExtensionFilter("进度文件(*.mmp)", "mmp");
+    FileNameExtensionFilter filter = new FileNameExtensionFilter("统计文件(*.sfs)", "sfs");
     jfc.setFileFilter(filter);
 
     // 如果选择了"确定"
@@ -46,8 +46,6 @@ public abstract class IOListener implements ActionListener {
       }
     }
   }
-
-
 
   // 创建一个包含提示语和密码数据框的面板并返回
   private JPanel createPanel() {

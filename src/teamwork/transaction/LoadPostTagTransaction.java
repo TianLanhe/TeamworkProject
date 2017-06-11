@@ -4,13 +4,14 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import teamwork.model.ClassCatalog;
-import teamwork.model.NewsCatalog;
-
 public class LoadPostTagTransaction extends LoadTransaction {
 
   public LoadPostTagTransaction(Node node) {
     super(node);
+  }
+
+  public LoadPostTagTransaction(Node node, String newsTagName, String classTagName) {
+    super(node, newsTagName, classTagName);
   }
 
   @Override
@@ -26,8 +27,7 @@ public class LoadPostTagTransaction extends LoadTransaction {
         String className = attrs.getNamedItem("parent").getNodeValue();
         String tagName = attrs.getNamedItem("name").getNodeValue();
 
-        NewsCatalog.getInstance().get(id)
-            .postTag(ClassCatalog.getInstance().get(className).getTag(tagName));
+        getNewsCatalog().get(id).postTag(getClassCatalog().get(className).getTag(tagName));
         break;
       }
     }

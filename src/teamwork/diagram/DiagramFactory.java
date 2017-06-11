@@ -1,19 +1,6 @@
 package teamwork.diagram;
 
-import teamwork.util.ArrayGroup;
-
 public class DiagramFactory {
-  private static ArrayGroup arrayGroup;
-
-  public static Diagram createDiagram(String chartName, double[] values, String[] keys, int start,
-      int memberNum) {
-    arrayGroup = new ArrayGroup(keys, values, start, memberNum);
-
-    double[] groupValues = arrayGroup.getValueGroup();
-    String[] groupKeys = arrayGroup.getCategoryGroup();
-
-    return createDiagram(chartName, groupValues, groupKeys);
-  }
 
   public static Diagram createDiagram(String chartName, double[] groupValues, String[] groupKeys) {
     if (chartName.equals("bar")) {

@@ -4,12 +4,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import teamwork.model.News;
-import teamwork.model.NewsCatalog;
 
 public class LoadAddNewsTransaction extends LoadTransaction {
 
   public LoadAddNewsTransaction(Node node) {
     super(node);
+  }
+
+  public LoadAddNewsTransaction(Node node, String newsTagName, String classTagName) {
+    super(node, newsTagName, classTagName);
   }
 
   @Override
@@ -28,7 +31,7 @@ public class LoadAddNewsTransaction extends LoadTransaction {
       if (nodeName.equals("Url")) news.setUrl(nodeValue);
       if (nodeName.equals("Content")) news.setContent(nodeValue);
     }
-    NewsCatalog.getInstance().add(news);
+    getNewsCatalog().add(news);
   }
 
 }

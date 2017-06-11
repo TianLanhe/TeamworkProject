@@ -3,6 +3,7 @@ package teamwork.test;
 import org.junit.Assert;
 import org.junit.Test;
 
+import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.NewsClass;
 import teamwork.model.Tag;
@@ -17,11 +18,14 @@ public class PostAndTearTagTest {
 
     Assert.assertEquals(news.sizeTag(), 0);
 
+    ClassCatalog catalog = ClassCatalog.getInstance();
     NewsClass c_single = new NewsClass("单选类别");
+    
     Tag tag1 = new Tag("标签1", c_single);
     Tag tag2 = new Tag("标签2", c_single);
     c_single.addTag(tag1);
     c_single.addTag(tag2);
+    catalog.add(c_single);
 
     Assert.assertFalse(news.hasClass(c_single));
     Assert.assertFalse(news.hasTag(tag1));
@@ -53,6 +57,8 @@ public class PostAndTearTagTest {
 
     flag = news.tearTag(tag1);
     Assert.assertFalse(flag);
+    
+    catalog.remove(c_single);
   }
 
   @Test
@@ -63,12 +69,14 @@ public class PostAndTearTagTest {
 
     Assert.assertEquals(news.sizeTag(), 0);
 
+    ClassCatalog catalog = ClassCatalog.getInstance();
     NewsClass c_mult = new NewsClass("多选类别", true);
 
     Tag tag1 = new Tag("标签1", c_mult);
     Tag tag2 = new Tag("标签2", c_mult);
     c_mult.addTag(tag1);
     c_mult.addTag(tag2);
+    catalog.add(c_mult);
 
     Assert.assertFalse(news.hasClass(c_mult));
     Assert.assertFalse(news.hasTag(tag1));
@@ -109,5 +117,7 @@ public class PostAndTearTagTest {
 
     flag = news.tearTag(tag1);
     Assert.assertFalse(flag);
+    
+    catalog.remove(c_mult);
   }
 }

@@ -8,6 +8,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import teamwork.model.controler.DoTest;
+
 public class DoTestListener implements ActionListener {
 
   @Override
@@ -18,7 +20,7 @@ public class DoTestListener implements ActionListener {
     FileNameExtensionFilter filter = new FileNameExtensionFilter("测试文件(*.test)", "test");
     jfc.setFileFilter(filter);
 
-    int state = jfc.showDialog(null, "读取");
+    int state = jfc.showDialog(null, "测试");
     if (state == JFileChooser.APPROVE_OPTION) {
       File[] files = jfc.getSelectedFiles();
       if (files.length != 2) {
@@ -32,7 +34,15 @@ public class DoTestListener implements ActionListener {
             return;
           }
         }
-        // TODO
+
+        double percent = new DoTest().test(files[0], files[1]);
+        if (Math.abs(percent + 1) < 1e-5) {
+          JOptionPane.showMessageDialog(null, "文件格式错误或文件来自不同测试集，测试失败！", "错误",
+              JOptionPane.ERROR_MESSAGE);
+        } else {
+          JOptionPane.showMessageDialog(null, "测试文件一致性比对： " + (percent * 100) + "%", "测试结果",
+              JOptionPane.PLAIN_MESSAGE);
+        }
       }
     }
   }

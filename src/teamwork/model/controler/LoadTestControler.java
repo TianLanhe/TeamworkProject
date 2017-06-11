@@ -1,17 +1,18 @@
 package teamwork.model.controler;
 
-import teamwork.transaction.factory.LoadTransactionFactory;
+import teamwork.transaction.factory.LoadTestTransactionFactory;
 import teamwork.transaction.factory.TransactionFactory;
 
-public class LoadControler extends InputControler {
+public class LoadTestControler extends InputControler {
 
   @Override
   protected String getRootName() {
-    return "SaveTransactions";
+    return "TestTransactions";
   }
 
   @Override
   protected TransactionFactory getTransactionFactory() {
-    return new LoadTransactionFactory();
+    return new LoadTestTransactionFactory();
   }
+
 }

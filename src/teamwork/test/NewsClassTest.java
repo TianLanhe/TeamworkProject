@@ -3,6 +3,7 @@ package teamwork.test;
 import org.junit.Assert;
 import org.junit.Test;
 
+import teamwork.model.ClassCatalog;
 import teamwork.model.NewsClass;
 import teamwork.model.Tag;
 
@@ -50,10 +51,13 @@ public class NewsClassTest {
 
   @Test
   public void classAncestorTest() {
+    ClassCatalog catalog = ClassCatalog.getInstance();
     NewsClass c = new NewsClass("class name");// c
+    catalog.add(c);
     Assert.assertTrue(c.isAncestorOf(c));
 
     NewsClass c2 = new NewsClass("another class name");// c c2
+    catalog.add(c2);
     Assert.assertFalse(c.isAncestorOf(c2));
 
     Tag tag = new Tag("tag name",c);
@@ -62,6 +66,7 @@ public class NewsClassTest {
     Assert.assertTrue(c.isAncestorOf(c2));
 
     NewsClass c3 = new NewsClass("the third class name");// c->tag->c2 c3
+    catalog.add(c3);
     Assert.assertFalse(c.isAncestorOf(c3));
 
     Tag tag2 = new Tag("another tag name",c2);
@@ -77,5 +82,9 @@ public class NewsClassTest {
     c.removeTag(0);// c tag->c2->tag2->c3
     Assert.assertFalse(c.isAncestorOf(c2));
     Assert.assertFalse(c.isAncestorOf(c3));
+    
+    catalog.remove(c);
+    catalog.remove(c2);
+    catalog.remove(c3);
   }
 }

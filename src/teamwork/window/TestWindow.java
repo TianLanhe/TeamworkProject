@@ -10,30 +10,43 @@ import javax.swing.JScrollPane;
 
 import teamwork.listener.DoTestListener;
 import teamwork.listener.ListDoubleClickListener;
+import teamwork.listener.LoadTestListener;
 import teamwork.listener.SaveTestListener;
+import teamwork.model.ClassCatalog;
 import teamwork.model.News;
 import teamwork.model.viewmodel.NewsListModel;
+import teamwork.r.R;
 
 public class TestWindow extends AbstractWindow {
 
   private static final long serialVersionUID = 1L;
 
-  private JButton myTestButton;
+  private JButton myTestButton;//读取测试按钮
   private JButton saveTestButton;// 保存测试按钮
   private JButton doTestButton;// 选取文件进行测试按钮
 
   private JList<News> newsList;
+  
+  private ClassCatalog catalog;
+
+  public TestWindow() {
+    catalog = ClassCatalog.getInstance("testCatalog");// 获得界面测试用的ClassCatalog
+  }
 
   @Override
   protected void addListener() {
-    newsList.addMouseListener(new ListDoubleClickListener());
+    newsList.addMouseListener(new ListDoubleClickListener(catalog));
 
+    myTestButton.addActionListener(new LoadTestListener());
     saveTestButton.addActionListener(new SaveTestListener());
     doTestButton.addActionListener(new DoTestListener());
   }
 
   @Override
-  protected void regitstComponent() {}
+  protected void regitstComponent() {
+    R r = R.getInstance();
+    r.registObject("testNewsList", newsList);
+  }
 
   @Override
   protected void init() {
@@ -73,7 +86,6 @@ public class TestWindow extends AbstractWindow {
 
     label.setBounds(80, 70, 160, 30);
     scrollPane.setBounds(80, 110, 640, 380);
-
   }
 
   @Override
